@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { translations, Language, languageNames, t } from '@/lib/i18n';
+import { Language, languageNames, t } from '@/lib/i18n';
 import { track } from '@/lib/analytics';
 
 export default function WelcomePage() {
@@ -18,8 +18,7 @@ export default function WelcomePage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
-    setLoading(true);
-    setError('');
+    setLoading(true); setError('');
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
@@ -28,7 +27,6 @@ export default function WelcomePage() {
       });
       if (!res.ok) throw new Error('Registration failed');
       const data = await res.json();
-      // Store contact ID in sessionStorage for later use
       sessionStorage.setItem('contact_id', data.id);
       sessionStorage.setItem('contact_name', name.trim());
       sessionStorage.setItem('lang', lang);
@@ -41,15 +39,9 @@ export default function WelcomePage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      {/* Header */}
-      <header style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(124,58,237,0.1)', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <svg width="100" height="24" viewBox="0 0 100 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <text x="0" y="20" fontFamily="DM Sans, sans-serif" fontWeight="700" fontSize="22" fill="#111111" letterSpacing="-0.5">vonage</text>
-          </svg>
-        </div>
-        {/* Language switcher */}
-        <div style={{ display: 'flex', gap: '6px' }}>
+      <header style={{ padding: '18px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+        <span style={{ fontSize: '20px', fontWeight: '700', color: '#111111', letterSpacing: '-0.03em' }}>vonage</span>
+        <div style={{ display: 'flex', gap: '4px' }}>
           {(Object.keys(languageNames) as Language[]).map(l => (
             <button key={l} className={`lang-btn ${lang === l ? 'active' : ''}`} onClick={() => setLang(l)}>
               {languageNames[l]}
@@ -58,95 +50,56 @@ export default function WelcomePage() {
         </div>
       </header>
 
-      {/* Hero + Form */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
 
         {/* Event badge */}
-        <div className="animate-fade-up" style={{ animationDelay: '0ms', display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px' }}>
-          <img
-            src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg"
-            alt="Genesys"
-            style={{ height: '22px', filter: 'brightness(0) invert(1)', opacity: 0.7 }}
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-          />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,79,31,0.12)', border: '1px solid rgba(255,79,31,0.3)', borderRadius: '20px', padding: '4px 12px' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#FF4F1F' }} />
-            <span style={{ fontSize: '12px', fontWeight: '600', color: '#FF7A52', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+        <div className="animate-fade-up" style={{ marginBottom: '28px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(234,76,26,0.08)', border: '1.5px solid rgba(234,76,26,0.25)', borderRadius: '24px', padding: '6px 16px' }}>
+            <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#EA4C1A', flexShrink: 0 }} />
+            <span style={{ fontSize: '12px', fontWeight: '700', color: '#B83510', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
               {t(lang, 'eventLabel')} · {t(lang, 'eventName')}
             </span>
           </div>
         </div>
 
-        {/* Title */}
         <div className="animate-fade-up" style={{ animationDelay: '80ms', textAlign: 'center', marginBottom: '12px' }}>
-          <h1 style={{ fontSize: 'clamp(28px, 6vw, 48px)', fontWeight: '700', lineHeight: '1.1', letterSpacing: '-0.02em', color: '#111111' }}>
+          <h1 style={{ fontSize: 'clamp(28px, 5vw, 46px)', fontWeight: '700', color: '#111111', lineHeight: '1.1', letterSpacing: '-0.02em' }}>
             {t(lang, 'welcomeTitle')}
           </h1>
         </div>
 
-        <div className="animate-fade-up" style={{ animationDelay: '140ms', textAlign: 'center', maxWidth: '500px', marginBottom: '48px' }}>
-          <p style={{ color: 'rgba(0,0,0,0.55)', fontSize: '16px', lineHeight: '1.6' }}>
+        <div className="animate-fade-up" style={{ animationDelay: '140ms', textAlign: 'center', maxWidth: '480px', marginBottom: '40px' }}>
+          <p style={{ color: '#444444', fontSize: '16px', lineHeight: '1.65' }}>
             {t(lang, 'welcomeSubtitle')}
           </p>
-          <p style={{ marginTop: '8px', fontSize: '13px', color: 'rgba(0,0,0,0.35)' }}>
+          <p style={{ marginTop: '8px', fontSize: '13px', color: '#777777' }}>
             {t(lang, 'eventDate')}
           </p>
         </div>
 
-        {/* Form card */}
-        <div className="glass-card animate-fade-up" style={{ animationDelay: '200ms', width: '100%', maxWidth: '440px', padding: '36px' }}>
+        {/* Form */}
+        <div className="glass-card animate-fade-up" style={{ animationDelay: '200ms', width: '100%', maxWidth: '420px', padding: '36px' }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: 'rgba(0,0,0,0.5)', marginBottom: '8px', letterSpacing: '0.03em' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#333333', marginBottom: '8px' }}>
                 {t(lang, 'nameLabel')}
               </label>
-              <input
-                className="input-field"
-                type="text"
-                required
-                placeholder={t(lang, 'namePlaceholder')}
-                value={name}
-                onChange={e => setName(e.target.value)}
-              />
+              <input className="input-field" type="text" required placeholder={t(lang, 'namePlaceholder')} value={name} onChange={e => setName(e.target.value)} />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: 'rgba(0,0,0,0.5)', marginBottom: '8px', letterSpacing: '0.03em' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#333333', marginBottom: '8px' }}>
                 {t(lang, 'emailLabel')}
               </label>
-              <input
-                className="input-field"
-                type="email"
-                required
-                placeholder={t(lang, 'emailPlaceholder')}
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
+              <input className="input-field" type="email" required placeholder={t(lang, 'emailPlaceholder')} value={email} onChange={e => setEmail(e.target.value)} />
             </div>
-
-            {error && (
-              <p style={{ fontSize: '13px', color: '#FF6B6B', textAlign: 'center' }}>{error}</p>
-            )}
-
-            <button
-              type="submit"
-              className="btn-primary animate-pulse-glow"
-              disabled={loading || !name.trim() || !email.trim()}
-              style={{ width: '100%', marginTop: '4px' }}
-            >
+            {error && <p style={{ fontSize: '13px', color: '#DC2626', textAlign: 'center' }}>{error}</p>}
+            <button type="submit" className="btn-primary animate-pulse-glow" disabled={loading || !name.trim() || !email.trim()} style={{ width: '100%', marginTop: '4px' }}>
               {loading ? t(lang, 'submitting') : t(lang, 'submitBtn')}
             </button>
-
-            <p style={{ fontSize: '12px', color: 'rgba(0,0,0,0.3)', textAlign: 'center', lineHeight: '1.5' }}>
+            <p style={{ fontSize: '12px', color: '#888888', textAlign: 'center', lineHeight: '1.5' }}>
               {t(lang, 'privacyNote')}
             </p>
           </form>
-        </div>
-
-        {/* Decorative dots */}
-        <div style={{ display: 'flex', gap: '8px', marginTop: '32px' }}>
-          {[0,1,2,3].map(i => (
-            <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: i === 0 ? 'var(--vonage-purple)' : 'rgba(255,255,255,0.15)' }} />
-          ))}
         </div>
       </div>
     </main>
