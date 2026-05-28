@@ -45,7 +45,7 @@ export default function WelcomePage() {
       <header style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(124,58,237,0.1)', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <svg width="100" height="24" viewBox="0 0 100 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <text x="0" y="20" fontFamily="DM Sans, sans-serif" fontWeight="700" fontSize="22" fill="#1A1033" letterSpacing="-0.5">vonage</text>
+            <text x="0" y="20" fontFamily="DM Sans, sans-serif" fontWeight="700" fontSize="22" fill="#111111" letterSpacing="-0.5">vonage</text>
           </svg>
         </div>
         {/* Language switcher */}
@@ -79,16 +79,16 @@ export default function WelcomePage() {
 
         {/* Title */}
         <div className="animate-fade-up" style={{ animationDelay: '80ms', textAlign: 'center', marginBottom: '12px' }}>
-          <h1 style={{ fontSize: 'clamp(28px, 6vw, 48px)', fontWeight: '700', lineHeight: '1.1', letterSpacing: '-0.02em', color: '#1A1033' }}>
+          <h1 style={{ fontSize: 'clamp(28px, 6vw, 48px)', fontWeight: '700', lineHeight: '1.1', letterSpacing: '-0.02em', color: '#111111' }}>
             {t(lang, 'welcomeTitle')}
           </h1>
         </div>
 
         <div className="animate-fade-up" style={{ animationDelay: '140ms', textAlign: 'center', maxWidth: '500px', marginBottom: '48px' }}>
-          <p style={{ color: 'rgba(26,16,51,0.55)', fontSize: '16px', lineHeight: '1.6' }}>
+          <p style={{ color: 'rgba(0,0,0,0.55)', fontSize: '16px', lineHeight: '1.6' }}>
             {t(lang, 'welcomeSubtitle')}
           </p>
-          <p style={{ marginTop: '8px', fontSize: '13px', color: 'rgba(26,16,51,0.35)' }}>
+          <p style={{ marginTop: '8px', fontSize: '13px', color: 'rgba(0,0,0,0.35)' }}>
             {t(lang, 'eventDate')}
           </p>
         </div>
@@ -97,7 +97,7 @@ export default function WelcomePage() {
         <div className="glass-card animate-fade-up" style={{ animationDelay: '200ms', width: '100%', maxWidth: '440px', padding: '36px' }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: 'rgba(26,16,51,0.5)', marginBottom: '8px', letterSpacing: '0.03em' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: 'rgba(0,0,0,0.5)', marginBottom: '8px', letterSpacing: '0.03em' }}>
                 {t(lang, 'nameLabel')}
               </label>
               <input
@@ -110,7 +110,7 @@ export default function WelcomePage() {
               />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: 'rgba(26,16,51,0.5)', marginBottom: '8px', letterSpacing: '0.03em' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: 'rgba(0,0,0,0.5)', marginBottom: '8px', letterSpacing: '0.03em' }}>
                 {t(lang, 'emailLabel')}
               </label>
               <input
@@ -136,7 +136,7 @@ export default function WelcomePage() {
               {loading ? t(lang, 'submitting') : t(lang, 'submitBtn')}
             </button>
 
-            <p style={{ fontSize: '12px', color: 'rgba(26,16,51,0.3)', textAlign: 'center', lineHeight: '1.5' }}>
+            <p style={{ fontSize: '12px', color: 'rgba(0,0,0,0.3)', textAlign: 'center', lineHeight: '1.5' }}>
               {t(lang, 'privacyNote')}
             </p>
           </form>
