@@ -6,7 +6,7 @@
   --vonage-purple-dark: #4C1D95;
   --genesys-orange: #EA4C1A;
 
-  --bg: #F0EEF8;
+  --bg: #2D1B69;
   --bg-card: #FFFFFF;
   --border: rgba(109, 40, 217, 0.15);
   --border-strong: rgba(109, 40, 217, 0.3);
@@ -29,7 +29,10 @@ body {
 }
 
 .mesh-bg {
-  background: var(--bg);
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(139, 92, 246, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(234,76,26,0.12) 0%, transparent 60%),
+    #2D1B69;
 }
 
 .glass-card {

@@ -39,8 +39,8 @@ export default function WelcomePage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      <header style={{ padding: '18px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
-        <span style={{ fontSize: '20px', fontWeight: '700', color: '#111111', letterSpacing: '-0.03em' }}>vonage</span>
+      <header style={{ padding: '18px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(30,15,70,0.95)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <span style={{ fontSize: '20px', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.03em' }}>vonage</span>
         <div style={{ display: 'flex', gap: '4px' }}>
           {(Object.keys(languageNames) as Language[]).map(l => (
             <button key={l} className={`lang-btn ${lang === l ? 'active' : ''}`} onClick={() => setLang(l)}>

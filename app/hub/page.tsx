@@ -83,10 +83,10 @@ export default function HubPage() {
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
       {/* Header */}
-      <header style={{ padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.07)', position: 'sticky', top: 0, zIndex: 40 }}>
+      <header style={{ padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(30,15,70,0.95)', borderBottom: '1px solid rgba(255,255,255,0.08)', position: 'sticky', top: 0, zIndex: 40 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '18px', fontWeight: '700', color: '#111111', letterSpacing: '-0.02em' }}>vonage</span>
-          {contactName && <span style={{ fontSize: '13px', color: '#777777' }}>· {contactName}</span>}
+          <span style={{ fontSize: '18px', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.02em' }}>vonage</span>
+          {contactName && <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>· {contactName}</span>}
         </div>
         <div style={{ display: 'flex', gap: '4px' }}>
           {(Object.keys(languageNames) as Language[]).map(l => (
