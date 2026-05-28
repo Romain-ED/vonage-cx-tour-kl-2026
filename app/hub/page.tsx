@@ -92,12 +92,11 @@ export default function HubPage() {
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
       {/* Header */}
-      <header style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)', position: 'sticky', top: 0, zIndex: 40, background: 'rgba(10,2,3,0.85)', backdropFilter: 'blur(20px)' }}>
+      <header style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(124,58,237,0.1)', position: 'sticky', top: 0, zIndex: 40, background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(20px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '-0.02em' }}>vonage</span>
-          <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>× ericsson</span>
+          <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '-0.02em', color: '#1A1033' }}>vonage</span>
           {contactName && (
-            <span style={{ marginLeft: '8px', fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>
+            <span style={{ marginLeft: '8px', fontSize: '13px', color: 'rgba(26,16,51,0.4)' }}>
               · {contactName}
             </span>
           )}
@@ -118,10 +117,10 @@ export default function HubPage() {
           <h2 style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--vonage-purple-light)', marginBottom: '10px', fontWeight: '600' }}>
             {t(lang, 'eventName')}
           </h2>
-          <h1 style={{ fontSize: 'clamp(26px, 5vw, 42px)', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '12px' }}>
+          <h1 style={{ fontSize: 'clamp(26px, 5vw, 42px)', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '12px', color: '#1A1033' }}>
             {t(lang, 'hubTitle')}
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '16px', maxWidth: '520px', lineHeight: '1.6' }}>
+          <p style={{ color: 'rgba(26,16,51,0.5)', fontSize: '16px', maxWidth: '520px', lineHeight: '1.6' }}>
             {t(lang, 'hubSubtitle')}
           </p>
         </div>
@@ -166,7 +165,7 @@ export default function HubPage() {
             <>
               <div style={{ fontSize: '40px' }}>🤝</div>
               <h3 style={{ fontSize: '20px', fontWeight: '700' }}>{t(lang, 'meetingDone')}</h3>
-              <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '15px' }}>{t(lang, 'meetingConfirm')}</p>
+              <p style={{ color: 'rgba(26,16,51,0.55)', fontSize: '15px' }}>{t(lang, 'meetingConfirm')}</p>
               <button className="btn-outline" onClick={toggleMeeting} disabled={meetingLoading}>
                 {t(lang, 'meetingCancel')}
               </button>
@@ -175,7 +174,7 @@ export default function HubPage() {
             <>
               <div style={{ fontSize: '36px' }}>💼</div>
               <h3 style={{ fontSize: '20px', fontWeight: '700' }}>{t(lang, 'meetingTitle')}</h3>
-              <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '15px', maxWidth: '400px' }}>{t(lang, 'meetingSubtitle')}</p>
+              <p style={{ color: 'rgba(26,16,51,0.55)', fontSize: '15px', maxWidth: '400px' }}>{t(lang, 'meetingSubtitle')}</p>
               <button className="btn-orange" onClick={toggleMeeting} disabled={meetingLoading}>
                 {meetingLoading ? '...' : t(lang, 'meetingCta')}
               </button>
@@ -186,7 +185,7 @@ export default function HubPage() {
         {/* Genesys event footer */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', padding: '20px', opacity: 0.4, flexWrap: 'wrap' }}>
           <img src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg" alt="Genesys" style={{ height: '18px', filter: 'brightness(0) invert(1)' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>CX Tour KL 2026 · 23 June · W Kuala Lumpur</span>
+          <span style={{ fontSize: '12px', color: 'rgba(26,16,51,0.4)' }}>CX Tour KL 2026 · 23 June · W Kuala Lumpur</span>
         </div>
       </div>
 
@@ -215,20 +214,20 @@ export default function HubPage() {
           width: '360px', maxWidth: 'calc(100vw - 32px)',
           height: '500px', maxHeight: 'calc(100vh - 80px)',
           display: 'flex', flexDirection: 'column',
-          background: '#110E19', border: '1px solid var(--border)',
+          background: '#FFFFFF', border: '1px solid rgba(124,58,237,0.2)',
           borderRadius: '20px', overflow: 'hidden',
           boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(124,58,237,0.15)',
           animation: 'fadeUp 0.25s ease',
         }}>
           {/* Chat header */}
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(124,58,237,0.1)' }}>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(124,58,237,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(124,58,237,0.06)' }}>
             <div>
-              <div style={{ fontWeight: '600', fontSize: '14px' }}>{t(lang, 'chatTitle')}</div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
+              <div style={{ fontWeight: '600', fontSize: '14px', color: '#1A1033' }}>{t(lang, 'chatTitle')}</div>
+              <div style={{ fontSize: '12px', color: 'rgba(26,16,51,0.4)' }}>
                 {turns < MAX_TURNS ? `${MAX_TURNS - turns} ${lang === 'zh' ? '次提问剩余' : lang === 'ms' ? 'soalan berbaki' : 'questions remaining'}` : t(lang, 'chatLimit')}
               </div>
             </div>
-            <button onClick={() => setChatOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}>×</button>
+            <button onClick={() => setChatOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(26,16,51,0.5)', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}>×</button>
           </div>
 
           {/* Messages */}
@@ -241,7 +240,7 @@ export default function HubPage() {
             {chatLoading && (
               <div className="chat-bubble-ai" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                 {[0,1,2].map(i => (
-                  <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.4)', animation: `dot-bounce 1.2s ease-in-out ${i*0.2}s infinite` }} />
+                  <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(26,16,51,0.3)', animation: `dot-bounce 1.2s ease-in-out ${i*0.2}s infinite` }} />
                 ))}
               </div>
             )}
@@ -250,7 +249,7 @@ export default function HubPage() {
 
           {/* Input */}
           {turns < MAX_TURNS && (
-            <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', gap: '10px' }}>
+            <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(124,58,237,0.1)', display: 'flex', gap: '10px' }}>
               <input
                 className="input-field"
                 style={{ flex: 1, padding: '10px 14px', fontSize: '14px' }}
@@ -295,10 +294,10 @@ function ProductCard({ icon, accentColor, title, tagline, desc, benefits, resour
             <div style={{ fontSize: '12px', color: accentColor, fontWeight: '500', marginTop: '3px' }}>{tagline}</div>
           </div>
         </div>
-        <span style={{ fontSize: '18px', color: 'rgba(255,255,255,0.3)', transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', display: 'block', marginTop: '4px' }}>⌄</span>
+        <span style={{ fontSize: '18px', color: 'rgba(26,16,51,0.3)', transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', display: 'block', marginTop: '4px' }}>⌄</span>
       </div>
 
-      <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', lineHeight: '1.6', marginBottom: expanded ? '20px' : '0' }}>{desc}</p>
+      <p style={{ fontSize: '14px', color: 'rgba(26,16,51,0.55)', lineHeight: '1.6', marginBottom: expanded ? '20px' : '0' }}>{desc}</p>
 
       {expanded && (
         <div style={{ marginTop: '20px', animation: 'fadeIn 0.2s ease' }} onClick={e => e.stopPropagation()}>
@@ -309,14 +308,14 @@ function ProductCard({ icon, accentColor, title, tagline, desc, benefits, resour
                 <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: `${accentColor}22`, border: `1px solid ${accentColor}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: accentColor }} />
                 </div>
-                <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: '1.5' }}>{b}</span>
+                <span style={{ fontSize: '13px', color: 'rgba(26,16,51,0.65)', lineHeight: '1.5' }}>{b}</span>
               </div>
             ))}
           </div>
 
           {/* Resources */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '16px' }}>
-            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.3)', marginBottom: '10px', fontWeight: '600' }}>
+          <div style={{ borderTop: '1px solid rgba(124,58,237,0.1)', paddingTop: '16px' }}>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(26,16,51,0.3)', marginBottom: '10px', fontWeight: '600' }}>
               {resourcesLabel}
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -327,7 +326,7 @@ function ProductCard({ icon, accentColor, title, tagline, desc, benefits, resour
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => onResourceClick?.(r.label)}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '8px', background: `${accentColor}15`, border: `1px solid ${accentColor}30`, color: 'rgba(255,255,255,0.7)', fontSize: '13px', textDecoration: 'none', transition: 'all 0.15s' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '8px', background: `${accentColor}15`, border: `1px solid ${accentColor}30`, color: 'rgba(26,16,51,0.7)', fontSize: '13px', textDecoration: 'none', transition: 'all 0.15s' }}
                   onMouseEnter={e => (e.currentTarget.style.background = `${accentColor}30`)}
                   onMouseLeave={e => (e.currentTarget.style.background = `${accentColor}15`)}
                 >

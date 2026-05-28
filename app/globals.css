@@ -7,13 +7,13 @@
   --vonage-purple-dark: #5B21B6;
   --genesys-orange: #FF4F1F;
   --genesys-gray: #1C1C1E;
-  --bg-primary: #0A0203;
-  --bg-card: #141018;
-  --border: rgba(124, 58, 237, 0.25);
-  --border-subtle: rgba(255,255,255,0.08);
-  --text-primary: #FFFFFF;
-  --text-secondary: rgba(255,255,255,0.6);
-  --text-muted: rgba(255,255,255,0.35);
+  --bg-primary: #F4F2FF;
+  --bg-card: #FFFFFF;
+  --border: rgba(124, 58, 237, 0.2);
+  --border-subtle: rgba(0,0,0,0.08);
+  --text-primary: #1A1033;
+  --text-secondary: rgba(26, 16, 51, 0.6);
+  --text-muted: rgba(26, 16, 51, 0.35);
   --accent: #7C3AED;
   --accent-glow: rgba(124, 58, 237, 0.4);
 }
@@ -32,16 +32,17 @@ body {
 
 .mesh-bg {
   background:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124, 58, 237, 0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(255, 79, 31, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124, 58, 237, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(255, 79, 31, 0.05) 0%, transparent 60%),
     var(--bg-primary);
 }
 
 .glass-card {
-  background: rgba(20, 16, 24, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: 20px;
+  box-shadow: 0 2px 20px rgba(124, 58, 237, 0.06);
 }
 
 .btn-primary {
@@ -93,17 +94,17 @@ body {
 
 .input-field {
   width: 100%;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--border-subtle);
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(124, 58, 237, 0.2);
   border-radius: 10px;
   padding: 14px 16px;
-  color: white;
+  color: #1A1033;
   font-size: 15px;
   font-family: inherit;
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
 }
-.input-field::placeholder { color: var(--text-muted); }
+.input-field::placeholder { color: rgba(26, 16, 51, 0.3); }
 .input-field:focus { border-color: var(--vonage-purple); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15); }
 
 .lang-btn {
@@ -122,11 +123,12 @@ body {
 .lang-btn:hover:not(.active) { color: white; background: rgba(255,255,255,0.05); }
 
 .product-card {
-  background: rgba(20, 16, 24, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--border);
   border-radius: 20px;
   transition: all 0.3s ease;
   overflow: hidden;
+  box-shadow: 0 2px 16px rgba(124, 58, 237, 0.05);
 }
 .product-card:hover { border-color: rgba(124, 58, 237, 0.5); transform: translateY(-3px); box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 40px rgba(124, 58, 237, 0.1); }
 
@@ -141,9 +143,9 @@ body {
   align-self: flex-end;
 }
 .chat-bubble-ai {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
+  background: rgba(124, 58, 237, 0.06);
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  color: #1A1033;
   border-radius: 4px 18px 18px 18px;
   padding: 10px 16px;
   max-width: 85%;
