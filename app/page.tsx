@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { translations, Language, languageNames, t } from '@/lib/i18n';
+import { track } from '@/lib/analytics';
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -11,6 +12,8 @@ export default function WelcomePage() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => { track('page_view', { source: 'qr' }); }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

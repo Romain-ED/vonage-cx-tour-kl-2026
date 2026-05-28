@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Language, languageNames, t } from '@/lib/i18n';
+import { track } from '@/lib/analytics';
 
 interface Message { role: 'user' | 'assistant'; content: string; }
 
@@ -138,8 +139,9 @@ export default function HubPage() {
             resources={bcResources}
             resourcesLabel={t(lang, 'resources')}
             expanded={activeProduct === 'bc'}
-            onToggle={() => setActiveProduct(activeProduct === 'bc' ? null : 'bc')}
+            onToggle={() => { setActiveProduct(activeProduct === 'bc' ? null : 'bc'); if (activeProduct !== 'bc') track('product_view', { product: 'branded_calling' }); }}
             learnMore={t(lang, 'learnMore')}
+            onResourceClick={(label) => track('resource_click', { product: 'branded_calling', resource: label })}
           />
           {/* Network APIs Card */}
           <ProductCard
@@ -152,8 +154,9 @@ export default function HubPage() {
             resources={naResources}
             resourcesLabel={t(lang, 'resources')}
             expanded={activeProduct === 'na'}
-            onToggle={() => setActiveProduct(activeProduct === 'na' ? null : 'na')}
+            onToggle={() => { setActiveProduct(activeProduct === 'na' ? null : 'na'); if (activeProduct !== 'na') track('product_view', { product: 'network_apis' }); }}
             learnMore={t(lang, 'learnMore')}
+            onResourceClick={(label) => track('resource_click', { product: 'network_apis', resource: label })}
           />
         </div>
 
@@ -273,10 +276,11 @@ export default function HubPage() {
   );
 }
 
-function ProductCard({ icon, accentColor, title, tagline, desc, benefits, resources, resourcesLabel, expanded, onToggle, learnMore }: {
+function ProductCard({ icon, accentColor, title, tagline, desc, benefits, resources, resourcesLabel, expanded, onToggle, learnMore, onResourceClick }: {
   icon: string; accentColor: string; title: string; tagline: string; desc: string;
   benefits: string[]; resources: { icon: string; label: string; href: string }[];
   resourcesLabel: string; expanded: boolean; onToggle: () => void; learnMore: string;
+  onResourceClick?: (label: string) => void;
 }) {
   return (
     <div className="product-card animate-fade-up" style={{ padding: '28px', cursor: 'pointer' }} onClick={onToggle}>
@@ -322,6 +326,7 @@ function ProductCard({ icon, accentColor, title, tagline, desc, benefits, resour
                   href={r.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => onResourceClick?.(r.label)}
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '8px', background: `${accentColor}15`, border: `1px solid ${accentColor}30`, color: 'rgba(255,255,255,0.7)', fontSize: '13px', textDecoration: 'none', transition: 'all 0.15s' }}
                   onMouseEnter={e => (e.currentTarget.style.background = `${accentColor}30`)}
                   onMouseLeave={e => (e.currentTarget.style.background = `${accentColor}15`)}
