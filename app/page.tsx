@@ -39,7 +39,16 @@ export default function WelcomePage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      <header style={{ padding: '18px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(30,15,70,0.95)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+      <header style={{
+        padding: '18px 32px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        background: 'rgba(8,6,20,0.8)',
+        borderBottom: '1px solid rgba(255,255,255,0.08)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+      }}>
         <span style={{ fontSize: '20px', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.03em' }}>vonage</span>
         <div style={{ display: 'flex', gap: '4px' }}>
           {(Object.keys(languageNames) as Language[]).map(l => (
@@ -53,26 +62,30 @@ export default function WelcomePage() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
 
         {/* Event badge */}
-        <div className="animate-fade-up" style={{ marginBottom: '28px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(234,76,26,0.08)', border: '1.5px solid rgba(234,76,26,0.25)', borderRadius: '24px', padding: '6px 16px' }}>
-            <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#EA4C1A', flexShrink: 0 }} />
-            <span style={{ fontSize: '12px', fontWeight: '700', color: '#B83510', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+        <div className="animate-fade-up" style={{ marginBottom: '32px' }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: '10px',
+            background: 'rgba(249,115,22,0.12)', border: '1.5px solid rgba(249,115,22,0.35)',
+            borderRadius: '24px', padding: '7px 18px',
+          }}>
+            <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#F97316', flexShrink: 0, boxShadow: '0 0 8px rgba(249,115,22,0.7)' }} />
+            <span style={{ fontSize: '12px', fontWeight: '700', color: '#FB923C', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               {t(lang, 'eventLabel')} · {t(lang, 'eventName')}
             </span>
           </div>
         </div>
 
-        <div className="animate-fade-up" style={{ animationDelay: '80ms', textAlign: 'center', marginBottom: '12px' }}>
-          <h1 style={{ fontSize: 'clamp(28px, 5vw, 46px)', fontWeight: '700', color: '#111111', lineHeight: '1.1', letterSpacing: '-0.02em' }}>
+        <div className="animate-fade-up" style={{ animationDelay: '80ms', textAlign: 'center', marginBottom: '16px' }}>
+          <h1 className="gradient-text" style={{ fontSize: 'clamp(30px, 5.5vw, 52px)', fontWeight: '700', lineHeight: '1.08', letterSpacing: '-0.03em' }}>
             {t(lang, 'welcomeTitle')}
           </h1>
         </div>
 
-        <div className="animate-fade-up" style={{ animationDelay: '140ms', textAlign: 'center', maxWidth: '480px', marginBottom: '40px' }}>
-          <p style={{ color: '#444444', fontSize: '16px', lineHeight: '1.65' }}>
+        <div className="animate-fade-up" style={{ animationDelay: '140ms', textAlign: 'center', maxWidth: '500px', marginBottom: '44px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.68)', fontSize: '16px', lineHeight: '1.7' }}>
             {t(lang, 'welcomeSubtitle')}
           </p>
-          <p style={{ marginTop: '8px', fontSize: '13px', color: '#777777' }}>
+          <p style={{ marginTop: '10px', fontSize: '13px', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.02em' }}>
             {t(lang, 'eventDate')}
           </p>
         </div>
@@ -81,22 +94,22 @@ export default function WelcomePage() {
         <div className="glass-card animate-fade-up" style={{ animationDelay: '200ms', width: '100%', maxWidth: '420px', padding: '36px' }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#333333', marginBottom: '8px' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: 'rgba(255,255,255,0.75)', marginBottom: '8px', letterSpacing: '0.01em' }}>
                 {t(lang, 'nameLabel')}
               </label>
               <input className="input-field" type="text" required placeholder={t(lang, 'namePlaceholder')} value={name} onChange={e => setName(e.target.value)} />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#333333', marginBottom: '8px' }}>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: 'rgba(255,255,255,0.75)', marginBottom: '8px', letterSpacing: '0.01em' }}>
                 {t(lang, 'emailLabel')}
               </label>
               <input className="input-field" type="email" required placeholder={t(lang, 'emailPlaceholder')} value={email} onChange={e => setEmail(e.target.value)} />
             </div>
-            {error && <p style={{ fontSize: '13px', color: '#DC2626', textAlign: 'center' }}>{error}</p>}
+            {error && <p style={{ fontSize: '13px', color: '#FCA5A5', textAlign: 'center' }}>{error}</p>}
             <button type="submit" className="btn-primary animate-pulse-glow" disabled={loading || !name.trim() || !email.trim()} style={{ width: '100%', marginTop: '4px' }}>
               {loading ? t(lang, 'submitting') : t(lang, 'submitBtn')}
             </button>
-            <p style={{ fontSize: '12px', color: '#888888', textAlign: 'center', lineHeight: '1.5' }}>
+            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.32)', textAlign: 'center', lineHeight: '1.6' }}>
               {t(lang, 'privacyNote')}
             </p>
           </form>

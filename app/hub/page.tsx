@@ -83,10 +83,26 @@ export default function HubPage() {
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
       {/* Header */}
-      <header style={{ padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(30,15,70,0.95)', borderBottom: '1px solid rgba(255,255,255,0.08)', position: 'sticky', top: 0, zIndex: 40 }}>
+      <header style={{
+        padding: '16px 32px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        background: 'rgba(8,6,20,0.8)',
+        borderBottom: '1px solid rgba(255,255,255,0.08)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 40,
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+      }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span style={{ fontSize: '18px', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.02em' }}>vonage</span>
-          {contactName && <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>· {contactName}</span>}
+          {contactName && (
+            <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '12px' }}>
+              {contactName}
+            </span>
+          )}
         </div>
         <div style={{ display: 'flex', gap: '4px' }}>
           {(Object.keys(languageNames) as Language[]).map(l => (
@@ -98,14 +114,14 @@ export default function HubPage() {
       <div style={{ maxWidth: '880px', margin: '0 auto', padding: '40px 24px', width: '100%' }}>
 
         {/* Hub title */}
-        <div className="animate-fade-up" style={{ marginBottom: '36px' }}>
-          <p style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#6D28D9', marginBottom: '10px', fontWeight: '700' }}>
+        <div className="animate-fade-up" style={{ marginBottom: '40px' }}>
+          <p style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(139,92,246,0.9)', marginBottom: '12px', fontWeight: '700' }}>
             {t(lang, 'eventName')}
           </p>
-          <h1 style={{ fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: '700', color: '#111111', letterSpacing: '-0.02em', marginBottom: '10px' }}>
+          <h1 style={{ fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.025em', marginBottom: '12px', lineHeight: 1.15 }}>
             {t(lang, 'hubTitle')}
           </h1>
-          <p style={{ color: '#555555', fontSize: '16px', maxWidth: '500px', lineHeight: '1.65' }}>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px', maxWidth: '500px', lineHeight: '1.7' }}>
             {t(lang, 'hubSubtitle')}
           </p>
         </div>
@@ -113,7 +129,7 @@ export default function HubPage() {
         {/* Product cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '28px' }}>
           <ProductCard
-            icon="📞" accentColor="#6D28D9" title={t(lang, 'bcTitle')} tagline={t(lang, 'bcTagline')} desc={t(lang, 'bcDesc')}
+            icon="📞" accentColor="#8B5CF6" title={t(lang, 'bcTitle')} tagline={t(lang, 'bcTagline')} desc={t(lang, 'bcDesc')}
             benefits={[t(lang, 'bcBenefit1'), t(lang, 'bcBenefit2'), t(lang, 'bcBenefit3'), t(lang, 'bcBenefit4')]}
             resources={bcResources} resourcesLabel={t(lang, 'resources')}
             expanded={activeProduct === 'bc'}
@@ -121,7 +137,7 @@ export default function HubPage() {
             onResourceClick={(label) => track('resource_click', { product: 'branded_calling', resource: label })}
           />
           <ProductCard
-            icon="🌐" accentColor="#EA4C1A" title={t(lang, 'naTitle')} tagline={t(lang, 'naTagline')} desc={t(lang, 'naDesc')}
+            icon="🌐" accentColor="#F97316" title={t(lang, 'naTitle')} tagline={t(lang, 'naTagline')} desc={t(lang, 'naDesc')}
             benefits={[t(lang, 'naBenefit1'), t(lang, 'naBenefit2'), t(lang, 'naBenefit3'), t(lang, 'naBenefit4')]}
             resources={naResources} resourcesLabel={t(lang, 'resources')}
             expanded={activeProduct === 'na'}
@@ -131,19 +147,19 @@ export default function HubPage() {
         </div>
 
         {/* Meeting CTA */}
-        <div className="glass-card" style={{ padding: '32px', marginBottom: '28px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '14px' }}>
+        <div className="glass-card" style={{ padding: '36px', marginBottom: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '16px' }}>
           {meetingRequested ? (
             <>
-              <div style={{ fontSize: '36px' }}>🤝</div>
-              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111111' }}>{t(lang, 'meetingDone')}</h3>
-              <p style={{ color: '#555555', fontSize: '15px' }}>{t(lang, 'meetingConfirm')}</p>
+              <div style={{ fontSize: '40px' }}>🤝</div>
+              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#FFFFFF' }}>{t(lang, 'meetingDone')}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '15px' }}>{t(lang, 'meetingConfirm')}</p>
               <button className="btn-outline" onClick={toggleMeeting} disabled={meetingLoading}>{t(lang, 'meetingCancel')}</button>
             </>
           ) : (
             <>
-              <div style={{ fontSize: '36px' }}>💼</div>
-              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111111' }}>{t(lang, 'meetingTitle')}</h3>
-              <p style={{ color: '#555555', fontSize: '15px', maxWidth: '380px' }}>{t(lang, 'meetingSubtitle')}</p>
+              <div style={{ fontSize: '40px' }}>💼</div>
+              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#FFFFFF' }}>{t(lang, 'meetingTitle')}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '15px', maxWidth: '380px' }}>{t(lang, 'meetingSubtitle')}</p>
               <button className="btn-orange" onClick={toggleMeeting} disabled={meetingLoading}>
                 {meetingLoading ? '...' : t(lang, 'meetingCta')}
               </button>
@@ -152,39 +168,58 @@ export default function HubPage() {
         </div>
 
         {/* Footer */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', opacity: 0.5 }}>
-          <img src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg" alt="Genesys" style={{ height: '16px', filter: 'grayscale(1)' }} onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
-          <span style={{ fontSize: '12px', color: '#666666' }}>CX Tour KL 2026 · 23 June · W Kuala Lumpur</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', opacity: 0.4, paddingBottom: '20px' }}>
+          <img src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg" alt="Genesys" style={{ height: '16px', filter: 'grayscale(1) invert(1)' }} onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>CX Tour KL 2026 · 23 June · W Kuala Lumpur</span>
         </div>
       </div>
 
       {/* Chat FAB */}
       <button onClick={() => setChatOpen(true)}
-        style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 50, width: '58px', height: '58px', borderRadius: '50%',
-          background: '#6D28D9', border: 'none', cursor: 'pointer', display: chatOpen ? 'none' : 'flex',
+        style={{
+          position: 'fixed', bottom: '24px', right: '24px', zIndex: 50,
+          width: '58px', height: '58px', borderRadius: '50%',
+          background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)',
+          border: '1.5px solid rgba(139,92,246,0.5)',
+          cursor: 'pointer', display: chatOpen ? 'none' : 'flex',
           alignItems: 'center', justifyContent: 'center', fontSize: '22px',
-          boxShadow: '0 4px 20px rgba(109,40,217,0.4)', transition: 'transform 0.2s' }}
-        onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.08)')}
-        onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
+          boxShadow: '0 4px 24px rgba(109,40,217,0.5)', transition: 'transform 0.2s, box-shadow 0.2s',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.boxShadow = '0 6px 32px rgba(109,40,217,0.65)'; }}
+        onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(109,40,217,0.5)'; }}>
         💬
       </button>
 
       {/* Chat panel */}
       {chatOpen && (
-        <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 50, width: '360px', maxWidth: 'calc(100vw - 32px)',
-          height: '500px', maxHeight: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column',
-          background: '#FFFFFF', border: '1.5px solid rgba(109,40,217,0.2)', borderRadius: '20px', overflow: 'hidden',
-          boxShadow: '0 12px 48px rgba(0,0,0,0.15)', animation: 'fadeUp 0.25s ease' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F5F0FF' }}>
+        <div style={{
+          position: 'fixed', bottom: '24px', right: '24px', zIndex: 50,
+          width: '360px', maxWidth: 'calc(100vw - 32px)',
+          height: '500px', maxHeight: 'calc(100vh - 80px)',
+          display: 'flex', flexDirection: 'column',
+          background: 'rgba(12,8,30,0.92)',
+          border: '1.5px solid rgba(139,92,246,0.3)',
+          borderRadius: '20px', overflow: 'hidden',
+          boxShadow: '0 16px 56px rgba(0,0,0,0.5), 0 0 0 1px rgba(139,92,246,0.1)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          animation: 'fadeUp 0.25s ease',
+        }}>
+          <div style={{
+            padding: '16px 20px',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            background: 'rgba(139,92,246,0.1)',
+          }}>
             <div>
-              <div style={{ fontWeight: '700', fontSize: '14px', color: '#111111' }}>{t(lang, 'chatTitle')}</div>
-              <div style={{ fontSize: '12px', color: '#666666', marginTop: '2px' }}>
+              <div style={{ fontWeight: '700', fontSize: '14px', color: '#FFFFFF' }}>{t(lang, 'chatTitle')}</div>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', marginTop: '2px' }}>
                 {turns < MAX_TURNS
                   ? `${MAX_TURNS - turns} ${lang === 'zh' ? '次提问剩余' : lang === 'ms' ? 'soalan berbaki' : 'questions remaining'}`
                   : t(lang, 'chatLimit')}
               </div>
             </div>
-            <button onClick={() => setChatOpen(false)} style={{ background: 'none', border: 'none', color: '#666666', cursor: 'pointer', fontSize: '22px', lineHeight: 1, padding: '4px' }}>×</button>
+            <button onClick={() => setChatOpen(false)} style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: 'rgba(255,255,255,0.7)', cursor: 'pointer', fontSize: '18px', lineHeight: 1, padding: '4px 8px' }}>×</button>
           </div>
           <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {messages.map((m, i) => (
@@ -193,18 +228,18 @@ export default function HubPage() {
             {chatLoading && (
               <div className="chat-bubble-ai" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                 {[0,1,2].map(i => (
-                  <div key={i} style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#9333EA', animation: `dot-bounce 1.2s ease-in-out ${i*0.2}s infinite` }} />
+                  <div key={i} style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#A78BFA', animation: `dot-bounce 1.2s ease-in-out ${i*0.2}s infinite` }} />
                 ))}
               </div>
             )}
             <div ref={chatEndRef} />
           </div>
           {turns < MAX_TURNS && (
-            <div style={{ padding: '12px 14px', borderTop: '1px solid rgba(0,0,0,0.07)', display: 'flex', gap: '8px' }}>
+            <div style={{ padding: '12px 14px', borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', gap: '8px' }}>
               <input className="input-field" style={{ flex: 1, padding: '10px 14px', fontSize: '14px' }}
                 placeholder={t(lang, 'chatPlaceholder')} value={input}
                 onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendMessage()} disabled={chatLoading} />
-              <button className="btn-primary" style={{ padding: '10px 16px' }} onClick={sendMessage} disabled={chatLoading || !input.trim()}>
+              <button className="btn-primary" style={{ padding: '10px 16px', flexShrink: 0 }} onClick={sendMessage} disabled={chatLoading || !input.trim()}>
                 {t(lang, 'chatSend')}
               </button>
             </div>
@@ -224,43 +259,66 @@ function ProductCard({ icon, accentColor, title, tagline, desc, benefits, resour
   return (
     <div className="product-card animate-fade-up" style={{ padding: '28px', cursor: 'pointer' }} onClick={onToggle}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '14px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: `${accentColor}14`, border: `1.5px solid ${accentColor}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <div style={{
+            width: '46px', height: '46px', borderRadius: '14px',
+            background: `${accentColor}1A`,
+            border: `1.5px solid ${accentColor}40`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '22px', flexShrink: 0,
+            boxShadow: `0 0 20px ${accentColor}20`,
+          }}>
             {icon}
           </div>
           <div>
-            <div style={{ fontWeight: '700', fontSize: '16px', color: '#111111', lineHeight: 1.2 }}>{title}</div>
-            <div style={{ fontSize: '12px', color: accentColor, fontWeight: '600', marginTop: '3px' }}>{tagline}</div>
+            <div style={{ fontWeight: '700', fontSize: '16px', color: '#FFFFFF', lineHeight: 1.2 }}>{title}</div>
+            <div style={{ fontSize: '12px', color: accentColor, fontWeight: '600', marginTop: '4px', opacity: 0.9 }}>{tagline}</div>
           </div>
         </div>
-        <span style={{ fontSize: '16px', color: '#999999', transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', marginTop: '4px', display: 'block' }}>⌄</span>
+        <span style={{
+          fontSize: '16px', color: 'rgba(255,255,255,0.35)',
+          transform: expanded ? 'rotate(180deg)' : 'none',
+          transition: 'transform 0.2s', marginTop: '4px', display: 'block',
+        }}>⌄</span>
       </div>
 
-      <p style={{ fontSize: '14px', color: '#555555', lineHeight: '1.65' }}>{desc}</p>
+      <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.58)', lineHeight: '1.7' }}>{desc}</p>
 
       {expanded && (
-        <div style={{ marginTop: '20px', animation: 'fadeIn 0.2s ease' }} onClick={e => e.stopPropagation()}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+        <div style={{ marginTop: '22px', animation: 'fadeIn 0.2s ease' }} onClick={e => e.stopPropagation()}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '22px' }}>
             {benefits.map((b, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: `${accentColor}15`, border: `1.5px solid ${accentColor}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <div style={{
+                  width: '18px', height: '18px', borderRadius: '50%',
+                  background: `${accentColor}18`, border: `1.5px solid ${accentColor}45`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0, marginTop: '3px',
+                }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: accentColor }} />
                 </div>
-                <span style={{ fontSize: '14px', color: '#333333', lineHeight: '1.55' }}>{b}</span>
+                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: '1.6' }}>{b}</span>
               </div>
             ))}
           </div>
-          <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: '16px' }}>
-            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999999', marginBottom: '10px', fontWeight: '700' }}>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '18px' }}>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', marginBottom: '12px', fontWeight: '700' }}>
               {resourcesLabel}
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {resources.map((r, i) => (
                 <a key={i} href={r.href} target="_blank" rel="noopener noreferrer"
                   onClick={() => onResourceClick?.(r.label)}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '8px', background: `${accentColor}0F`, border: `1.5px solid ${accentColor}25`, color: '#333333', fontSize: '13px', fontWeight: '500', textDecoration: 'none', transition: 'all 0.15s' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = `${accentColor}20`; (e.currentTarget as HTMLAnchorElement).style.borderColor = `${accentColor}50`; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = `${accentColor}0F`; (e.currentTarget as HTMLAnchorElement).style.borderColor = `${accentColor}25`; }}>
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    padding: '7px 14px', borderRadius: '8px',
+                    background: `${accentColor}14`,
+                    border: `1.5px solid ${accentColor}35`,
+                    color: 'rgba(255,255,255,0.8)', fontSize: '13px', fontWeight: '500',
+                    textDecoration: 'none', transition: 'all 0.15s',
+                  }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = `${accentColor}28`; el.style.borderColor = `${accentColor}60`; el.style.color = '#FFFFFF'; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = `${accentColor}14`; el.style.borderColor = `${accentColor}35`; el.style.color = 'rgba(255,255,255,0.8)'; }}>
                   <span>{r.icon}</span> {r.label}
                 </a>
               ))}
