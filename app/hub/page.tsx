@@ -45,7 +45,7 @@ export default function HubPage() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg, history: messages, lang }),
+        body: JSON.stringify({ message: userMsg, history: messages, lang, contact_id: contactId }),
       });
       const data = await res.json();
       setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);

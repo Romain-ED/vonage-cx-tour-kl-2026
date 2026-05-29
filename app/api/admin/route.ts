@@ -6,11 +6,18 @@ export async function GET(req: NextRequest) {
   if (password !== process.env.ADMIN_PASSWORD) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const db = supabaseAdmin.get();
-  const [contacts, analytics] = await Promise.all([
+  const [contacts, analytics, chats] = await Promise.all([
     db.from('contacts').select('*').order('created_at', { ascending: false }),
     db.from('analytics_events').select('*').order('created_at', { ascending: false }),
+    db.from('chat_messages')
+      .select('*, contacts(id, name, email)')
+      .order('created_at', { ascending: true }),
   ]);
 
   if (contacts.error) return NextResponse.json({ error: contacts.error.message }, { status: 500 });
-  return NextResponse.json({ contacts: contacts.data, analytics: analytics.data || [] });
+  return NextResponse.json({
+    contacts: contacts.data,
+    analytics: analytics.data || [],
+    chats: chats.data || [],
+  });
 }

@@ -27,3 +27,24 @@ CREATE POLICY "Allow service role full access" ON contacts
 
 -- Optional: Allow select with anon key (if you want to skip service role)
 -- CREATE POLICY "Allow select from anyone" ON contacts FOR SELECT TO anon USING (true);
+
+-- Chat messages table (AI agent conversation logs, linked to contacts)
+CREATE TABLE IF NOT EXISTS chat_messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  contact_id UUID REFERENCES contacts(id) ON DELETE SET NULL,
+  role TEXT NOT NULL CHECK (role IN ('user', 'assistant')),
+  content TEXT NOT NULL,
+  lang TEXT NOT NULL DEFAULT 'en',
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS chat_messages_contact_idx ON chat_messages(contact_id);
+CREATE INDEX IF NOT EXISTS chat_messages_created_idx ON chat_messages(created_at);
+
+ALTER TABLE chat_messages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow insert from anyone" ON chat_messages
+  FOR INSERT TO anon WITH CHECK (true);
+
+CREATE POLICY "Allow service role full access" ON chat_messages
+  FOR ALL TO service_role USING (true);

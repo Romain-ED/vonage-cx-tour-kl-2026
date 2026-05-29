@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
+import { supabaseAdmin } from '@/lib/supabase';
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -15,7 +16,7 @@ Keep responses concise (2-4 sentences max), friendly and professional. Avoid tec
 When relevant, encourage them to request a 1-on-1 meeting with the Vonage team.`;
 
 export async function POST(req: NextRequest) {
-  const { message, history, lang } = await req.json();
+  const { message, history, lang, contact_id } = await req.json();
 
   const langInstruction = lang === 'ms' ? ' Please respond in Bahasa Malaysia.'
     : lang === 'zh' ? ' Please respond in Simplified Chinese (普通话).'
@@ -38,6 +39,15 @@ export async function POST(req: NextRequest) {
     });
 
     const reply = response.content[0].type === 'text' ? response.content[0].text : 'Sorry, I could not generate a response.';
+
+    // Log both turns to the database (fire-and-forget)
+    const db = supabaseAdmin.get();
+    const rows = [
+      { contact_id: contact_id || null, role: 'user', content: message, lang },
+      { contact_id: contact_id || null, role: 'assistant', content: reply, lang },
+    ];
+    db.from('chat_messages').insert(rows).then(() => {});
+
     return NextResponse.json({ reply });
   } catch (e) {
     console.error(e);
