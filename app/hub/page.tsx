@@ -97,7 +97,7 @@ export default function HubPage() {
         WebkitBackdropFilter: 'blur(16px)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '18px', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.02em' }}>vonage</span>
+          <img src="/vonage-logo.svg" alt="Vonage" style={{ height: '20px', width: 'auto' }} />
           {contactName && (
             <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '12px' }}>
               {contactName}

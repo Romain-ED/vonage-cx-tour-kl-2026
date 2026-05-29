@@ -49,7 +49,7 @@ export default function WelcomePage() {
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
       }}>
-        <span style={{ fontSize: '20px', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.03em' }}>vonage</span>
+        <img src="/vonage-logo.svg" alt="Vonage" style={{ height: '22px', width: 'auto' }} />
         <div style={{ display: 'flex', gap: '4px' }}>
           {(Object.keys(languageNames) as Language[]).map(l => (
             <button key={l} className={`lang-btn ${lang === l ? 'active' : ''}`} onClick={() => setLang(l)}>
