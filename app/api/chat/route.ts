@@ -66,7 +66,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ reply });
   } catch (e) {
-    console.error('[chat] Gemini error:', e instanceof Error ? e.message : e);
-    return NextResponse.json({ reply: 'Sorry, I\'m having trouble right now. Please try again.' }, { status: 500 });
+    const errMsg = e instanceof Error ? e.message : String(e);
+    console.error('[chat] Gemini error:', errMsg);
+    return NextResponse.json({ reply: `[DEBUG] ${errMsg}` }, { status: 200 });
   }
 }
