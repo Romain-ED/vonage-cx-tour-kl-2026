@@ -15,28 +15,28 @@ const SB = 'https://bibvlkhadswraxdqnamg.supabase.co/storage/v1/object/public/re
 const RESOURCES = {
   bc: {
     en: [
-      { icon: '📄', label: 'Datasheet', href: `${SB}/bc/vonage-bc-datasheet-en.pdf` },
-      { icon: '▶️', label: 'Demo – Calling & Messaging', href: `${SB}/bc/demo-calling-messaging-en.mp4` },
-      { icon: '▶️', label: 'Demo – Messaging / RCS', href: 'https://drive.google.com/file/d/1nOReVatlkkSmZeeoWdPiVzn_hGnjffT-/view?usp=drive_link' },
-      { icon: '🏪', label: 'Genesys AppFoundry', href: 'https://appfoundry.genesys.com/filter/genesyscloud/listing/3c11487b-ea0e-4ecc-acd7-6ffd11faf8b6' },
+      { key: 'datasheet', icon: '📄', label: 'Datasheet', href: `${SB}/bc/vonage-bc-datasheet-en.pdf` },
+      { key: 'demo-calling', icon: '▶️', label: 'Demo – Calling & Messaging', href: `${SB}/bc/demo-calling-messaging-en.mp4` },
+      { key: 'demo-rcs', icon: '▶️', label: 'Demo – Messaging / RCS', href: 'https://drive.google.com/file/d/1nOReVatlkkSmZeeoWdPiVzn_hGnjffT-/view?usp=drive_link' },
+      { key: 'appfoundry', icon: '🏪', label: 'Genesys AppFoundry', href: 'https://appfoundry.genesys.com/filter/genesyscloud/listing/3c11487b-ea0e-4ecc-acd7-6ffd11faf8b6' },
     ],
     zh: [
-      { icon: '📄', label: '数据表', href: `${SB}/bc/vonage-bc-datasheet-zh.pdf` },
-      { icon: '▶️', label: '演示 – 通话与消息', href: `${SB}/bc/demo-calling-messaging-zh.mp4` },
-      { icon: '▶️', label: '演示 – 消息 / RCS', href: 'https://drive.google.com/file/d/1nOReVatlkkSmZeeoWdPiVzn_hGnjffT-/view?usp=drive_link' },
-      { icon: '🏪', label: 'Genesys AppFoundry', href: 'https://appfoundry.genesys.com/filter/genesyscloud/listing/3c11487b-ea0e-4ecc-acd7-6ffd11faf8b6' },
+      { key: 'datasheet', icon: '📄', label: '数据表', href: `${SB}/bc/vonage-bc-datasheet-zh.pdf` },
+      { key: 'demo-calling', icon: '▶️', label: '演示 – 通话与消息', href: `${SB}/bc/demo-calling-messaging-zh.mp4` },
+      { key: 'demo-rcs', icon: '▶️', label: '演示 – 消息 / RCS', href: 'https://drive.google.com/file/d/1nOReVatlkkSmZeeoWdPiVzn_hGnjffT-/view?usp=drive_link' },
+      { key: 'appfoundry', icon: '🏪', label: 'Genesys AppFoundry', href: 'https://appfoundry.genesys.com/filter/genesyscloud/listing/3c11487b-ea0e-4ecc-acd7-6ffd11faf8b6' },
     ],
   },
   na: {
     en: [
-      { icon: '📄', label: 'Datasheet', href: `${SB}/na/network-api-datasheet-en.pdf` },
-      { icon: '📋', label: 'Lydia Case Study', href: `${SB}/na/lydia-case-study.pdf` },
-      { icon: '▶️', label: 'Demo Video', href: 'https://youtu.be/tJDeBhU1bqE?si=S8y7_5xHDXKxwVDU' },
+      { key: 'datasheet', icon: '📄', label: 'Datasheet', href: `${SB}/na/network-api-datasheet-en.pdf` },
+      { key: 'lydia-case-study', icon: '📋', label: 'Lydia Case Study', href: `${SB}/na/lydia-case-study.pdf` },
+      { key: 'demo-video', icon: '▶️', label: 'Demo Video', href: 'https://youtu.be/tJDeBhU1bqE?si=S8y7_5xHDXKxwVDU' },
     ],
     zh: [
-      { icon: '📄', label: '数据表', href: `${SB}/na/network-api-datasheet-zh.pdf` },
-      { icon: '📋', label: 'Lydia 案例研究', href: `${SB}/na/lydia-case-study.pdf` },
-      { icon: '▶️', label: '演示视频', href: 'https://youtu.be/tJDeBhU1bqE?si=S8y7_5xHDXKxwVDU' },
+      { key: 'datasheet', icon: '📄', label: '数据表', href: `${SB}/na/network-api-datasheet-zh.pdf` },
+      { key: 'lydia-case-study', icon: '📋', label: 'Lydia 案例研究', href: `${SB}/na/lydia-case-study.pdf` },
+      { key: 'demo-video', icon: '▶️', label: '演示视频', href: 'https://youtu.be/tJDeBhU1bqE?si=S8y7_5xHDXKxwVDU' },
     ],
   },
 };
@@ -175,7 +175,7 @@ export default function HubPage() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {resources.map((r, i) => (
                 <a key={i} href={r.href} target="_blank" rel="noopener noreferrer"
-                  onClick={() => track('resource_click', { product: activeTab === 'bc' ? 'branded_communications' : 'network_apis', resource: r.label })}
+                  onClick={() => track('resource_click', { product: activeTab === 'bc' ? 'branded_communications' : 'network_apis', resource: r.key })}
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 14px', borderRadius: '8px', background: `${current.color}14`, border: `1.5px solid ${current.color}35`, color: 'rgba(255,255,255,0.85)', fontSize: '13px', fontWeight: '500', textDecoration: 'none', transition: 'all 0.15s' }}
                   onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = `${current.color}28`; el.style.borderColor = `${current.color}60`; el.style.color = '#FFFFFF'; }}
                   onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = `${current.color}14`; el.style.borderColor = `${current.color}35`; el.style.color = 'rgba(255,255,255,0.85)'; }}>

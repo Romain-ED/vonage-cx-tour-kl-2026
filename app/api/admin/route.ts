@@ -32,5 +32,6 @@ export async function GET(req: NextRequest) {
     contacts: contacts.data,
     analytics: analytics.data || [],
     chats: chats.data || [],
+    llm_key_set: !!process.env.ANTHROPIC_API_KEY,
   });
 }
