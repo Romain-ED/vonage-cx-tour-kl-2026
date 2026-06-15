@@ -23,7 +23,7 @@ export default function ThankYouPage() {
           <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '14px' }}>×</span>
           <img src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg" alt="Genesys" style={{ height: '16px', width: 'auto', filter: 'brightness(0) invert(1)' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
           <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '14px' }}>×</span>
-          <img src="/expertstack-logo.png" alt="ExpertStack" style={{ height: '16px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
+          <img src="/expertstack-logo.png" alt="ExpertStack" style={{ height: '16px', width: 'auto' }} />
         </div>
       </header>
 
