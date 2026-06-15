@@ -122,7 +122,7 @@ export default function HubPage() {
         <div className="animate-fade-up" style={{ marginBottom: '28px' }}>
           <p style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(139,92,246,0.9)', marginBottom: '10px', fontWeight: '700' }}>{t(lang, 'eventName')}</p>
           <h1 style={{ fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.025em', marginBottom: '8px' }}>{t(lang, 'hubTitle')}</h1>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '15px', lineHeight: '1.65' }}>{t(lang, 'hubSubtitle')}</p>
+          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '15px', lineHeight: '1.65' }}>{t(lang, 'hubSubtitle')}</p>
         </div>
 
         {/* Tab navigation */}
@@ -132,7 +132,7 @@ export default function HubPage() {
             const isActive = activeTab === tab;
             return (
               <button key={tab} onClick={() => { setActiveTab(tab); track('product_view', { product: tab === 'bc' ? 'branded_communications' : 'network_apis' }); }}
-                style={{ flex: 1, padding: '12px 16px', borderRadius: '10px', border: `1.5px solid ${isActive ? cfg.color + '60' : 'transparent'}`, background: isActive ? `${cfg.color}18` : 'transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', fontWeight: '600', color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.45)', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                style={{ flex: 1, padding: '12px 16px', borderRadius: '10px', border: `1.5px solid ${isActive ? cfg.color + '60' : 'transparent'}`, background: isActive ? `${cfg.color}18` : 'transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', fontWeight: '600', color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.7)', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 <span>{cfg.icon}</span>
                 <span>{t(lang, tab === 'bc' ? 'tabBc' : 'tabNa')}</span>
                 {isActive && <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: cfg.color, boxShadow: `0 0 8px ${cfg.color}` }} />}
@@ -154,7 +154,7 @@ export default function HubPage() {
             </div>
           </div>
 
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)', lineHeight: '1.7', marginBottom: '22px' }}>{t(lang, current.descKey)}</p>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: '1.7', marginBottom: '22px' }}>{t(lang, current.descKey)}</p>
 
           {/* Benefits */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
@@ -163,14 +163,14 @@ export default function HubPage() {
                 <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: `${current.color}18`, border: `1.5px solid ${current.color}45`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: current.color }} />
                 </div>
-                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: '1.6' }}>{t(lang, b)}</span>
+                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.92)', lineHeight: '1.6' }}>{t(lang, b)}</span>
               </div>
             ))}
           </div>
 
           {/* Resources */}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px' }}>
-            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', marginBottom: '12px', fontWeight: '700' }}>{t(lang, 'resources')}</div>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', marginBottom: '12px', fontWeight: '700' }}>{t(lang, 'resources')}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {resources.map((r, i) => (
                 <a key={i} href={r.href} target="_blank" rel="noopener noreferrer"
