@@ -47,7 +47,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ reply });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ reply: 'Sorry, I\'m having trouble right now. Please try again.' }, { status: 500 });
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error('[chat] Gemini error:', msg);
+    return NextResponse.json({ reply: 'Sorry, I\'m having trouble right now. Please try again.', _debug: msg }, { status: 500 });
   }
 }
