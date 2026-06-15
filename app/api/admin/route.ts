@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 
+export async function DELETE(req: NextRequest) {
+  const password = req.headers.get('x-admin-password');
+  if (password !== process.env.ADMIN_PASSWORD) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const db = supabaseAdmin.get();
+  await Promise.all([
+    db.from('chat_messages').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
+    db.from('analytics_events').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
+    db.from('contacts').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
+  ]);
+  return NextResponse.json({ ok: true });
+}
+
 export async function GET(req: NextRequest) {
   const password = req.headers.get('x-admin-password');
   if (password !== process.env.ADMIN_PASSWORD) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

@@ -33,6 +33,17 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState<'overview' | 'contacts' | 'analytics' | 'chats'>('overview');
   const [expandedThread, setExpandedThread] = useState<string | null>(null);
+  const [resetting, setResetting] = useState(false);
+
+  async function resetData() {
+    if (!confirm('Delete ALL contacts, analytics and chat data? This cannot be undone.')) return;
+    setResetting(true);
+    await fetch('/api/admin', { method: 'DELETE', headers: { 'x-admin-password': password } });
+    setContacts([]);
+    setAnalytics([]);
+    setChats([]);
+    setResetting(false);
+  }
 
   async function login() {
     setLoading(true); setError('');
@@ -95,12 +106,20 @@ export default function AdminPage() {
 
   return (
     <main className="mesh-bg min-h-screen" style={{ padding: '32px 24px' }}>
-      <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
 
         {/* Header */}
-        <div style={{ marginBottom: '32px' }}>
-          <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>Vonage × Ericsson · CX Tour KL & Taipei 2026</div>
-          <h1 style={{ fontSize: '30px', fontWeight: '700', letterSpacing: '-0.02em' }}>Admin Dashboard</h1>
+        <div style={{ marginBottom: '32px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
+          <div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>Vonage × Ericsson · CX Tour KL & Taipei 2026</div>
+            <h1 style={{ fontSize: '30px', fontWeight: '700', letterSpacing: '-0.02em' }}>Admin Dashboard</h1>
+          </div>
+          {contacts && (
+            <button onClick={resetData} disabled={resetting}
+              style={{ marginTop: '24px', padding: '9px 18px', borderRadius: '10px', border: '1.5px solid rgba(239,68,68,0.35)', background: 'rgba(239,68,68,0.08)', color: '#FCA5A5', fontSize: '13px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', opacity: resetting ? 0.5 : 1 }}>
+              {resetting ? 'Resetting…' : '🗑 Reset Data'}
+            </button>
+          )}
         </div>
 
         {!contacts ? (
@@ -380,7 +399,7 @@ export default function AdminPage() {
                                 </div>
                               </td>
                               <td style={{ padding: '13px 20px' }}>
-                                <span style={{ padding: '3px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '600',
+                                <span style={{ padding: '3px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '600', whiteSpace: 'nowrap',
                                   background: c.meeting_requested ? 'rgba(255,79,31,0.15)' : 'rgba(255,255,255,0.05)',
                                   color: c.meeting_requested ? '#FF7A52' : 'rgba(255,255,255,0.3)',
                                   border: `1px solid ${c.meeting_requested ? 'rgba(255,79,31,0.3)' : 'rgba(255,255,255,0.08)'}` }}>
