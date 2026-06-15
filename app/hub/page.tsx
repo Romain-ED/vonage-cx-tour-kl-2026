@@ -10,30 +10,32 @@ const MAX_TURNS = 5;
 
 type Tab = 'bc' | 'na';
 
+const SB = 'https://bibvlkhadswraxdqnamg.supabase.co/storage/v1/object/public/resources';
+
 const RESOURCES = {
   bc: {
     en: [
-      { icon: '📄', label: 'Datasheet', href: 'https://drive.google.com/file/d/1bhSK1xuSSb9eB-o-n9k7R42aeG9-G08E/view?usp=sharing' },
-      { icon: '▶️', label: 'Demo – Calling & Messaging', href: 'https://drive.google.com/file/d/1CpmhXTISYLYrAlVw5iW-8UTFTdkYwknU/view' },
+      { icon: '📄', label: 'Datasheet', href: `${SB}/bc/vonage-bc-datasheet-en.pdf` },
+      { icon: '▶️', label: 'Demo – Calling & Messaging', href: `${SB}/bc/demo-calling-messaging-en.mp4` },
       { icon: '▶️', label: 'Demo – Messaging / RCS', href: 'https://drive.google.com/file/d/1nOReVatlkkSmZeeoWdPiVzn_hGnjffT-/view?usp=drive_link' },
       { icon: '🏪', label: 'Genesys AppFoundry', href: 'https://appfoundry.genesys.com/filter/genesyscloud/listing/3c11487b-ea0e-4ecc-acd7-6ffd11faf8b6' },
     ],
     zh: [
-      { icon: '📄', label: '数据表', href: 'https://drive.google.com/file/d/1H284uKc1dp9agEdW1Fleg3zzLb4OcOJL/view?usp=sharing' },
-      { icon: '▶️', label: '演示 – 通话与消息', href: 'https://drive.google.com/file/d/1vPGpSc9qlWOgjoe-K9d_EkX5uzIzzlS9/view?usp=sharing' },
+      { icon: '📄', label: '数据表', href: `${SB}/bc/vonage-bc-datasheet-zh.pdf` },
+      { icon: '▶️', label: '演示 – 通话与消息', href: `${SB}/bc/demo-calling-messaging-zh.mp4` },
       { icon: '▶️', label: '演示 – 消息 / RCS', href: 'https://drive.google.com/file/d/1nOReVatlkkSmZeeoWdPiVzn_hGnjffT-/view?usp=drive_link' },
       { icon: '🏪', label: 'Genesys AppFoundry', href: 'https://appfoundry.genesys.com/filter/genesyscloud/listing/3c11487b-ea0e-4ecc-acd7-6ffd11faf8b6' },
     ],
   },
   na: {
     en: [
-      { icon: '📄', label: 'Datasheet', href: 'https://drive.google.com/file/d/1q9T_5SM1BTb5rkyWyB28iD6Jjz_tD1Os/view?usp=sharing' },
-      { icon: '📋', label: 'Lydia Case Study', href: 'https://drive.google.com/file/d/16y2qETPOCfj2MN40_6tYxpmOsaAw7vrS/view?usp=sharing' },
+      { icon: '📄', label: 'Datasheet', href: `${SB}/na/network-api-datasheet-en.pdf` },
+      { icon: '📋', label: 'Lydia Case Study', href: `${SB}/na/lydia-case-study.pdf` },
       { icon: '▶️', label: 'Demo Video', href: 'https://youtu.be/tJDeBhU1bqE?si=S8y7_5xHDXKxwVDU' },
     ],
     zh: [
-      { icon: '📄', label: '数据表', href: 'https://drive.google.com/file/d/1MoknbJ9AcYjAvrWTO5CNvE2EziUNTf_G/view?usp=sharing' },
-      { icon: '📋', label: 'Lydia 案例研究', href: 'https://drive.google.com/file/d/16y2qETPOCfj2MN40_6tYxpmOsaAw7vrS/view?usp=sharing' },
+      { icon: '📄', label: '数据表', href: `${SB}/na/network-api-datasheet-zh.pdf` },
+      { icon: '📋', label: 'Lydia 案例研究', href: `${SB}/na/lydia-case-study.pdf` },
       { icon: '▶️', label: '演示视频', href: 'https://youtu.be/tJDeBhU1bqE?si=S8y7_5xHDXKxwVDU' },
     ],
   },
