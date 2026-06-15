@@ -3,8 +3,8 @@ export type Language = 'en' | 'zh';
 export const translations = {
   en: {
     eventLabel: 'Gold Partner',
-    eventName: 'CX Tour Kuala Lumpur 2026',
-    eventDate: '23 June 2026 · W Kuala Lumpur',
+    eventName: 'CX Tour KL & Taipei 2026',
+    eventDate: 'Kuala Lumpur · 23 June 2026  ·  Taipei · 2026',
 
     welcomeTitle: 'Welcome to the Vonage Experience',
     welcomeSubtitle: 'Discover how Vonage is shaping the future of customer experience.',
@@ -85,16 +85,16 @@ export const translations = {
     meetingSubmitting: 'Booking...',
 
     thankyouTitle: "You're all set!",
-    thankyouSubtitle: 'Thank you for visiting the Vonage booth at CX Tour KL 2026.',
+    thankyouSubtitle: 'Thank you for visiting the Vonage booth at CX Tour KL & Taipei 2026.',
     thankyouDetail: 'Our Business Development Manager will be in touch after the event. We look forward to exploring how Vonage can elevate your customer experience.',
-    thankyouEvent: '23 June 2026 · W Kuala Lumpur',
+    thankyouEvent: 'Kuala Lumpur · 23 June 2026  ·  Taipei · 2026',
     backToHub: 'Back to Hub',
   },
 
   zh: {
     eventLabel: '金级合作伙伴',
-    eventName: 'CX Tour 吉隆坡 2026',
-    eventDate: '2026年6月23日 · W 吉隆坡酒店',
+    eventName: 'CX Tour 吉隆坡 & 台北 2026',
+    eventDate: '吉隆坡 · 2026年6月23日  ·  台北 · 2026',
 
     welcomeTitle: '欢迎体验 Vonage',
     welcomeSubtitle: '探索 Vonage 如何塑造客户体验的未来。',
@@ -175,9 +175,9 @@ export const translations = {
     meetingSubmitting: '预约中...',
 
     thankyouTitle: '一切就绪！',
-    thankyouSubtitle: '感谢您莅临 CX Tour KL 2026 的 Vonage 展台。',
+    thankyouSubtitle: '感谢您莅临 CX Tour 吉隆坡 & 台北 2026 的 Vonage 展台。',
     thankyouDetail: '我们的业务发展经理将在活动后与您联系。我们期待探索 Vonage 如何助力您的客户体验。',
-    thankyouEvent: '2026年6月23日 · W 吉隆坡酒店',
+    thankyouEvent: '吉隆坡 · 2026年6月23日  ·  台北 · 2026',
     backToHub: '返回产品中心',
   },
 };

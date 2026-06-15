@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vonage @ CX Tour KL 2026",
-  description: "Discover Vonage Branded Calling and Network APIs at the Genesys CX Tour Kuala Lumpur 2026",
+  title: "Vonage @ CX Tour KL & Taipei 2026",
+  description: "Discover Vonage Branded Communications and Network APIs at the Genesys CX Tour KL & Taipei 2026",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

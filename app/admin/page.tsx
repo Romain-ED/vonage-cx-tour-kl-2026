@@ -99,7 +99,7 @@ export default function AdminPage() {
 
         {/* Header */}
         <div style={{ marginBottom: '32px' }}>
-          <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>Vonage × Ericsson · CX Tour KL 2026</div>
+          <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>Vonage × Ericsson · CX Tour KL & Taipei 2026</div>
           <h1 style={{ fontSize: '30px', fontWeight: '700', letterSpacing: '-0.02em' }}>Admin Dashboard</h1>
         </div>
 

@@ -196,7 +196,7 @@ export default function HubPage() {
         {/* Footer */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', opacity: 0.35, marginTop: '28px' }}>
           <img src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg" alt="Genesys" style={{ height: '14px', filter: 'grayscale(1) invert(1)' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-          <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>CX Tour KL 2026 · 23 June · W Kuala Lumpur</span>
+          <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>CX Tour KL & Taipei 2026 · 23 June (KL) · W Kuala Lumpur</span>
         </div>
       </div>
 
