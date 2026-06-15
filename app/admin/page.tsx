@@ -108,6 +108,8 @@ export default function AdminPage() {
   const resourceClicks = analytics.filter(e => e.event_type === 'resource_click');
   const totalMeetings = contacts?.filter(c => c.meeting_requested).length ?? 0;
   const conversionRate = uniqueSessions > 0 ? Math.round(((contacts?.length ?? 0) / uniqueSessions) * 100) : 0;
+  const enUsers = contacts?.filter(c => c.language === 'en').length ?? 0;
+  const zhUsers = contacts?.filter(c => c.language === 'zh').length ?? 0;
 
   const rCount = (product: string, key: string) =>
     resourceClicks.filter(e => e.event_data?.product === product && e.event_data?.resource === key).length;
@@ -222,7 +224,32 @@ export default function AdminPage() {
                     <JArrow drop={uniqueSessions - contacts.length} base={uniqueSessions} />
                     <JNode icon="📝" label="/ (Register)" count={contacts.length} base={uniqueSessions} color="#10B981" />
 
-                    <div style={{ width: '2px', height: '16px', background: 'rgba(255,255,255,0.2)' }} />
+                    {/* Language split */}
+                    <div style={{ position: 'relative', display: 'flex', width: '100%', maxWidth: '420px' }}>
+                      <div style={{ position: 'absolute', top: '10px', left: '25%', right: '25%', height: '2px', background: 'rgba(255,255,255,0.2)' }} />
+                      {/* EN */}
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <div style={{ width: '2px', height: '22px', background: 'rgba(255,255,255,0.2)' }} />
+                        <JNode small icon="🇬🇧" label="English" count={enUsers} base={contacts.length} color="#7C3AED" />
+                        <div style={{ flex: 1, minHeight: '12px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
+                      </div>
+                      {/* ZH */}
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <div style={{ width: '2px', height: '22px', background: 'rgba(255,255,255,0.2)' }} />
+                        <JNode small icon="🇨🇳" label="中文" count={zhUsers} base={contacts.length} color="#3B82F6" />
+                        <div style={{ flex: 1, minHeight: '12px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
+                      </div>
+                    </div>
+                    {/* Language merge */}
+                    <div style={{ display: 'flex', width: '100%', maxWidth: '420px', height: '16px' }}>
+                      <div style={{ flex: 1, borderTop: '2px solid rgba(255,255,255,0.18)', borderRight: '2px solid rgba(255,255,255,0.18)', borderRadius: '0 8px 0 0' }} />
+                      <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ width: '2px', height: '16px', background: 'rgba(255,255,255,0.18)' }} />
+                      </div>
+                      <div style={{ flex: 1, borderTop: '2px solid rgba(255,255,255,0.18)', borderLeft: '2px solid rgba(255,255,255,0.18)', borderRadius: '8px 0 0 0' }} />
+                    </div>
+
+                    <div style={{ width: '2px', height: '8px', background: 'rgba(255,255,255,0.2)' }} />
                     <div style={{ fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.65)', textTransform: 'uppercase', letterSpacing: '0.1em', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: '6px', padding: '4px 14px' }}>
                       /hub — parallel actions
                     </div>
@@ -281,21 +308,6 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                {/* Language breakdown */}
-                <div className="glass-card" style={{ padding: '28px' }}>
-                  <h3 style={{ fontSize: '15px', fontWeight: '700', marginBottom: '16px' }}>Language Preference</h3>
-                  <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    {[{ key: 'en', label: 'English', color: '#7C3AED' }, { key: 'zh', label: '中文', color: '#3B82F6' }].map(l => {
-                      const count = contacts.filter(c => c.language === l.key).length;
-                      return (
-                        <div key={l.key} style={{ flex: 1, minWidth: '100px', background: `${l.color}20`, border: `1.5px solid ${l.color}50`, borderRadius: '12px', padding: '18px', textAlign: 'center' }}>
-                          <div style={{ fontSize: '28px', fontWeight: '800', color: l.color }}>{count}</div>
-                          <div style={{ fontSize: '14px', fontWeight: '600', color: 'rgba(255,255,255,0.85)', marginTop: '6px' }}>{l.label}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
               </div>
             )}
 
