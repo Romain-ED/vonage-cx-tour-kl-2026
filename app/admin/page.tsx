@@ -3,8 +3,9 @@
 import { useState } from 'react';
 
 interface Contact {
-  id: string; name: string; email: string;
-  language: string; meeting_requested: boolean; created_at: string;
+  id: string; name: string; first_name?: string; last_name?: string;
+  email: string; phone?: string; language: string;
+  solutions?: string[]; meeting_requested: boolean; meeting_note?: string; created_at: string;
 }
 interface AnalyticsEvent {
   id: string; session_id: string; contact_id: string | null;
@@ -46,8 +47,8 @@ export default function AdminPage() {
 
   function exportCsv() {
     if (!contacts) return;
-    const rows = [['Name','Email','Language','Meeting Requested','Registered At'],
-      ...contacts.map(c => [c.name, c.email, c.language, c.meeting_requested ? 'Yes' : 'No', new Date(c.created_at).toLocaleString()])];
+    const rows = [['First Name','Last Name','Email','Phone','Language','Solutions','Meeting Requested','Meeting Note','Registered At'],
+      ...contacts.map(c => [c.first_name ?? '', c.last_name ?? c.name ?? '', c.email, c.phone ?? '', c.language, (c.solutions ?? []).join('+'), c.meeting_requested ? 'Yes' : 'No', c.meeting_note ?? '', new Date(c.created_at).toLocaleString()])];
     const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'vonage-cx-tour-kl-2026.csv'; a.click();
@@ -350,7 +351,7 @@ export default function AdminPage() {
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
                       <thead>
                         <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                          {['Name', 'Email', 'Language', 'Meeting', 'Chats', 'Registered'].map(h => (
+                          {['Name', 'Email', 'Phone', 'Language', 'Solutions', 'Meeting', 'Note', 'Chats', 'Registered'].map(h => (
                             <th key={h} style={{ padding: '14px 20px', textAlign: 'left', fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>{h}</th>
                           ))}
                         </tr>
@@ -360,12 +361,23 @@ export default function AdminPage() {
                           const msgCount = chats.filter(m => m.contact_id === c.id && m.role === 'user').length;
                           return (
                             <tr key={c.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
-                              <td style={{ padding: '13px 20px', fontWeight: '500' }}>{c.name}</td>
-                              <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.55)' }}>{c.email}</td>
+                              <td style={{ padding: '13px 20px', fontWeight: '500', whiteSpace: 'nowrap' }}>{c.first_name ? `${c.first_name} ${c.last_name ?? ''}`.trim() : c.name}</td>
+                              <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.55)', fontSize: '13px' }}>{c.email}</td>
+                              <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.4)', fontSize: '12px' }}>{c.phone ?? '—'}</td>
                               <td style={{ padding: '13px 20px' }}>
-                                <span style={{ padding: '3px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '600', background: 'rgba(124,58,237,0.15)', color: '#A78BFA', border: '1px solid rgba(124,58,237,0.3)' }}>
+                                <span style={{ padding: '3px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '600', background: 'rgba(124,58,237,0.15)', color: '#A78BFA', border: '1px solid rgba(124,58,237,0.3)', whiteSpace: 'nowrap' }}>
                                   {langMap[c.language] || c.language}
                                 </span>
+                              </td>
+                              <td style={{ padding: '13px 20px' }}>
+                                <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                                  {(c.solutions ?? []).map(s => (
+                                    <span key={s} style={{ padding: '2px 8px', borderRadius: '8px', fontSize: '11px', fontWeight: '600', background: s === 'bc' ? 'rgba(139,92,246,0.15)' : 'rgba(249,115,22,0.15)', color: s === 'bc' ? '#A78BFA' : '#FB923C', border: `1px solid ${s === 'bc' ? 'rgba(139,92,246,0.3)' : 'rgba(249,115,22,0.3)'}`, whiteSpace: 'nowrap' }}>
+                                      {s === 'bc' ? 'Branded Comms' : 'Network APIs'}
+                                    </span>
+                                  ))}
+                                  {(!c.solutions || c.solutions.length === 0) && <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '12px' }}>—</span>}
+                                </div>
                               </td>
                               <td style={{ padding: '13px 20px' }}>
                                 <span style={{ padding: '3px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '600',
@@ -375,21 +387,24 @@ export default function AdminPage() {
                                   {c.meeting_requested ? '✓ Yes' : 'No'}
                                 </span>
                               </td>
+                              <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.45)', fontSize: '12px', maxWidth: '180px' }}>
+                                <span title={c.meeting_note ?? ''} style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                  {c.meeting_note ? `"${c.meeting_note}"` : '—'}
+                                </span>
+                              </td>
                               <td style={{ padding: '13px 20px' }}>
                                 {msgCount > 0 ? (
                                   <span style={{ padding: '3px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '600', background: 'rgba(6,182,212,0.15)', color: '#22D3EE', border: '1px solid rgba(6,182,212,0.3)' }}>
                                     {msgCount} msg{msgCount !== 1 ? 's' : ''}
                                   </span>
-                                ) : (
-                                  <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '12px' }}>—</span>
-                                )}
+                                ) : <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '12px' }}>—</span>}
                               </td>
-                              <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.35)', fontSize: '12px' }}>{new Date(c.created_at).toLocaleString()}</td>
+                              <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.35)', fontSize: '12px', whiteSpace: 'nowrap' }}>{new Date(c.created_at).toLocaleString()}</td>
                             </tr>
                           );
                         })}
                         {contacts.length === 0 && (
-                          <tr><td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: 'rgba(255,255,255,0.25)' }}>No registrations yet.</td></tr>
+                          <tr><td colSpan={9} style={{ padding: '40px', textAlign: 'center', color: 'rgba(255,255,255,0.25)' }}>No registrations yet.</td></tr>
                         )}
                       </tbody>
                     </table>
