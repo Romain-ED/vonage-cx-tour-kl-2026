@@ -236,7 +236,7 @@ export default function AdminPage() {
                       {/* ZH */}
                       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <div style={{ width: '2px', height: '22px', background: 'rgba(255,255,255,0.2)' }} />
-                        <JNode small icon="🇨🇳" label="繁體中文" count={zhUsers} base={contacts.length} color="#3B82F6" />
+                        <JNode small icon="🇹🇼" label="繁體中文" count={zhUsers} base={contacts.length} color="#3B82F6" />
                         <div style={{ flex: 1, minHeight: '12px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
                       </div>
                     </div>
