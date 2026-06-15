@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Language, t } from '@/lib/i18n';
+import { CxTourBanner } from '@/components/CxTourBanner';
 
 export default function ThankYouPage() {
   const router = useRouter();
@@ -51,23 +52,9 @@ export default function ThankYouPage() {
           </p>
         </div>
 
-        {/* Event info card */}
-        <div className="glass-card animate-fade-up" style={{ animationDelay: '180ms', padding: '24px 32px', marginBottom: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', maxWidth: '360px', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(249,115,22,0.15)', border: '1.5px solid rgba(249,115,22,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>📅</div>
-            <div>
-              <div style={{ fontSize: '14px', fontWeight: '700', color: '#FFFFFF' }}>CX Tour KL & Taipei 2026</div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', marginTop: '2px' }}>{t(lang, 'thankyouEvent')}</div>
-            </div>
-          </div>
-          <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,0.07)' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(139,92,246,0.15)', border: '1.5px solid rgba(139,92,246,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>📍</div>
-            <div>
-              <div style={{ fontSize: '14px', fontWeight: '700', color: '#FFFFFF' }}>W Kuala Lumpur</div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', marginTop: '2px' }}>Jalan Ampang, Kuala Lumpur</div>
-            </div>
-          </div>
+        {/* Event banner */}
+        <div className="animate-fade-up" style={{ animationDelay: '180ms', maxWidth: '460px', width: '100%', marginBottom: '32px' }}>
+          <CxTourBanner />
         </div>
 
         <div className="animate-fade-up" style={{ animationDelay: '220ms' }}>

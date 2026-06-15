@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Language, languageNames, t } from '@/lib/i18n';
 import { track } from '@/lib/analytics';
+import { CxTourBanner } from '@/components/CxTourBanner';
 
 type Solution = 'bc' | 'na';
 
@@ -68,14 +69,9 @@ export default function WelcomePage() {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
 
-        {/* Event badge */}
-        <div className="animate-fade-up" style={{ marginBottom: '28px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'rgba(249,115,22,0.12)', border: '1.5px solid rgba(249,115,22,0.35)', borderRadius: '24px', padding: '7px 18px' }}>
-            <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#F97316', flexShrink: 0, boxShadow: '0 0 8px rgba(249,115,22,0.7)' }} />
-            <span style={{ fontSize: '12px', fontWeight: '700', color: '#FB923C', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-              {t(lang, 'eventLabel')} · {t(lang, 'eventName')}
-            </span>
-          </div>
+        {/* Event banner */}
+        <div className="animate-fade-up" style={{ marginBottom: '28px', width: '100%', maxWidth: '460px' }}>
+          <CxTourBanner />
         </div>
 
         <div className="animate-fade-up" style={{ animationDelay: '60ms', textAlign: 'center', marginBottom: '8px' }}>
