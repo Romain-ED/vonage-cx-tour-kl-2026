@@ -26,7 +26,7 @@ interface ChatThread {
 
 const LLM_MODEL = 'gemini-1.5-flash';
 const LLM_MAX_TOKENS = 300;
-const LLM_SYSTEM_PROMPT = `You are a helpful product assistant for Vonage (part of Ericsson) at the Genesys CX Tour KL & Taipei 2026 event. You ONLY answer questions about Vonage Branded Communications and Network APIs. Keep responses concise (2-4 sentences max), friendly and professional.`;
+const LLM_SYSTEM_PROMPT = `Tightly scoped to: Vonage Branded Communications, Network APIs, and enterprise CX use cases. Out-of-scope questions redirect to the Vonage team. Rules: ≤4 sentences, no speculation, no invented details, no competitors.`;
 
 const BC_RESOURCES = [
   { key: 'datasheet',    icon: '📄', label: 'Datasheet' },
