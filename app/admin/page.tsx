@@ -166,28 +166,72 @@ export default function AdminPage() {
                   <StatCard label="Network APIs" value={naViews} color="#F59E0B" sub="product views" />
                 </div>
 
-                {/* Funnel */}
+                {/* Journey Flow Diagram */}
                 <div className="glass-card" style={{ padding: '28px' }}>
-                  <h3 style={{ fontSize: '15px', fontWeight: '600', marginBottom: '20px' }}>Visitor Funnel</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    {[
-                      { label: 'Scanned QR / Landed', value: uniqueSessions, color: '#7C3AED' },
-                      { label: 'Registered', value: contacts.length, color: '#10B981' },
-                      { label: 'Explored a product', value: bcViews + naViews, color: '#A78BFA' },
-                      { label: 'Chatted with AI agent', value: chatThreads.length, color: '#06B6D4' },
-                      { label: 'Clicked a resource', value: resourceClicks.length, color: '#3B82F6' },
-                      { label: 'Requested a meeting', value: totalMeetings, color: '#FF4F1F' },
-                    ].map((row) => (
-                      <div key={row.label}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                          <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>{row.label}</span>
-                          <span style={{ fontSize: '13px', fontWeight: '600', color: row.color }}>{row.value}</span>
+                  <h3 style={{ fontSize: '15px', fontWeight: '600', marginBottom: '4px' }}>User Journey</h3>
+                  <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', marginBottom: '28px' }}>Page flow · drop-offs in red</p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+                    {/* Step 1: QR Landing */}
+                    <JNode icon="📱" label="QR / Landing" count={uniqueSessions} color="#7C3AED" />
+
+                    <JArrow drop={uniqueSessions - contacts.length} base={uniqueSessions} />
+
+                    {/* Step 2: Registration */}
+                    <JNode icon="📝" label="/ (Register)" count={contacts.length} base={uniqueSessions} color="#10B981" />
+
+                    {/* Vertical stem into hub branch */}
+                    <div style={{ width: '2px', height: '18px', background: 'rgba(255,255,255,0.1)' }} />
+
+                    {/* Hub label */}
+                    <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', letterSpacing: '0.1em', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '6px', padding: '3px 12px', marginBottom: '0' }}>
+                      /hub — parallel actions
+                    </div>
+
+                    {/* Branch: 4 hub activities */}
+                    <div style={{ display: 'flex', width: '100%', maxWidth: '560px' }}>
+                      {([
+                        { icon: '📞', label: 'Branded Comms', count: bcViews, color: '#A78BFA', pos: 'left' },
+                        { icon: '🌐', label: 'Network APIs', count: naViews, color: '#F97316', pos: 'inner' },
+                        { icon: '🔗', label: 'Resources', count: resourceClicks.length, color: '#3B82F6', pos: 'inner' },
+                        { icon: '💬', label: 'Chat AI', count: chatThreads.length, color: '#06B6D4', pos: 'right' },
+                      ] as const).map(({ icon, label, count, color, pos }) => (
+                        <div key={label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                          <div style={{
+                            width: '100%', height: '2px',
+                            background: pos === 'left'  ? 'linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.12) 50%)'
+                                      : pos === 'right' ? 'linear-gradient(90deg, rgba(255,255,255,0.12) 50%, transparent 50%)'
+                                      : 'rgba(255,255,255,0.12)',
+                          }} />
+                          <div style={{ width: '2px', height: '14px', background: 'rgba(255,255,255,0.1)' }} />
+                          <JNode icon={icon} label={label} count={count} base={contacts.length} color={color} small />
                         </div>
-                        <div style={{ height: '6px', background: 'rgba(255,255,255,0.06)', borderRadius: '3px', overflow: 'hidden' }}>
-                          <div style={{ height: '100%', width: `${uniqueSessions > 0 ? (row.value / uniqueSessions) * 100 : 0}%`, background: row.color, borderRadius: '3px', transition: 'width 0.6s ease' }} />
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+
+                    {/* Merge back to spine */}
+                    <div style={{ display: 'flex', width: '100%', maxWidth: '560px' }}>
+                      {(['left', 'inner', 'inner', 'right'] as const).map((pos, i) => (
+                        <div key={i} style={{ flex: 1, height: '18px',
+                          borderTop: '2px solid rgba(255,255,255,0.1)',
+                          borderLeft: pos === 'right' ? '2px solid rgba(255,255,255,0.1)' : 'none',
+                          borderRight: pos === 'left' ? '2px solid rgba(255,255,255,0.1)' : 'none',
+                          borderRadius: pos === 'left' ? '0 0 0 8px' : pos === 'right' ? '0 0 8px 0' : 'none',
+                        }} />
+                      ))}
+                    </div>
+
+                    <JArrow drop={contacts.length - totalMeetings} base={contacts.length} />
+
+                    {/* Step 3: Meeting */}
+                    <JNode icon="🤝" label="/meeting" count={totalMeetings} base={contacts.length} color="#FF4F1F" />
+
+                    <JArrow />
+
+                    {/* Step 4: Thank You */}
+                    <JNode icon="🎉" label="/thank-you" count={totalMeetings} color="#F59E0B" />
+
                   </div>
                 </div>
 
@@ -435,6 +479,43 @@ export default function AdminPage() {
         )}
       </div>
     </main>
+  );
+}
+
+function JNode({ icon, label, count, base, color, small = false }: {
+  icon: string; label: string; count: number; base?: number; color: string; small?: boolean;
+}) {
+  const pct = base !== undefined && base > 0 ? Math.round((count / base) * 100) : undefined;
+  return (
+    <div style={{
+      background: `${color}10`, border: `1.5px solid ${color}40`, borderRadius: '12px',
+      padding: small ? '8px 10px' : '12px 28px', textAlign: 'center',
+      minWidth: small ? '90px' : '200px',
+    }}>
+      <div style={{ fontSize: small ? '16px' : '20px' }}>{icon}</div>
+      <div style={{ fontSize: small ? '20px' : '28px', fontWeight: '800', color, lineHeight: 1.1, marginTop: '2px' }}>{count}</div>
+      {pct !== undefined && (
+        <div style={{ fontSize: '10px', color, background: `${color}18`, borderRadius: '6px', padding: '1px 6px', display: 'inline-block', marginTop: '2px' }}>{pct}%</div>
+      )}
+      <div style={{ fontSize: small ? '10px' : '11px', color: 'rgba(255,255,255,0.55)', marginTop: '4px', fontWeight: '600', lineHeight: 1.3 }}>{label}</div>
+    </div>
+  );
+}
+
+function JArrow({ drop, base }: { drop?: number; base?: number }) {
+  const hasDrop = drop !== undefined && drop > 0;
+  const pct = hasDrop && base && base > 0 ? Math.round((drop! / base) * 100) : undefined;
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2px 0' }}>
+      <div style={{ width: '2px', height: '14px', background: 'rgba(255,255,255,0.1)' }} />
+      {hasDrop && (
+        <div style={{ fontSize: '10px', color: '#FCA5A5', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: '8px', padding: '2px 10px', margin: '2px 0', whiteSpace: 'nowrap' }}>
+          ↙ −{drop} dropped{pct ? ` (${pct}%)` : ''} ↘
+        </div>
+      )}
+      <div style={{ width: '2px', height: '14px', background: 'rgba(255,255,255,0.1)' }} />
+      <div style={{ width: 0, height: 0, borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(255,255,255,0.18)' }} />
+    </div>
   );
 }
 
