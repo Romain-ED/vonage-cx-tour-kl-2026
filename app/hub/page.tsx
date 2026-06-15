@@ -54,6 +54,8 @@ export default function HubPage() {
   const [turns, setTurns] = useState(0);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
+  const [hydrated, setHydrated] = useState(false);
+
   useEffect(() => {
     const storedLang = sessionStorage.getItem('lang') as Language;
     if (storedLang) setLang(storedLang);
@@ -66,7 +68,13 @@ export default function HubPage() {
         if (sols.length > 0) setActiveTab(sols[0]);
       } catch { /* ignore */ }
     }
+    setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    track('product_view', { product: activeTab === 'bc' ? 'branded_communications' : 'network_apis' });
+  }, [activeTab, hydrated]);
 
   useEffect(() => {
     if (chatOpen && messages.length === 0)
@@ -132,7 +140,7 @@ export default function HubPage() {
             const cfg = tabConfig[tab];
             const isActive = activeTab === tab;
             return (
-              <button key={tab} onClick={() => { setActiveTab(tab); track('product_view', { product: tab === 'bc' ? 'branded_communications' : 'network_apis' }); }}
+              <button key={tab} onClick={() => setActiveTab(tab)}
                 style={{ flex: 1, padding: '12px 16px', borderRadius: '10px', border: `1.5px solid ${isActive ? cfg.color + '60' : 'transparent'}`, background: isActive ? `${cfg.color}18` : 'transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', fontWeight: '600', color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.7)', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 <span>{cfg.icon}</span>
                 <span>{t(lang, tab === 'bc' ? 'tabBc' : 'tabNa')}</span>
