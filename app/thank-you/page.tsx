@@ -19,7 +19,7 @@ export default function ThankYouPage() {
     <main className="mesh-bg min-h-screen flex flex-col">
       <header style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <img src="/vonage-logo.svg" alt="Vonage" style={{ height: '18px', width: 'auto' }} />
+          <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
           <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '14px' }}>×</span>
           <img src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg" alt="Genesys" style={{ height: '16px', width: 'auto', filter: 'brightness(0) invert(1)' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
           <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '14px' }}>×</span>

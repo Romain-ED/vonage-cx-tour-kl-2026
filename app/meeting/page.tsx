@@ -49,7 +49,7 @@ export default function MeetingPage() {
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
       <header style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
-        <img src="/vonage-logo.svg" alt="Vonage" style={{ height: '18px', width: 'auto' }} />
+        <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
         <button onClick={() => router.back()} style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '13px', fontWeight: '500', padding: '7px 14px', fontFamily: 'inherit' }}>
           ← {t(lang, 'back')}
         </button>
