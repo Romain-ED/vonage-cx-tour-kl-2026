@@ -107,7 +107,6 @@ export default function HubPage() {
       <header style={{ padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', position: 'sticky', top: 0, zIndex: 40, backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
-          {contactName && <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '12px' }}>{contactName}</span>}
         </div>
         <div style={{ display: 'flex', gap: '4px' }}>
           {(Object.entries(languageNames) as [Language, string][]).map(([l, name]) => (
