@@ -21,11 +21,14 @@ export async function POST(req: NextRequest) {
     : '';
 
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    systemInstruction: SYSTEM_PROMPT + langInstruction,
-    generationConfig: { maxOutputTokens: 300 },
-  });
+  const model = genAI.getGenerativeModel(
+    {
+      model: 'gemini-2.0-flash',
+      systemInstruction: SYSTEM_PROMPT + langInstruction,
+      generationConfig: { maxOutputTokens: 300 },
+    },
+    { apiVersion: 'v1beta' },
+  );
 
   const geminiHistory = history.slice(1).map((m: { role: string; content: string }) => ({
     role: m.role === 'assistant' ? 'model' : 'user',
