@@ -51,12 +51,12 @@ export default function AdminPage() {
       ...contacts.map(c => [c.first_name ?? '', c.last_name ?? c.name ?? '', c.email, c.phone ?? '', c.language, (c.solutions ?? []).join('+'), c.meeting_requested ? 'Yes' : 'No', c.meeting_note ?? '', new Date(c.created_at).toLocaleString()])];
     const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'vonage-cx-tour-kl-2026.csv'; a.click();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'vonage-cx-tour-kl-taipei-2026.csv'; a.click();
   }
 
   // Analytics derived stats
   const uniqueSessions = new Set(analytics.map(e => e.session_id)).size;
-  const bcViews = analytics.filter(e => e.event_type === 'product_view' && e.event_data?.product === 'branded_calling').length;
+  const bcViews = analytics.filter(e => e.event_type === 'product_view' && e.event_data?.product === 'branded_communications').length;
   const naViews = analytics.filter(e => e.event_type === 'product_view' && e.event_data?.product === 'network_apis').length;
   const resourceClicks = analytics.filter(e => e.event_type === 'resource_click');
   const totalMeetings = contacts?.filter(c => c.meeting_requested).length ?? 0;
@@ -65,7 +65,7 @@ export default function AdminPage() {
   // Resource click breakdown
   const clickBreakdown: Record<string, number> = {};
   resourceClicks.forEach(e => {
-    const key = `${e.event_data?.product === 'branded_calling' ? 'Branded Calling' : 'Network APIs'} — ${e.event_data?.resource}`;
+    const key = `${e.event_data?.product === 'branded_communications' ? 'Branded Communications' : 'Network APIs'} — ${e.event_data?.resource}`;
     clickBreakdown[key] = (clickBreakdown[key] || 0) + 1;
   });
   const sortedClicks = Object.entries(clickBreakdown).sort((a, b) => b[1] - a[1]);
@@ -91,7 +91,7 @@ export default function AdminPage() {
   }
   const totalChatMessages = chats.filter(m => m.role === 'user').length;
 
-  const langMap: Record<string, string> = { en: 'English', ms: 'Bahasa', zh: '中文' };
+  const langMap: Record<string, string> = { en: 'English', zh: '中文' };
 
   return (
     <main className="mesh-bg min-h-screen" style={{ padding: '32px 24px' }}>
@@ -143,7 +143,7 @@ export default function AdminPage() {
                   <StatCard label="Registrations" value={contacts.length} color="#10B981" sub={`${conversionRate}% conversion`} />
                   <StatCard label="Meeting Requests" value={totalMeetings} color="#FF4F1F" sub="1-on-1 interest" />
                   <StatCard label="Chat Messages" value={totalChatMessages} color="#06B6D4" sub={`${chatThreads.length} conversations`} />
-                  <StatCard label="Branded Calling" value={bcViews} color="#A78BFA" sub="product views" />
+                  <StatCard label="Branded Comms" value={bcViews} color="#A78BFA" sub="product views" />
                   <StatCard label="Network APIs" value={naViews} color="#F59E0B" sub="product views" />
                 </div>
 
@@ -176,7 +176,7 @@ export default function AdminPage() {
                 <div className="glass-card" style={{ padding: '28px' }}>
                   <h3 style={{ fontSize: '15px', fontWeight: '600', marginBottom: '16px' }}>Language Preference</h3>
                   <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    {[{ key: 'en', label: 'English', color: '#7C3AED' }, { key: 'ms', label: 'Bahasa', color: '#F59E0B' }, { key: 'zh', label: '中文', color: '#3B82F6' }].map(l => {
+                    {[{ key: 'en', label: 'English', color: '#7C3AED' }, { key: 'zh', label: '中文', color: '#3B82F6' }].map(l => {
                       const count = contacts.filter(c => c.language === l.key).length;
                       return (
                         <div key={l.key} style={{ flex: 1, minWidth: '100px', background: `${l.color}15`, border: `1px solid ${l.color}30`, borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
@@ -287,7 +287,7 @@ export default function AdminPage() {
                             <span style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>{count}</span>
                           </div>
                           <div style={{ height: '6px', background: 'rgba(255,255,255,0.06)', borderRadius: '3px', overflow: 'hidden' }}>
-                            <div style={{ height: '100%', width: `${(count / maxClicks) * 100}%`, background: key.includes('Branded') ? '#7C3AED' : '#FF4F1F', borderRadius: '3px' }} />
+                            <div style={{ height: '100%', width: `${(count / maxClicks) * 100}%`, background: key.includes('Branded Communications') ? '#7C3AED' : '#FF4F1F', borderRadius: '3px' }} />
                           </div>
                         </div>
                       ))}
@@ -298,7 +298,7 @@ export default function AdminPage() {
                 <div className="glass-card" style={{ padding: '28px' }}>
                   <h3 style={{ fontSize: '15px', fontWeight: '600', marginBottom: '16px' }}>Product Interest</h3>
                   <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    {[{ label: 'Branded Calling', value: bcViews, color: '#7C3AED' }, { label: 'Network APIs', value: naViews, color: '#FF4F1F' }].map(p => (
+                    {[{ label: 'Branded Communications', value: bcViews, color: '#7C3AED' }, { label: 'Network APIs', value: naViews, color: '#FF4F1F' }].map(p => (
                       <div key={p.label} style={{ flex: 1, minWidth: '140px', background: `${p.color}12`, border: `1px solid ${p.color}30`, borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
                         <div style={{ fontSize: '32px', fontWeight: '700', color: p.color }}>{p.value}</div>
                         <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>{p.label}</div>
@@ -320,8 +320,8 @@ export default function AdminPage() {
                           <div>
                             <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)' }}>
                               {e.event_type === 'page_view' && 'Page viewed'}
-                              {e.event_type === 'product_view' && `Opened: ${e.event_data?.product === 'branded_calling' ? 'Branded Calling' : 'Network APIs'}`}
-                              {e.event_type === 'resource_click' && `Clicked: ${e.event_data?.resource} (${e.event_data?.product === 'branded_calling' ? 'BC' : 'NA'})`}
+                              {e.event_type === 'product_view' && `Opened: ${e.event_data?.product === 'branded_communications' ? 'Branded Communications' : 'Network APIs'}`}
+                              {e.event_type === 'resource_click' && `Clicked: ${e.event_data?.resource} (${e.event_data?.product === 'branded_communications' ? 'BC' : 'NA'})`}
                             </div>
                             <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)', marginTop: '2px' }}>
                               Session: {e.session_id.slice(0, 8)}…
