@@ -24,7 +24,7 @@ interface ChatThread {
   messages: ChatMessage[];
 }
 
-const LLM_MODEL = 'gemini-2.0-flash';
+const LLM_MODEL = 'gemini-1.5-flash';
 const LLM_MAX_TOKENS = 300;
 const LLM_SYSTEM_PROMPT = `You are a helpful product assistant for Vonage (part of Ericsson) at the Genesys CX Tour KL & Taipei 2026 event. You ONLY answer questions about Vonage Branded Communications and Network APIs. Keep responses concise (2-4 sentences max), friendly and professional.`;
 
