@@ -139,7 +139,7 @@ export default function AdminPage() {
     seen.get(key)!.messages.push(msg);
   }
   const totalChatMessages = chats.filter(m => m.role === 'user').length;
-  const langMap: Record<string, string> = { en: 'English', zh: '中文' };
+  const langMap: Record<string, string> = { en: 'English', zh: '繁體中文' };
 
   return (
     <main className="mesh-bg min-h-screen" style={{ padding: '32px 24px' }}>
@@ -236,7 +236,7 @@ export default function AdminPage() {
                       {/* ZH */}
                       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <div style={{ width: '2px', height: '22px', background: 'rgba(255,255,255,0.2)' }} />
-                        <JNode small icon="🇨🇳" label="中文" count={zhUsers} base={contacts.length} color="#3B82F6" />
+                        <JNode small icon="🇨🇳" label="繁體中文" count={zhUsers} base={contacts.length} color="#3B82F6" />
                         <div style={{ flex: 1, minHeight: '12px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
                       </div>
                     </div>
@@ -446,7 +446,7 @@ export default function AdminPage() {
                     <>
                       <div style={{ fontSize: '13px', fontWeight: '700', color: 'rgba(255,255,255,0.75)', marginBottom: '10px' }}>By Language</div>
                       <div style={{ display: 'flex', gap: '10px' }}>
-                        {[{ key: 'en', label: 'English', color: '#7C3AED' }, { key: 'zh', label: '中文', color: '#3B82F6' }].map(l => {
+                        {[{ key: 'en', label: 'English', color: '#7C3AED' }, { key: 'zh', label: '繁體中文', color: '#3B82F6' }].map(l => {
                           const count = chatThreads.filter(t => t.lang === l.key).length;
                           return (
                             <div key={l.key} style={{ flex: 1, background: `${l.color}15`, border: `1.5px solid ${l.color}40`, borderRadius: '10px', padding: '14px', textAlign: 'center' }}>

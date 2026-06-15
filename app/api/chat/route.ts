@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   const { message, history, lang, contact_id } = await req.json();
 
   const langInstruction = lang === 'ms' ? ' Please respond in Bahasa Malaysia.'
-    : lang === 'zh' ? ' Please respond in Simplified Chinese (普通话).'
+    : lang === 'zh' ? ' Please respond in Traditional Chinese (繁體中文).'
     : '';
 
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
