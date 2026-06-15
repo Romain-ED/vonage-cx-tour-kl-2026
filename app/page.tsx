@@ -52,7 +52,8 @@ export default function WelcomePage() {
     }
   }
 
-  const canProceedStep1 = firstName.trim() && lastName.trim() && email.trim().includes('@');
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+  const canProceedStep1 = firstName.trim() && lastName.trim() && emailValid;
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
