@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { supabaseAdmin } from '@/lib/supabase';
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const SYSTEM_PROMPT = `You are a helpful product assistant for Vonage (part of Ericsson) at the Genesys CX Tour KL & Taipei 2026 event.
 You ONLY answer questions about:
@@ -22,23 +20,22 @@ export async function POST(req: NextRequest) {
     : lang === 'zh' ? ' Please respond in Simplified Chinese (普通话).'
     : '';
 
-  const messages = [
-    ...history.slice(1).map((m: { role: string; content: string }) => ({
-      role: m.role as 'user' | 'assistant',
-      content: m.content,
-    })),
-    { role: 'user' as const, content: message + langInstruction },
-  ];
+  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-2.0-flash',
+    systemInstruction: SYSTEM_PROMPT + langInstruction,
+    generationConfig: { maxOutputTokens: 300 },
+  });
+
+  const geminiHistory = history.slice(1).map((m: { role: string; content: string }) => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }],
+  }));
 
   try {
-    const response = await client.messages.create({
-      model: 'claude-haiku-4-5',
-      max_tokens: 300,
-      system: SYSTEM_PROMPT + langInstruction,
-      messages,
-    });
-
-    const reply = response.content[0].type === 'text' ? response.content[0].text : 'Sorry, I could not generate a response.';
+    const chat = model.startChat({ history: geminiHistory });
+    const result = await chat.sendMessage(message + langInstruction);
+    const reply = result.response.text() || 'Sorry, I could not generate a response.';
 
     // Log both turns to the database (fire-and-forget)
     const db = supabaseAdmin.get();

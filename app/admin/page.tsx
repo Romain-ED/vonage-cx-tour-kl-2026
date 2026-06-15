@@ -24,7 +24,7 @@ interface ChatThread {
   messages: ChatMessage[];
 }
 
-const LLM_MODEL = 'claude-haiku-4-5';
+const LLM_MODEL = 'gemini-2.0-flash';
 const LLM_MAX_TOKENS = 300;
 const LLM_SYSTEM_PROMPT = `You are a helpful product assistant for Vonage (part of Ericsson) at the Genesys CX Tour KL & Taipei 2026 event. You ONLY answer questions about Vonage Branded Communications and Network APIs. Keep responses concise (2-4 sentences max), friendly and professional.`;
 
@@ -373,10 +373,10 @@ export default function AdminPage() {
                     <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: llmKeySet ? '#10B981' : '#EF4444', flexShrink: 0 }} />
                     <div>
                       <div style={{ fontSize: '15px', fontWeight: '700', color: llmKeySet ? '#34D399' : '#FCA5A5' }}>
-                        {llmKeySet ? 'ANTHROPIC_API_KEY is configured' : 'ANTHROPIC_API_KEY is NOT set'}
+                        {llmKeySet ? 'GOOGLE_API_KEY is configured' : 'GOOGLE_API_KEY is NOT set'}
                       </div>
                       <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', marginTop: '4px' }}>
-                        {llmKeySet ? 'The AI chatbot is active and ready.' : 'Add ANTHROPIC_API_KEY to your Vercel environment variables to enable the chatbot.'}
+                        {llmKeySet ? 'The AI chatbot is active and ready.' : 'Add GOOGLE_API_KEY to your Vercel environment variables to enable the chatbot.'}
                       </div>
                     </div>
                   </div>
