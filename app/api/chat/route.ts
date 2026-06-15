@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
   const model = genAI.getGenerativeModel(
     {
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       systemInstruction: SYSTEM_PROMPT + langInstruction,
       generationConfig: { maxOutputTokens: 300 },
     },
@@ -66,8 +66,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ reply });
   } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    console.error('[chat] Gemini error:', msg);
-    return NextResponse.json({ reply: 'Sorry, I\'m having trouble right now. Please try again.', _debug: msg }, { status: 500 });
+    console.error('[chat] Gemini error:', e instanceof Error ? e.message : e);
+    return NextResponse.json({ reply: 'Sorry, I\'m having trouble right now. Please try again.' }, { status: 500 });
   }
 }

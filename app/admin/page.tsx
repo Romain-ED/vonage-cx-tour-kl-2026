@@ -24,7 +24,7 @@ interface ChatThread {
   messages: ChatMessage[];
 }
 
-const LLM_MODEL = 'gemini-1.5-flash';
+const LLM_MODEL = 'gemini-2.0-flash';
 const LLM_MAX_TOKENS = 300;
 const LLM_SYSTEM_PROMPT = `Tightly scoped to: Vonage Branded Communications, Network APIs, and enterprise CX use cases. Out-of-scope questions redirect to the Vonage team. Rules: ≤4 sentences, no speculation, no invented details, no competitors.`;
 
