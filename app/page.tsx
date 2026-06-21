@@ -186,7 +186,7 @@ export default function WelcomePage() {
                 {loading ? t(lang, 'submitting') : t(lang, 'submitBtn')}
               </button>
               <button className="btn-outline" onClick={() => setStep(2)} style={{ width: '100%' }}>← {t(lang, 'back')}</button>
-              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)', textAlign: 'center', lineHeight: '1.6' }}>{t(lang, 'privacyNote')}</p>
+              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', textAlign: 'center', lineHeight: '1.6' }}>{t(lang, 'privacyNote')}</p>
             </div>
           )}
         </div>

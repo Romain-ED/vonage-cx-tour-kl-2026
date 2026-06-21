@@ -31,7 +31,7 @@ export const translations = {
     solutionNaDesc: 'Unlock silent authentication, SIM swap detection, and network-powered KYC at scale.',
     submitBtn: 'Get Started',
     submitting: 'Just a moment...',
-    privacyNote: 'Your information will be used solely for event follow-up purposes.',
+    privacyNote: 'By providing your details, you acknowledge and agree that your information may be used by ES and its authorised partners for event-related communications, including post-event follow-up, and relevant marketing communications.',
 
     tabBc: 'Branded Communications',
     tabNa: 'Network APIs',
@@ -121,7 +121,7 @@ export const translations = {
     solutionNaDesc: '大規模啟用靜默認證、SIM 卡換卡偵測和網路驅動的 KYC。',
     submitBtn: '立即探索',
     submitting: '請稍候...',
-    privacyNote: '您的資訊僅用於活動後續跟進。',
+    privacyNote: '提供您的資料即表示您知悉並同意，ES 及其授權合作夥伴可將您的資訊用於活動相關通訊，包括活動後續跟進及相關行銷傳播。',
 
     tabBc: '品牌通訊',
     tabNa: '網路 API',

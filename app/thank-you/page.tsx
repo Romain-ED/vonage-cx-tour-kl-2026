@@ -63,7 +63,11 @@ export default function ThankYouPage() {
           </button>
         </div>
 
-        <p style={{ marginTop: '32px', fontSize: '12px', color: 'rgba(255,255,255,0.2)' }}>
+        <p style={{ marginTop: '32px', fontSize: '11px', color: 'rgba(255,255,255,0.4)', maxWidth: '460px', textAlign: 'center', lineHeight: '1.6' }}>
+          {t(lang, 'privacyNote')}
+        </p>
+
+        <p style={{ marginTop: '16px', fontSize: '12px', color: 'rgba(255,255,255,0.2)' }}>
           Vonage — A part of Ericsson
         </p>
       </div>
