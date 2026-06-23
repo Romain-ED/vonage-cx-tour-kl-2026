@@ -19,6 +19,7 @@ export default function WelcomePage() {
   const [solutions, setSolutions] = useState<Solution[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [contactId, setContactId] = useState<string | null>(null);
 
   useEffect(() => { track('page_view', { source: 'qr' }); }, []);
 
@@ -26,23 +27,54 @@ export default function WelcomePage() {
     setSolutions(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
   }
 
-  async function handleSubmit() {
-    if (solutions.length === 0) return;
-    setLoading(true); setError('');
+  async function handleStep1Next() {
+    setStep(2);
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim(), phone: phone.trim() || null, language: lang, solutions }),
+        body: JSON.stringify({ first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim(), phone: phone.trim() || null }),
       });
-      if (!res.ok) throw new Error('Registration failed');
-      const data = await res.json();
-      sessionStorage.setItem('contact_id', data.id);
-      sessionStorage.setItem('contact_name', firstName.trim());
-      sessionStorage.setItem('contact_first_name', firstName.trim());
-      sessionStorage.setItem('contact_last_name', lastName.trim());
-      sessionStorage.setItem('contact_email', email.trim());
-      sessionStorage.setItem('contact_phone', phone.trim());
+      if (res.ok) {
+        const data = await res.json();
+        setContactId(data.id);
+        sessionStorage.setItem('contact_id', data.id);
+        sessionStorage.setItem('contact_name', firstName.trim());
+        sessionStorage.setItem('contact_first_name', firstName.trim());
+        sessionStorage.setItem('contact_last_name', lastName.trim());
+        sessionStorage.setItem('contact_email', email.trim());
+        sessionStorage.setItem('contact_phone', phone.trim());
+      }
+    } catch { /* silent — will retry on final submit */ }
+  }
+
+  async function handleSubmit() {
+    if (solutions.length === 0) return;
+    setLoading(true); setError('');
+    try {
+      let id = contactId;
+      if (id) {
+        await fetch('/api/register', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, language: lang, solutions }),
+        });
+      } else {
+        const res = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ first_name: firstName.trim(), last_name: lastName.trim(), email: email.trim(), phone: phone.trim() || null, language: lang, solutions }),
+        });
+        if (!res.ok) throw new Error('Registration failed');
+        const data = await res.json();
+        id = data.id;
+        sessionStorage.setItem('contact_id', data.id);
+        sessionStorage.setItem('contact_name', firstName.trim());
+        sessionStorage.setItem('contact_first_name', firstName.trim());
+        sessionStorage.setItem('contact_last_name', lastName.trim());
+        sessionStorage.setItem('contact_email', email.trim());
+        sessionStorage.setItem('contact_phone', phone.trim());
+      }
       sessionStorage.setItem('lang', lang);
       sessionStorage.setItem('solutions', JSON.stringify(solutions));
       router.push('/hub');
@@ -123,7 +155,7 @@ export default function WelcomePage() {
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.65)', marginBottom: '7px', letterSpacing: '0.01em' }}>{t(lang, 'phoneLabel')}</label>
                 <input className="input-field" type="tel" placeholder={t(lang, 'phonePlaceholder')} value={phone} onChange={e => setPhone(e.target.value)} />
               </div>
-              <button className="btn-primary" disabled={!canProceedStep1} onClick={() => setStep(2)} style={{ width: '100%', marginTop: '4px' }}>
+              <button className="btn-primary" disabled={!canProceedStep1} onClick={handleStep1Next} style={{ width: '100%', marginTop: '4px' }}>
                 {t(lang, 'next')} →
               </button>
             </div>

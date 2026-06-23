@@ -5,7 +5,6 @@ function sanitizePhone(raw: string | null | undefined): string | null {
   if (!raw) return null;
   const stripped = raw.trim();
   if (!stripped) return null;
-  // Keep leading +, remove everything except digits
   const normalized = stripped.startsWith('+')
     ? '+' + stripped.slice(1).replace(/\D/g, '')
     : stripped.replace(/\D/g, '');
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
 
   const { data, error } = await db
     .from('contacts')
-    .insert({ name, first_name, last_name, email: email.trim().toLowerCase(), phone: sanitizePhone(phone), language, solutions, meeting_requested: false })
+    .insert({ name, first_name, last_name, email: email.trim().toLowerCase(), phone: sanitizePhone(phone), language: language ?? null, solutions: solutions ?? [], meeting_requested: false })
     .select()
     .single();
 
@@ -35,5 +34,21 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+  return NextResponse.json(data);
+}
+
+export async function PATCH(req: NextRequest) {
+  const { id, language, solutions } = await req.json();
+  if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
+
+  const db = supabaseAdmin.get();
+  const { data, error } = await db
+    .from('contacts')
+    .update({ language, solutions })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json(data);
 }
