@@ -28,6 +28,9 @@ export default function WelcomePage() {
   }
 
   async function handleStep1Next() {
+    setStep1Error('');
+    if (!firstName.trim() || !lastName.trim()) { setStep1Error('Please enter your first and last name.'); return; }
+    if (!emailValid) { setStep1Error('Please enter a valid work email address.'); return; }
     setStep(2);
     try {
       const res = await fetch('/api/register', {
@@ -86,6 +89,7 @@ export default function WelcomePage() {
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
   const canProceedStep1 = firstName.trim() && lastName.trim() && emailValid;
+  const [step1Error, setStep1Error] = useState('');
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
@@ -155,7 +159,8 @@ export default function WelcomePage() {
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.65)', marginBottom: '7px', letterSpacing: '0.01em' }}>{t(lang, 'phoneLabel')}</label>
                 <input className="input-field" type="tel" placeholder={t(lang, 'phonePlaceholder')} value={phone} onChange={e => setPhone(e.target.value)} />
               </div>
-              <button className="btn-primary" disabled={!canProceedStep1} onClick={handleStep1Next} style={{ width: '100%', marginTop: '4px' }}>
+              {step1Error && <p style={{ fontSize: '13px', color: '#FCA5A5', textAlign: 'center', marginTop: '4px' }}>{step1Error}</p>}
+              <button className="btn-primary" onClick={handleStep1Next} style={{ width: '100%', marginTop: '4px' }}>
                 {t(lang, 'next')} →
               </button>
             </div>
