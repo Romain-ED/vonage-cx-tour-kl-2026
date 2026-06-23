@@ -23,11 +23,12 @@ export async function POST(req: NextRequest) {
 
   const { data, error } = await db
     .from('contacts')
-    .insert({ name, first_name, last_name, email: email.trim().toLowerCase(), phone: sanitizePhone(phone), language: language ?? null, solutions: solutions ?? [], meeting_requested: false })
+    .insert({ name, first_name, last_name, email: email.trim().toLowerCase(), phone: sanitizePhone(phone), language: language ?? 'en', solutions: solutions ?? [], meeting_requested: false })
     .select()
     .single();
 
   if (error) {
+    console.error('[register] insert error:', error.message, error.code);
     if (error.code === '23505') {
       const { data: existing } = await db.from('contacts').select().eq('email', email.trim().toLowerCase()).single();
       return NextResponse.json(existing);
