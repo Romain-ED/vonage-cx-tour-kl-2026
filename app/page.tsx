@@ -136,7 +136,6 @@ export default function WelcomePage() {
           {step === 1 && (
             <div className="flex flex-col" style={{ gap: '24px' }}>
               <div style={{ marginBottom: '4px' }}>
-                <div className="text-xs font-bold text-white/40 uppercase tracking-wider" style={{ marginBottom: '6px' }}>{t(lang, 'stepContact')}</div>
                 <h2 className="text-lg font-bold text-white">{t(lang, 'stepContact')}</h2>
               </div>
               <div className="flex" style={{ gap: '14px' }}>
