@@ -33,11 +33,6 @@ const SA_RESOURCES = [
   { key: 'developer-docs', icon: '🔗', label: 'Dev Docs' },
 ] as const;
 
-const II_RESOURCES = [
-  { key: 'datasheet',      icon: '📄', label: 'Datasheet' },
-  { key: 'developer-docs', icon: '🔗', label: 'Dev Docs' },
-] as const;
-
 const BC_RESOURCES = [
   { key: 'datasheet',      icon: '📄', label: 'Datasheet' },
   { key: 'developer-docs', icon: '🔗', label: 'Dev Docs' },
@@ -111,7 +106,6 @@ export default function AdminPage() {
   const resourceClicks = analytics.filter(e => e.event_type === 'resource_click');
   const totalMeetings = contacts?.filter(c => c.meeting_requested).length ?? 0;
   const conversionRate = uniqueSessions > 0 ? Math.round(((contacts?.length ?? 0) / uniqueSessions) * 100) : 0;
-  const enUsers = contacts?.length ?? 0;
 
   const rCount = (product: string, key: string) =>
     resourceClicks.filter(e => e.event_data?.product === product && e.event_data?.resource === key).length;
