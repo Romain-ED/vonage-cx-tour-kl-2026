@@ -2,24 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Language, languageNames, t } from '@/lib/i18n';
+import { Language, t } from '@/lib/i18n';
 import { track } from '@/lib/analytics';
 import { CxTourBanner } from '@/components/CxTourBanner';
 
-type Solution = 'bc' | 'na';
+type Solution = 'sa' | 'ii' | 'bc';
 
 export default function WelcomePage() {
   const router = useRouter();
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2>(1);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [lang, setLang] = useState<Language>('en');
+  const lang: Language = 'en';
   const [solutions, setSolutions] = useState<Solution[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [contactId, setContactId] = useState<string | null>(null);
+  const [step1Error, setStep1Error] = useState('');
 
   useEffect(() => { track('page_view', { source: 'qr' }); }, []);
 
@@ -89,146 +90,130 @@ export default function WelcomePage() {
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
   const canProceedStep1 = firstName.trim() && lastName.trim() && emailValid;
-  const [step1Error, setStep1Error] = useState('');
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
       {/* Header */}
-      <header style={{ padding: '18px 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(8,6,20,0.8)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <img src="/vonage-logo.png" alt="Vonage" style={{ height: '20px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
-          <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '14px' }}>×</span>
-          <img src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg" alt="Genesys" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-          <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '14px' }}>×</span>
-          <img src="/expertstack-logo.png" alt="ExpertStack" style={{ height: '42px', width: 'auto' }} />
-        </div>
+      <header className="flex items-center justify-center px-8 py-[18px] bg-[rgba(8,6,20,0.8)] border-b border-white/[0.08] backdrop-blur-xl">
+        <img src="/vonage-logo.png" alt="Vonage" className="h-5 w-auto invert" />
       </header>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
-
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10">
         {/* Event banner */}
-        <div className="animate-fade-up" style={{ marginBottom: '28px', width: '100%', maxWidth: '460px' }}>
+        <div className="animate-fade-up mb-7 w-full max-w-[460px]">
           <CxTourBanner />
         </div>
 
-        <div className="animate-fade-up" style={{ animationDelay: '60ms', textAlign: 'center', marginBottom: '8px' }}>
-          <h1 className="gradient-text" style={{ fontSize: 'clamp(26px, 5vw, 46px)', fontWeight: '700', lineHeight: '1.1', letterSpacing: '-0.03em' }}>
+        <div className="animate-fade-up [animation-delay:60ms] text-center mb-2">
+          <h1 className="gradient-text text-[clamp(26px,5vw,46px)] font-bold leading-[1.1] tracking-tight">
             {t(lang, 'welcomeTitle')}
           </h1>
         </div>
-        <div className="animate-fade-up" style={{ animationDelay: '100ms', textAlign: 'center', maxWidth: '460px', marginBottom: '36px' }}>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '15px', lineHeight: '1.7' }}>{t(lang, 'welcomeSubtitle')}</p>
+        <div className="animate-fade-up [animation-delay:100ms] text-center max-w-[460px] mb-9">
+          <p className="text-white/60 text-[15px] leading-[1.7]">{t(lang, 'welcomeSubtitle')}</p>
         </div>
 
         {/* Step progress */}
-        <div className="animate-fade-up" style={{ animationDelay: '130ms', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '28px' }}>
-          {([1, 2, 3] as const).map((s, i) => (
-            <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700', transition: 'all 0.2s', background: step >= s ? '#8B5CF6' : 'rgba(255,255,255,0.08)', color: step >= s ? '#FFFFFF' : 'rgba(255,255,255,0.3)', border: step === s ? '2px solid #A78BFA' : '2px solid transparent' }}>
+        <div className="animate-fade-up [animation-delay:130ms] flex items-center gap-2 mb-7">
+          {([1, 2] as const).map((s, i) => (
+            <div key={s} className="flex items-center gap-2">
+              <div
+                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                  step >= s ? 'bg-[#8B5CF6] text-white' : 'bg-white/[0.08] text-white/30'
+                } ${step === s ? 'border-2 border-[#A78BFA]' : 'border-2 border-transparent'}`}
+              >
                 {step > s ? '✓' : s}
               </div>
-              <span style={{ fontSize: '12px', color: step === s ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.3)', fontWeight: step === s ? '600' : '400' }}>
-                {t(lang, s === 1 ? 'stepContact' : s === 2 ? 'stepLanguage' : 'stepInterest')}
-              </span>
-              {i < 2 && <div style={{ width: '24px', height: '1px', background: step > s ? '#8B5CF6' : 'rgba(255,255,255,0.12)', marginInline: '2px' }} />}
+              {i < 1 && <div className={`w-8 h-0.5 rounded-full ${step > s ? 'bg-[#8B5CF6]' : 'bg-white/[0.12]'}`} />}
             </div>
           ))}
         </div>
 
-        {/* Card */}
-        <div className="glass-card animate-fade-up" style={{ animationDelay: '160ms', width: '100%', maxWidth: '460px', padding: '32px' }}>
+        {/* Form card */}
+        <div className="glass-card animate-fade-up [animation-delay:160ms] w-full max-w-[460px] p-8">
 
-          {/* STEP 1 — Contact details */}
+          {/* Step 1: Contact details */}
           {step === 1 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.65)', marginBottom: '7px', letterSpacing: '0.01em' }}>{t(lang, 'firstNameLabel')}</label>
-                  <input className="input-field" type="text" placeholder={t(lang, 'firstNamePlaceholder')} value={firstName} onChange={e => setFirstName(e.target.value)} />
+            <div className="flex flex-col gap-5">
+              <div>
+                <div className="text-xs font-bold text-white/40 uppercase tracking-wider mb-1">{t(lang, 'stepContact')}</div>
+                <h2 className="text-lg font-bold text-white">{t(lang, 'stepContact')}</h2>
+              </div>
+              <div className="flex gap-2.5">
+                <div className="flex-1">
+                  <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'firstNameLabel')}</label>
+                  <input className="input-field" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder={t(lang, 'firstNamePlaceholder')} />
                 </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.65)', marginBottom: '7px', letterSpacing: '0.01em' }}>{t(lang, 'lastNameLabel')}</label>
-                  <input className="input-field" type="text" placeholder={t(lang, 'lastNamePlaceholder')} value={lastName} onChange={e => setLastName(e.target.value)} />
+                <div className="flex-1">
+                  <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'lastNameLabel')}</label>
+                  <input className="input-field" value={lastName} onChange={e => setLastName(e.target.value)} placeholder={t(lang, 'lastNamePlaceholder')} />
                 </div>
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.65)', marginBottom: '7px', letterSpacing: '0.01em' }}>{t(lang, 'emailLabel')}</label>
-                <input className="input-field" type="email" placeholder={t(lang, 'emailPlaceholder')} value={email} onChange={e => setEmail(e.target.value)} />
+                <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'emailLabel')}</label>
+                <input className="input-field" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t(lang, 'emailPlaceholder')} />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.65)', marginBottom: '7px', letterSpacing: '0.01em' }}>{t(lang, 'phoneLabel')}</label>
-                <input className="input-field" type="tel" placeholder={t(lang, 'phonePlaceholder')} value={phone} onChange={e => setPhone(e.target.value)} />
+                <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'phoneLabel')}</label>
+                <input className="input-field" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder={t(lang, 'phonePlaceholder')} />
               </div>
-              {step1Error && <p style={{ fontSize: '13px', color: '#FCA5A5', textAlign: 'center', marginTop: '4px' }}>{step1Error}</p>}
-              <button className="btn-primary" onClick={handleStep1Next} style={{ width: '100%', marginTop: '4px' }}>
+              {step1Error && <p className="text-[13px] text-red-300">{step1Error}</p>}
+              <button className="btn-primary w-full" onClick={handleStep1Next} disabled={!canProceedStep1}>
                 {t(lang, 'next')} →
               </button>
             </div>
           )}
 
-          {/* STEP 2 — Language */}
+          {/* Step 2: Solution interest */}
           {step === 2 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{ textAlign: 'center' }}>
-                <h2 style={{ fontSize: '17px', fontWeight: '700', color: '#FFFFFF', marginBottom: '6px' }}>{t(lang, 'languageTitle')}</h2>
-                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>{t(lang, 'languageSubtitle')}</p>
+            <div className="flex flex-col gap-5">
+              <div>
+                <div className="text-xs font-bold text-white/40 uppercase tracking-wider mb-1">{t(lang, 'stepInterest')}</div>
+                <h2 className="text-lg font-bold text-white">{t(lang, 'solutionTitle')}</h2>
+                <p className="text-sm text-white/55 mt-1">{t(lang, 'solutionSubtitle')}</p>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {(Object.entries(languageNames) as [Language, string][]).map(([l, name]) => (
-                  <button key={l} onClick={() => { setLang(l); setStep(3); }}
-                    style={{ padding: '18px 24px', borderRadius: '14px', border: `2px solid ${lang === l ? '#8B5CF6' : 'rgba(255,255,255,0.1)'}`, background: lang === l ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.04)', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.15s' }}
-                    onMouseEnter={e => { if (lang !== l) (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.25)'; }}
-                    onMouseLeave={e => { if (lang !== l) (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.1)'; }}>
-                    <span style={{ fontSize: '16px', fontWeight: '600', color: '#FFFFFF' }}>{name}</span>
-                    {lang === l && <span style={{ color: '#A78BFA', fontSize: '18px' }}>✓</span>}
-                  </button>
-                ))}
-              </div>
-              <button className="btn-outline" onClick={() => setStep(1)} style={{ width: '100%' }}>← {t(lang, 'back')}</button>
-            </div>
-          )}
-
-          {/* STEP 3 — Solution interest */}
-          {step === 3 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{ textAlign: 'center' }}>
-                <h2 style={{ fontSize: '17px', fontWeight: '700', color: '#FFFFFF', marginBottom: '6px' }}>{t(lang, 'solutionTitle')}</h2>
-                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>{t(lang, 'solutionSubtitle')}</p>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div className="flex flex-col gap-3">
                 {([
-                  { key: 'bc' as Solution, icon: '📞', color: '#8B5CF6', title: t(lang, 'solutionBc'), desc: t(lang, 'solutionBcDesc') },
-                  { key: 'na' as Solution, icon: '🌐', color: '#F97316', title: t(lang, 'solutionNa'), desc: t(lang, 'solutionNaDesc') },
-                ]).map(({ key, icon, color, title, desc }) => {
-                  const selected = solutions.includes(key);
+                  { id: 'sa' as Solution, icon: '🔐', color: '#8B5CF6', nameKey: 'solutionSa' as const, descKey: 'solutionSaDesc' as const },
+                  { id: 'ii' as Solution, icon: '🛡️', color: '#06B6D4', nameKey: 'solutionIi' as const, descKey: 'solutionIiDesc' as const },
+                  { id: 'bc' as Solution, icon: '📞', color: '#F97316', nameKey: 'solutionBc' as const, descKey: 'solutionBcDesc' as const },
+                ]).map(s => {
+                  const selected = solutions.includes(s.id);
                   return (
-                    <button key={key} onClick={() => toggleSolution(key)}
-                      style={{ padding: '16px 18px', borderRadius: '14px', border: `2px solid ${selected ? color : 'rgba(255,255,255,0.1)'}`, background: selected ? `${color}18` : 'rgba(255,255,255,0.04)', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left', transition: 'all 0.15s', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-                      <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: `${color}20`, border: `1.5px solid ${color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0 }}>{icon}</div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '14px', fontWeight: '700', color: '#FFFFFF', marginBottom: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          {title}
-                          <span style={{ width: '20px', height: '20px', borderRadius: '50%', border: `2px solid ${selected ? color : 'rgba(255,255,255,0.2)'}`, background: selected ? color : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '11px', color: '#fff' }}>
-                            {selected ? '✓' : ''}
-                          </span>
-                        </div>
-                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', lineHeight: '1.55' }}>{desc}</div>
+                    <button
+                      key={s.id}
+                      onClick={() => toggleSolution(s.id)}
+                      className="w-full p-5 rounded-xl text-left transition-all cursor-pointer"
+                      style={{
+                        background: selected ? `${s.color}18` : 'rgba(255,255,255,0.05)',
+                        border: `1.5px solid ${selected ? s.color + '55' : 'rgba(255,255,255,0.12)'}`,
+                      }}
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-xl">{s.icon}</span>
+                        <span className="font-bold text-white text-[15px]">{t(lang, s.nameKey)}</span>
+                        {selected && <span className="ml-auto text-sm" style={{ color: s.color }}>✓</span>}
                       </div>
+                      <p className="text-[13px] text-white/60 leading-relaxed pl-9">{t(lang, s.descKey)}</p>
                     </button>
                   );
                 })}
               </div>
-              {error && <p style={{ fontSize: '13px', color: '#FCA5A5', textAlign: 'center' }}>{error}</p>}
-              <button className="btn-primary animate-pulse-glow" disabled={solutions.length === 0 || loading} onClick={handleSubmit} style={{ width: '100%' }}>
+              {error && <p className="text-[13px] text-red-300 text-center">{error}</p>}
+              <button className="btn-primary w-full" onClick={handleSubmit} disabled={solutions.length === 0 || loading}>
                 {loading ? t(lang, 'submitting') : t(lang, 'submitBtn')}
               </button>
-              <button className="btn-outline" onClick={() => setStep(2)} style={{ width: '100%' }}>← {t(lang, 'back')}</button>
-              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', textAlign: 'center', lineHeight: '1.6' }}>{t(lang, 'privacyNote')}</p>
+              <button className="text-sm text-white/50 hover:text-white/70 transition-colors cursor-pointer bg-transparent border-none" onClick={() => setStep(1)}>
+                ← {t(lang, 'back')}
+              </button>
             </div>
           )}
         </div>
 
-        <p style={{ marginTop: '24px', fontSize: '12px', color: 'rgba(255,255,255,0.25)', letterSpacing: '0.02em' }}>{t(lang, 'eventDate')}</p>
+        {/* Privacy note */}
+        <p className="mt-6 text-[11px] text-white/35 max-w-[460px] text-center leading-relaxed">
+          {t(lang, 'privacyNote')}
+        </p>
       </div>
     </main>
   );

@@ -1,66 +1,22 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Language, languageNames, t } from '@/lib/i18n';
+import { Language, t } from '@/lib/i18n';
 import { track } from '@/lib/analytics';
+import { ChatPanel } from '@/components/ChatPanel';
 
-interface Message { role: 'user' | 'assistant'; content: string; }
-const MAX_TURNS = 5;
-
-type Tab = 'bc' | 'na';
-
-const SB = 'https://bibvlkhadswraxdqnamg.supabase.co/storage/v1/object/public/resources';
-
-const RESOURCES = {
-  bc: {
-    en: [
-      { key: 'datasheet', icon: '📄', label: 'Datasheet', href: `${SB}/bc/vonage-bc-datasheet-en.pdf` },
-      { key: 'demo-calling', icon: '▶️', label: 'Demo – Calling & Messaging', href: `${SB}/bc/demo-calling-messaging-en.mp4` },
-      { key: 'demo-rcs', icon: '▶️', label: 'Demo – Messaging / RCS', href: 'https://drive.google.com/file/d/1nOReVatlkkSmZeeoWdPiVzn_hGnjffT-/view?usp=drive_link' },
-      { key: 'appfoundry', icon: '🏪', label: 'Genesys AppFoundry', href: 'https://appfoundry.genesys.com/filter/genesyscloud/listing/3c11487b-ea0e-4ecc-acd7-6ffd11faf8b6' },
-    ],
-    zh: [
-      { key: 'datasheet', icon: '📄', label: '数据表', href: `${SB}/bc/vonage-bc-datasheet-zh.pdf` },
-      { key: 'demo-calling', icon: '▶️', label: '演示 – 通话与消息', href: `${SB}/bc/demo-calling-messaging-zh.mp4` },
-      { key: 'demo-rcs', icon: '▶️', label: '演示 – 消息 / RCS', href: 'https://drive.google.com/file/d/1nOReVatlkkSmZeeoWdPiVzn_hGnjffT-/view?usp=drive_link' },
-      { key: 'appfoundry', icon: '🏪', label: 'Genesys AppFoundry', href: 'https://appfoundry.genesys.com/filter/genesyscloud/listing/3c11487b-ea0e-4ecc-acd7-6ffd11faf8b6' },
-    ],
-  },
-  na: {
-    en: [
-      { key: 'datasheet', icon: '📄', label: 'Datasheet', href: `${SB}/na/network-api-datasheet-en.pdf` },
-      { key: 'lydia-case-study', icon: '📋', label: 'Lydia Case Study', href: `${SB}/na/lydia-case-study.pdf` },
-      { key: 'demo-video', icon: '▶️', label: 'Demo Video', href: 'https://youtu.be/tJDeBhU1bqE?si=S8y7_5xHDXKxwVDU' },
-    ],
-    zh: [
-      { key: 'datasheet', icon: '📄', label: '数据表', href: `${SB}/na/network-api-datasheet-zh.pdf` },
-      { key: 'lydia-case-study', icon: '📋', label: 'Lydia 案例研究', href: `${SB}/na/lydia-case-study.pdf` },
-      { key: 'demo-video', icon: '▶️', label: '演示视频', href: 'https://youtu.be/tJDeBhU1bqE?si=S8y7_5xHDXKxwVDU' },
-    ],
-  },
-};
+type Tab = 'sa' | 'ii' | 'bc';
 
 export default function HubPage() {
   const router = useRouter();
-  const [lang, setLang] = useState<Language>('en');
+  const lang: Language = 'en';
   const [contactId, setContactId] = useState('');
-  const [contactName, setContactName] = useState('');
-  const [activeTab, setActiveTab] = useState<Tab>('bc');
-  const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [chatLoading, setChatLoading] = useState(false);
-  const [turns, setTurns] = useState(0);
-  const chatEndRef = useRef<HTMLDivElement>(null);
-
+  const [activeTab, setActiveTab] = useState<Tab>('sa');
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const storedLang = sessionStorage.getItem('lang') as Language;
-    if (storedLang) setLang(storedLang);
     setContactId(sessionStorage.getItem('contact_id') || '');
-    setContactName(sessionStorage.getItem('contact_first_name') || sessionStorage.getItem('contact_name') || '');
     const storedSolutions = sessionStorage.getItem('solutions');
     if (storedSolutions) {
       try {
@@ -73,120 +29,129 @@ export default function HubPage() {
 
   useEffect(() => {
     if (!hydrated) return;
-    track('product_view', { product: activeTab === 'bc' ? 'branded_communications' : 'network_apis' });
+    const productMap: Record<Tab, string> = { sa: 'silent_authentication', ii: 'identity_insights', bc: 'branded_calling' };
+    track('product_view', { product: productMap[activeTab] });
   }, [activeTab, hydrated]);
 
-  useEffect(() => {
-    if (chatOpen && messages.length === 0)
-      setMessages([{ role: 'assistant', content: t(lang, 'chatWelcome') }]);
-  }, [chatOpen, lang]);
-
-  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
-
-  async function sendMessage() {
-    if (!input.trim() || chatLoading || turns >= MAX_TURNS) return;
-    const userMsg = input.trim();
-    setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
-    setChatLoading(true);
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg, history: messages, lang, contact_id: contactId }),
-      });
-      const data = await res.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
-      setTurns(t => t + 1);
-    } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong.' }]);
-    } finally { setChatLoading(false); }
-  }
-
   const tabConfig = {
-    bc: { color: '#8B5CF6', icon: '📞', titleKey: 'bcTitle' as const, taglineKey: 'bcTagline' as const, descKey: 'bcDesc' as const, benefits: ['bcBenefit1', 'bcBenefit2', 'bcBenefit3', 'bcBenefit4'] as const },
-    na: { color: '#F97316', icon: '🌐', titleKey: 'naTitle' as const, taglineKey: 'naTagline' as const, descKey: 'naDesc' as const, benefits: ['naBenefit1', 'naBenefit2', 'naBenefit3', 'naBenefit4'] as const },
+    sa: { color: '#8B5CF6', icon: '🔐', titleKey: 'saTitle' as const, taglineKey: 'saTagline' as const, descKey: 'saDesc' as const, benefits: ['saBenefit1', 'saBenefit2', 'saBenefit3', 'saBenefit4'] as const },
+    ii: { color: '#06B6D4', icon: '🛡️', titleKey: 'iiTitle' as const, taglineKey: 'iiTagline' as const, descKey: 'iiDesc' as const, benefits: ['iiBenefit1', 'iiBenefit2', 'iiBenefit3', 'iiBenefit4'] as const },
+    bc: { color: '#F97316', icon: '📞', titleKey: 'bcTitle' as const, taglineKey: 'bcTagline' as const, descKey: 'bcDesc' as const, benefits: ['bcBenefit1', 'bcBenefit2', 'bcBenefit3', 'bcBenefit4'] as const },
   };
 
   const current = tabConfig[activeTab];
-  const resources = RESOURCES[activeTab][lang] ?? RESOURCES[activeTab].en;
+
+  // Placeholder resources — update with real URLs when available
+  const RESOURCES: Record<Tab, { key: string; icon: string; label: string; href: string }[]> = {
+    sa: [
+      { key: 'datasheet', icon: '📄', label: 'Silent Auth Datasheet', href: '#' },
+      { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/verify/verify-v2/guides/silent-auth' },
+    ],
+    ii: [
+      { key: 'datasheet', icon: '📄', label: 'Identity Insights Datasheet', href: '#' },
+      { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/number-insight/ni-advanced/overview' },
+    ],
+    bc: [
+      { key: 'datasheet', icon: '📄', label: 'Branded Calling Datasheet', href: '#' },
+      { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/vonage-branded-calling/overview' },
+    ],
+  };
+
+  const resources = RESOURCES[activeTab];
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
       {/* Header */}
-      <header style={{ padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', position: 'sticky', top: 0, zIndex: 40, backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
-        </div>
-        <div style={{ display: 'flex', gap: '4px' }}>
-          {(Object.entries(languageNames) as [Language, string][]).map(([l, name]) => (
-            <button key={l} className={`lang-btn ${lang === l ? 'active' : ''}`} onClick={() => setLang(l)}>{name}</button>
-          ))}
-        </div>
+      <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-3.5 bg-[rgba(8,6,20,0.85)] border-b border-white/[0.08] backdrop-blur-xl">
+        <img src="/vonage-logo.png" alt="Vonage" className="h-[18px] w-auto invert" />
+        <span className="text-[11px] text-white/50 font-medium">AFC Sydney 2026</span>
       </header>
 
-      <div style={{ maxWidth: '720px', margin: '0 auto', padding: '32px 20px 80px', width: '100%' }}>
-
+      <div className="max-w-[720px] mx-auto w-full px-5 pt-8 pb-20">
         {/* Page title */}
-        <div className="animate-fade-up" style={{ marginBottom: '28px' }}>
-          <p style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(139,92,246,0.9)', marginBottom: '10px', fontWeight: '700' }}>{t(lang, 'eventName')}</p>
-          <h1 style={{ fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: '700', color: '#FFFFFF', letterSpacing: '-0.025em', marginBottom: '8px' }}>{t(lang, 'hubTitle')}</h1>
-          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '15px', lineHeight: '1.65' }}>{t(lang, 'hubSubtitle')}</p>
+        <div className="animate-fade-up mb-7">
+          <p className="text-[11px] uppercase tracking-[0.12em] text-[rgba(139,92,246,0.9)] mb-2.5 font-bold">{t(lang, 'eventName')}</p>
+          <h1 className="text-[clamp(22px,4vw,34px)] font-bold text-white tracking-tight mb-2">{t(lang, 'hubTitle')}</h1>
+          <p className="text-white/75 text-[15px] leading-[1.65]">{t(lang, 'hubSubtitle')}</p>
         </div>
 
         {/* Tab navigation */}
-        <div className="animate-fade-up" style={{ animationDelay: '60ms', display: 'flex', gap: '8px', marginBottom: '24px', background: 'rgba(255,255,255,0.04)', borderRadius: '14px', padding: '5px' }}>
-          {(['bc', 'na'] as Tab[]).map(tab => {
+        <div className="animate-fade-up [animation-delay:60ms] flex gap-1.5 mb-6 bg-white/[0.04] rounded-[14px] p-[5px]">
+          {(['sa', 'ii', 'bc'] as Tab[]).map(tab => {
             const cfg = tabConfig[tab];
             const isActive = activeTab === tab;
             return (
-              <button key={tab} onClick={() => setActiveTab(tab)}
-                style={{ flex: 1, padding: '12px 16px', borderRadius: '10px', border: `1.5px solid ${isActive ? cfg.color + '60' : 'transparent'}`, background: isActive ? `${cfg.color}18` : 'transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', fontWeight: '600', color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.7)', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className="flex-1 py-3 px-3 rounded-[10px] cursor-pointer text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5"
+                style={{
+                  border: `1.5px solid ${isActive ? cfg.color + '60' : 'transparent'}`,
+                  background: isActive ? `${cfg.color}18` : 'transparent',
+                  color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.7)',
+                }}
+              >
                 <span>{cfg.icon}</span>
-                <span>{t(lang, tab === 'bc' ? 'tabBc' : 'tabNa')}</span>
-                {isActive && <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: cfg.color, boxShadow: `0 0 8px ${cfg.color}` }} />}
+                <span className="hidden sm:inline">{t(lang, tab === 'sa' ? 'tabSa' : tab === 'ii' ? 'tabIi' : 'tabBc')}</span>
+                <span className="sm:hidden">{tab === 'sa' ? 'Silent' : tab === 'ii' ? 'Identity' : 'Branded'}</span>
+                {isActive && <div className="w-1.5 h-1.5 rounded-full" style={{ background: cfg.color, boxShadow: `0 0 8px ${cfg.color}` }} />}
               </button>
             );
           })}
         </div>
 
         {/* Product content */}
-        <div className="glass-card animate-fade-up" style={{ animationDelay: '100ms', padding: '28px', marginBottom: '20px' }}>
+        <div className="glass-card animate-fade-up [animation-delay:100ms] p-7 mb-5">
           {/* Product header */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
-            <div style={{ width: '50px', height: '50px', borderRadius: '14px', background: `${current.color}1A`, border: `1.5px solid ${current.color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0, boxShadow: `0 0 24px ${current.color}20` }}>
+          <div className="flex items-center gap-3.5 mb-5">
+            <div
+              className="w-[50px] h-[50px] rounded-[14px] flex items-center justify-center text-2xl shrink-0"
+              style={{ background: `${current.color}1A`, border: `1.5px solid ${current.color}40`, boxShadow: `0 0 24px ${current.color}20` }}
+            >
               {current.icon}
             </div>
             <div>
-              <div style={{ fontWeight: '700', fontSize: '18px', color: '#FFFFFF', lineHeight: 1.2 }}>{t(lang, current.titleKey)}</div>
-              <div style={{ fontSize: '13px', color: current.color, fontWeight: '600', marginTop: '4px' }}>{t(lang, current.taglineKey)}</div>
+              <div className="font-bold text-lg text-white leading-tight">{t(lang, current.titleKey)}</div>
+              <div className="text-[13px] font-semibold mt-1" style={{ color: current.color }}>{t(lang, current.taglineKey)}</div>
             </div>
           </div>
 
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: '1.7', marginBottom: '22px' }}>{t(lang, current.descKey)}</p>
+          <p className="text-sm text-white/85 leading-[1.7] mb-5">{t(lang, current.descKey)}</p>
 
           {/* Benefits */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+          <div className="flex flex-col gap-2.5 mb-6">
             {current.benefits.map(b => (
-              <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: `${current.color}18`, border: `1.5px solid ${current.color}45`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: current.color }} />
+              <div key={b} className="flex items-start gap-3">
+                <div
+                  className="w-[18px] h-[18px] rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                  style={{ background: `${current.color}18`, border: `1.5px solid ${current.color}45` }}
+                >
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: current.color }} />
                 </div>
-                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.92)', lineHeight: '1.6' }}>{t(lang, b)}</span>
+                <span className="text-sm text-white/[0.92] leading-relaxed">{t(lang, b)}</span>
               </div>
             ))}
           </div>
 
           {/* Resources */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px' }}>
-            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', marginBottom: '12px', fontWeight: '700' }}>{t(lang, 'resources')}</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <div className="border-t border-white/[0.08] pt-5">
+            <div className="text-[11px] uppercase tracking-[0.1em] text-white/60 mb-3 font-bold">{t(lang, 'resources')}</div>
+            <div className="flex flex-wrap gap-2">
               {resources.map((r, i) => (
-                <a key={i} href={r.href} target="_blank" rel="noopener noreferrer"
-                  onClick={() => track('resource_click', { product: activeTab === 'bc' ? 'branded_communications' : 'network_apis', resource: r.key })}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 14px', borderRadius: '8px', background: `${current.color}14`, border: `1.5px solid ${current.color}35`, color: 'rgba(255,255,255,0.85)', fontSize: '13px', fontWeight: '500', textDecoration: 'none', transition: 'all 0.15s' }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = `${current.color}28`; el.style.borderColor = `${current.color}60`; el.style.color = '#FFFFFF'; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = `${current.color}14`; el.style.borderColor = `${current.color}35`; el.style.color = 'rgba(255,255,255,0.85)'; }}>
+                <a
+                  key={i}
+                  href={r.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    const productMap: Record<Tab, string> = { sa: 'silent_authentication', ii: 'identity_insights', bc: 'branded_calling' };
+                    track('resource_click', { product: productMap[activeTab], resource: r.key });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[13px] font-medium text-white/85 no-underline transition-all hover:text-white"
+                  style={{ background: `${current.color}14`, border: `1.5px solid ${current.color}35` }}
+                  onMouseEnter={e => { const el = e.currentTarget; el.style.background = `${current.color}28`; el.style.borderColor = `${current.color}60`; }}
+                  onMouseLeave={e => { const el = e.currentTarget; el.style.background = `${current.color}14`; el.style.borderColor = `${current.color}35`; }}
+                >
                   <span>{r.icon}</span> {r.label}
                 </a>
               ))}
@@ -195,59 +160,21 @@ export default function HubPage() {
         </div>
 
         {/* Meeting CTA */}
-        <div className="glass-card animate-fade-up" style={{ animationDelay: '140ms', padding: '28px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '14px' }}>
-          <div style={{ fontSize: '36px' }}>💼</div>
-          <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#FFFFFF' }}>{t(lang, 'meetingTitle')}</h3>
-          <p style={{ color: 'rgba(255,255,255,0.58)', fontSize: '14px', maxWidth: '360px', lineHeight: '1.65' }}>{t(lang, 'meetingSubtitle')}</p>
+        <div className="glass-card animate-fade-up [animation-delay:140ms] p-7 flex flex-col items-center text-center gap-3.5">
+          <div className="text-4xl">💼</div>
+          <h3 className="text-lg font-bold text-white">{t(lang, 'meetingTitle')}</h3>
+          <p className="text-white/[0.58] text-sm max-w-[360px] leading-[1.65]">{t(lang, 'meetingSubtitle')}</p>
           <button className="btn-orange" onClick={() => router.push('/meeting')}>{t(lang, 'meetingCta')}</button>
         </div>
 
         {/* Footer */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', opacity: 0.35, marginTop: '28px' }}>
-          <img src="https://www.genesys.com/wp-content/themes/genesys-kraken/logo/genesys-com-full-color.svg" alt="Genesys" style={{ height: '14px', filter: 'grayscale(1) invert(1)' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-          <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>CX Tour KL & Taipei 2026 · 23 June (KL) · W Kuala Lumpur</span>
+        <div className="flex items-center justify-center gap-3 opacity-35 mt-7">
+          <span className="text-[11px] text-white/60">AFC Sydney 2026 · 1–2 September · Intercontinental Double Bay</span>
         </div>
       </div>
 
-      {/* Chat FAB */}
-      <button onClick={() => setChatOpen(true)}
-        style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 50, width: '56px', height: '56px', borderRadius: '50%', background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)', border: '1.5px solid rgba(139,92,246,0.5)', cursor: 'pointer', display: chatOpen ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', boxShadow: '0 4px 24px rgba(109,40,217,0.5)', transition: 'transform 0.2s, box-shadow 0.2s' }}
-        onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.1)'; }}
-        onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}>
-        💬
-      </button>
-
       {/* Chat panel */}
-      {chatOpen && (
-        <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 50, width: '360px', maxWidth: 'calc(100vw - 32px)', height: '500px', maxHeight: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column', background: 'rgba(12,8,30,0.94)', border: '1.5px solid rgba(139,92,246,0.3)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 16px 56px rgba(0,0,0,0.5)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', animation: 'fadeUp 0.25s ease' }}>
-          <div style={{ padding: '14px 18px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(139,92,246,0.1)' }}>
-            <div>
-              <div style={{ fontWeight: '700', fontSize: '14px', color: '#FFFFFF' }}>{t(lang, 'chatTitle')}</div>
-              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
-                {turns < MAX_TURNS ? `${MAX_TURNS - turns} ${lang === 'zh' ? '次提问剩余' : 'questions remaining'}` : t(lang, 'chatLimit')}
-              </div>
-            </div>
-            <button onClick={() => setChatOpen(false)} style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', color: 'rgba(255,255,255,0.7)', cursor: 'pointer', fontSize: '18px', lineHeight: 1, padding: '4px 8px' }}>×</button>
-          </div>
-          <div style={{ flex: 1, overflowY: 'auto', padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {messages.map((m, i) => (
-              <div key={i} className={m.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'}>{m.content}</div>
-            ))}
-            {chatLoading && (
-              <div className="chat-bubble-ai" style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-                {[0, 1, 2].map(i => <div key={i} style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#A78BFA', animation: `dot-bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />)}
-              </div>
-            )}
-            <div ref={chatEndRef} />
-          </div>
-          {turns < MAX_TURNS && (
-            <div style={{ padding: '10px 12px', borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', gap: '8px' }}>
-              <input className="input-field" style={{ flex: 1, padding: '9px 13px', fontSize: '14px' }} placeholder={t(lang, 'chatPlaceholder')} value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendMessage()} disabled={chatLoading} />
-              <button className="btn-primary" style={{ padding: '9px 14px', flexShrink: 0 }} onClick={sendMessage} disabled={chatLoading || !input.trim()}>{t(lang, 'chatSend')}</button>
-            </div>
-          )}
-        </div>
-      )}
+      <ChatPanel lang={lang} contactId={contactId} />
     </main>
   );
 }

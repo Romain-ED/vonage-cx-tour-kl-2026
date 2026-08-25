@@ -26,19 +26,21 @@ interface ChatThread {
 
 const LLM_MODEL = 'gemini-3.5-flash';
 const LLM_MAX_TOKENS = 300;
-const LLM_SYSTEM_PROMPT = `Tightly scoped to: Vonage Branded Communications, Network APIs, and enterprise CX use cases. Out-of-scope questions redirect to the Vonage team. Rules: ≤4 sentences, no speculation, no invented details, no competitors.`;
+const LLM_SYSTEM_PROMPT = `Tightly scoped to: Vonage Silent Authentication, Identity Insights, and Branded Calling for financial crime prevention. Out-of-scope questions redirect to the Vonage team. Rules: ≤4 sentences, no speculation, no invented details, no competitors.`;
 
-const BC_RESOURCES = [
-  { key: 'datasheet',    icon: '📄', label: 'Datasheet' },
-  { key: 'demo-calling', icon: '▶️', label: 'Calling Demo' },
-  { key: 'demo-rcs',     icon: '▶️', label: 'RCS Demo' },
-  { key: 'appfoundry',   icon: '🏪', label: 'AppFoundry' },
+const SA_RESOURCES = [
+  { key: 'datasheet',      icon: '📄', label: 'Datasheet' },
+  { key: 'developer-docs', icon: '🔗', label: 'Dev Docs' },
 ] as const;
 
-const NA_RESOURCES = [
-  { key: 'datasheet',        icon: '📄', label: 'Datasheet' },
-  { key: 'lydia-case-study', icon: '📋', label: 'Lydia Study' },
-  { key: 'demo-video',       icon: '▶️', label: 'Demo Video' },
+const II_RESOURCES = [
+  { key: 'datasheet',      icon: '📄', label: 'Datasheet' },
+  { key: 'developer-docs', icon: '🔗', label: 'Dev Docs' },
+] as const;
+
+const BC_RESOURCES = [
+  { key: 'datasheet',      icon: '📄', label: 'Datasheet' },
+  { key: 'developer-docs', icon: '🔗', label: 'Dev Docs' },
 ] as const;
 
 export default function AdminPage() {
@@ -94,29 +96,30 @@ export default function AdminPage() {
   function exportCsv() {
     if (!contacts) return;
     const rows = [
-      ['First Name','Last Name','Email','Phone','Language','Solutions','Meeting Requested','Meeting Note','Registered At'],
-      ...contacts.map(c => [c.first_name ?? '', c.last_name ?? c.name ?? '', c.email, c.phone ?? '', c.language, (c.solutions ?? []).join('+'), c.meeting_requested ? 'Yes' : 'No', c.meeting_note ?? '', new Date(c.created_at).toLocaleString()])
+      ['First Name','Last Name','Email','Phone','Solutions','Meeting Requested','Meeting Note','Registered At'],
+      ...contacts.map(c => [c.first_name ?? '', c.last_name ?? c.name ?? '', c.email, c.phone ?? '', (c.solutions ?? []).join('+'), c.meeting_requested ? 'Yes' : 'No', c.meeting_note ?? '', new Date(c.created_at).toLocaleString()])
     ];
     const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'vonage-cx-tour-kl-taipei-2026.csv'; a.click();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'vonage-afc-sydney-2026.csv'; a.click();
   }
 
   const uniqueSessions = new Set(analytics.map(e => e.session_id)).size;
-  const bcViews = analytics.filter(e => e.event_type === 'product_view' && e.event_data?.product === 'branded_communications').length;
-  const naViews = analytics.filter(e => e.event_type === 'product_view' && e.event_data?.product === 'network_apis').length;
+  const bcViews = analytics.filter(e => e.event_type === 'product_view' && e.event_data?.product === 'branded_calling').length;
+  const saViews = analytics.filter(e => e.event_type === 'product_view' && e.event_data?.product === 'silent_authentication').length;
+  const iiViews = analytics.filter(e => e.event_type === 'product_view' && e.event_data?.product === 'identity_insights').length;
   const resourceClicks = analytics.filter(e => e.event_type === 'resource_click');
   const totalMeetings = contacts?.filter(c => c.meeting_requested).length ?? 0;
   const conversionRate = uniqueSessions > 0 ? Math.round(((contacts?.length ?? 0) / uniqueSessions) * 100) : 0;
-  const enUsers = contacts?.filter(c => c.language === 'en').length ?? 0;
-  const zhUsers = contacts?.filter(c => c.language === 'zh').length ?? 0;
+  const enUsers = contacts?.length ?? 0;
 
   const rCount = (product: string, key: string) =>
     resourceClicks.filter(e => e.event_data?.product === product && e.event_data?.resource === key).length;
 
   const clickBreakdown: Record<string, number> = {};
   resourceClicks.forEach(e => {
-    const prod = e.event_data?.product === 'branded_communications' ? 'Branded Communications' : 'Network APIs';
+    const prodMap: Record<string, string> = { silent_authentication: 'Silent Authentication', identity_insights: 'Identity Insights', branded_calling: 'Branded Calling' };
+    const prod = prodMap[e.event_data?.product] ?? e.event_data?.product;
     const key = `${prod} — ${e.event_data?.resource}`;
     clickBreakdown[key] = (clickBreakdown[key] || 0) + 1;
   });
@@ -139,7 +142,7 @@ export default function AdminPage() {
     seen.get(key)!.messages.push(msg);
   }
   const totalChatMessages = chats.filter(m => m.role === 'user').length;
-  const langMap: Record<string, string> = { en: 'English', zh: '繁體中文' };
+  const langMap: Record<string, string> = { en: 'English' };
 
   return (
     <main className="mesh-bg min-h-screen" style={{ padding: '32px 24px' }}>
@@ -147,7 +150,7 @@ export default function AdminPage() {
 
         <div style={{ marginBottom: '32px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
           <div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px', fontWeight: '600' }}>Vonage × Ericsson · CX Tour KL & Taipei 2026</div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px', fontWeight: '600' }}>Vonage · Australian Financial Crime Summit 2026</div>
             <h1 style={{ fontSize: '30px', fontWeight: '700', letterSpacing: '-0.02em' }}>Admin Dashboard</h1>
           </div>
           {contacts && (
@@ -210,8 +213,9 @@ export default function AdminPage() {
                   <StatCard label="Registrations" value={contacts.length} color="#10B981" sub={`${conversionRate}% conversion`} />
                   <StatCard label="Meeting Requests" value={totalMeetings} color="#FF4F1F" sub="1-on-1 interest" />
                   <StatCard label="Chat Messages" value={totalChatMessages} color="#06B6D4" sub={`${chatThreads.length} conversations`} />
-                  <StatCard label="Branded Comms" value={bcViews} color="#A78BFA" sub="product views" />
-                  <StatCard label="Network APIs" value={naViews} color="#F59E0B" sub="product views" />
+                  <StatCard label="Branded Calling" value={bcViews} color="#F97316" sub="product views" />
+                  <StatCard label="Silent Auth" value={saViews} color="#8B5CF6" sub="product views" />
+                  <StatCard label="Identity Insights" value={iiViews} color="#06B6D4" sub="product views" />
                 </div>
 
                 {/* Journey Flow */}
@@ -224,31 +228,6 @@ export default function AdminPage() {
                     <JArrow drop={uniqueSessions - contacts.length} base={uniqueSessions} />
                     <JNode icon="📝" label="/ (Register)" count={contacts.length} base={uniqueSessions} color="#10B981" />
 
-                    {/* Language split */}
-                    <div style={{ position: 'relative', display: 'flex', width: '100%', maxWidth: '420px' }}>
-                      <div style={{ position: 'absolute', top: '10px', left: '25%', right: '25%', height: '2px', background: 'rgba(255,255,255,0.2)' }} />
-                      {/* EN */}
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <div style={{ width: '2px', height: '22px', background: 'rgba(255,255,255,0.2)' }} />
-                        <JNode small icon="🇬🇧" label="English" count={enUsers} base={contacts.length} color="#7C3AED" />
-                        <div style={{ flex: 1, minHeight: '12px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
-                      </div>
-                      {/* ZH */}
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <div style={{ width: '2px', height: '22px', background: 'rgba(255,255,255,0.2)' }} />
-                        <JNode small icon="🇹🇼" label="繁體中文" count={zhUsers} base={contacts.length} color="#3B82F6" />
-                        <div style={{ flex: 1, minHeight: '12px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
-                      </div>
-                    </div>
-                    {/* Language merge */}
-                    <div style={{ display: 'flex', width: '100%', maxWidth: '420px', height: '16px' }}>
-                      <div style={{ flex: 1, borderTop: '2px solid rgba(255,255,255,0.18)', borderRight: '2px solid rgba(255,255,255,0.18)', borderRadius: '0 8px 0 0' }} />
-                      <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                        <div style={{ width: '2px', height: '16px', background: 'rgba(255,255,255,0.18)' }} />
-                      </div>
-                      <div style={{ flex: 1, borderTop: '2px solid rgba(255,255,255,0.18)', borderLeft: '2px solid rgba(255,255,255,0.18)', borderRadius: '8px 0 0 0' }} />
-                    </div>
-
                     <div style={{ width: '2px', height: '8px', background: 'rgba(255,255,255,0.2)' }} />
                     <div style={{ fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.65)', textTransform: 'uppercase', letterSpacing: '0.1em', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: '6px', padding: '4px 14px' }}>
                       /hub — parallel actions
@@ -258,14 +237,14 @@ export default function AdminPage() {
                     <div style={{ position: 'relative', display: 'flex', width: '100%', maxWidth: '720px' }}>
                       <div style={{ position: 'absolute', top: '10px', left: 'calc(100% / 6)', right: 'calc(100% / 6)', height: '2px', background: 'rgba(255,255,255,0.2)' }} />
 
-                      {/* BC Column */}
+                      {/* SA Column */}
                       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <div style={{ width: '2px', height: '22px', background: 'rgba(255,255,255,0.2)' }} />
-                        <JNode small icon="📞" label="Branded Comms" count={bcViews} base={contacts.length} color="#A78BFA" />
-                        {BC_RESOURCES.map(r => (
+                        <JNode small icon="🔐" label="Silent Auth" count={saViews} base={contacts.length} color="#8B5CF6" />
+                        {SA_RESOURCES.map(r => (
                           <div key={r.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <div style={{ width: '2px', height: '8px', background: 'rgba(255,255,255,0.12)' }} />
-                            <RNode icon={r.icon} label={r.label} count={rCount('branded_communications', r.key)} color="#A78BFA" />
+                            <RNode icon={r.icon} label={r.label} count={rCount('silent_authentication', r.key)} color="#8B5CF6" />
                           </div>
                         ))}
                         <div style={{ flex: 1, minHeight: '16px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
@@ -278,14 +257,14 @@ export default function AdminPage() {
                         <div style={{ flex: 1, minHeight: '16px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
                       </div>
 
-                      {/* NA Column */}
+                      {/* BC Column */}
                       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <div style={{ width: '2px', height: '22px', background: 'rgba(255,255,255,0.2)' }} />
-                        <JNode small icon="🌐" label="Network APIs" count={naViews} base={contacts.length} color="#F97316" />
-                        {NA_RESOURCES.map(r => (
+                        <JNode small icon="📞" label="Branded Calling" count={bcViews} base={contacts.length} color="#F97316" />
+                        {BC_RESOURCES.map(r => (
                           <div key={r.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <div style={{ width: '2px', height: '8px', background: 'rgba(255,255,255,0.12)' }} />
-                            <RNode icon={r.icon} label={r.label} count={rCount('network_apis', r.key)} color="#F97316" />
+                            <RNode icon={r.icon} label={r.label} count={rCount('branded_calling', r.key)} color="#F97316" />
                           </div>
                         ))}
                         <div style={{ flex: 1, minHeight: '16px', width: '2px', background: 'rgba(255,255,255,0.12)', marginTop: '8px' }} />
@@ -401,7 +380,7 @@ export default function AdminPage() {
                       { label: 'Model', value: LLM_MODEL, color: '#A78BFA' },
                       { label: 'Max Tokens', value: String(LLM_MAX_TOKENS), color: '#06B6D4' },
                       { label: 'Temperature', value: 'Default (1.0)', color: '#F59E0B' },
-                      { label: 'Provider', value: 'Anthropic', color: '#10B981' },
+                      { label: 'Provider', value: 'Google Gemini', color: '#10B981' },
                     ].map(({ label, value, color }) => (
                       <div key={label} style={{ background: `${color}15`, border: `1.5px solid ${color}40`, borderRadius: '12px', padding: '16px 20px' }}>
                         <div style={{ fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>{label}</div>
@@ -444,10 +423,10 @@ export default function AdminPage() {
                   </div>
                   {chatThreads.length > 0 && (
                     <>
-                      <div style={{ fontSize: '13px', fontWeight: '700', color: 'rgba(255,255,255,0.75)', marginBottom: '10px' }}>By Language</div>
+                      <div style={{ fontSize: '13px', fontWeight: '700', color: 'rgba(255,255,255,0.75)', marginBottom: '10px' }}>Total Conversations</div>
                       <div style={{ display: 'flex', gap: '10px' }}>
-                        {[{ key: 'en', label: 'English', color: '#7C3AED' }, { key: 'zh', label: '繁體中文', color: '#3B82F6' }].map(l => {
-                          const count = chatThreads.filter(t => t.lang === l.key).length;
+                        {[{ key: 'en', label: 'English', color: '#7C3AED' }].map(l => {
+                          const count = chatThreads.length;
                           return (
                             <div key={l.key} style={{ flex: 1, background: `${l.color}15`, border: `1.5px solid ${l.color}40`, borderRadius: '10px', padding: '14px', textAlign: 'center' }}>
                               <div style={{ fontSize: '24px', fontWeight: '800', color: l.color }}>{count}</div>
@@ -478,7 +457,7 @@ export default function AdminPage() {
                             <span style={{ fontSize: '13px', fontWeight: '700', color: 'white' }}>{count}</span>
                           </div>
                           <div style={{ height: '6px', background: 'rgba(255,255,255,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
-                            <div style={{ height: '100%', width: `${(count / maxClicks) * 100}%`, background: key.includes('Branded Communications') ? '#7C3AED' : '#FF4F1F', borderRadius: '3px' }} />
+                            <div style={{ height: '100%', width: `${(count / maxClicks) * 100}%`, background: key.includes('Silent') ? '#8B5CF6' : key.includes('Identity') ? '#06B6D4' : '#F97316', borderRadius: '3px' }} />
                           </div>
                         </div>
                       ))}
@@ -489,7 +468,7 @@ export default function AdminPage() {
                 <div className="glass-card" style={{ padding: '28px' }}>
                   <h3 style={{ fontSize: '15px', fontWeight: '700', marginBottom: '16px' }}>Product Interest</h3>
                   <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    {[{ label: 'Branded Communications', value: bcViews, color: '#7C3AED' }, { label: 'Network APIs', value: naViews, color: '#FF4F1F' }].map(p => (
+                    {[{ label: 'Silent Authentication', value: saViews, color: '#8B5CF6' }, { label: 'Identity Insights', value: iiViews, color: '#06B6D4' }, { label: 'Branded Calling', value: bcViews, color: '#F97316' }].map(p => (
                       <div key={p.label} style={{ flex: 1, minWidth: '140px', background: `${p.color}15`, border: `1.5px solid ${p.color}40`, borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
                         <div style={{ fontSize: '36px', fontWeight: '800', color: p.color }}>{p.value}</div>
                         <div style={{ fontSize: '14px', fontWeight: '600', color: 'rgba(255,255,255,0.85)', marginTop: '6px' }}>{p.label}</div>
@@ -509,8 +488,8 @@ export default function AdminPage() {
                           <div>
                             <div style={{ fontSize: '13px', fontWeight: '600', color: 'rgba(255,255,255,0.9)' }}>
                               {e.event_type === 'page_view' && 'Page viewed'}
-                              {e.event_type === 'product_view' && `Opened: ${e.event_data?.product === 'branded_communications' ? 'Branded Communications' : 'Network APIs'}`}
-                              {e.event_type === 'resource_click' && `Clicked: ${e.event_data?.resource} (${e.event_data?.product === 'branded_communications' ? 'BC' : 'NA'})`}
+                              {e.event_type === 'product_view' && `Opened: ${e.event_data?.product === 'silent_authentication' ? 'Silent Auth' : e.event_data?.product === 'identity_insights' ? 'Identity Insights' : 'Branded Calling'}`}
+                              {e.event_type === 'resource_click' && `Clicked: ${e.event_data?.resource} (${e.event_data?.product === 'silent_authentication' ? 'SA' : e.event_data?.product === 'identity_insights' ? 'II' : 'BC'})`}
                             </div>
                             <div style={{ fontSize: '11px', fontWeight: '500', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Session: {e.session_id.slice(0, 8)}…</div>
                           </div>
@@ -536,7 +515,7 @@ export default function AdminPage() {
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
                       <thead>
                         <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                          {['Name', 'Email', 'Phone', 'Language', 'Solutions', 'Meeting', 'Note', 'Chats', 'Registered'].map(h => (
+                          {['Name', 'Email', 'Phone', 'Solutions', 'Meeting', 'Note', 'Chats', 'Registered'].map(h => (
                             <th key={h} style={{ padding: '14px 20px', textAlign: 'left', fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.65)', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>{h}</th>
                           ))}
                         </tr>
@@ -550,15 +529,10 @@ export default function AdminPage() {
                               <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.85)', fontSize: '13px' }}>{c.email}</td>
                               <td style={{ padding: '13px 20px', color: 'rgba(255,255,255,0.7)', fontSize: '13px' }}>{c.phone ?? '—'}</td>
                               <td style={{ padding: '13px 20px' }}>
-                                <span style={{ padding: '3px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '700', background: 'rgba(124,58,237,0.2)', color: '#C4B5FD', border: '1.5px solid rgba(124,58,237,0.45)', whiteSpace: 'nowrap' }}>
-                                  {langMap[c.language] || c.language}
-                                </span>
-                              </td>
-                              <td style={{ padding: '13px 20px' }}>
                                 <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                                   {(c.solutions ?? []).map(s => (
-                                    <span key={s} style={{ padding: '2px 8px', borderRadius: '8px', fontSize: '11px', fontWeight: '700', background: s === 'bc' ? 'rgba(139,92,246,0.2)' : 'rgba(249,115,22,0.2)', color: s === 'bc' ? '#C4B5FD' : '#FDBA74', border: `1.5px solid ${s === 'bc' ? 'rgba(139,92,246,0.45)' : 'rgba(249,115,22,0.45)'}`, whiteSpace: 'nowrap' }}>
-                                      {s === 'bc' ? 'Branded Comms' : 'Network APIs'}
+                                    <span key={s} style={{ padding: '2px 8px', borderRadius: '8px', fontSize: '11px', fontWeight: '700', background: s === 'sa' ? 'rgba(139,92,246,0.2)' : s === 'ii' ? 'rgba(6,182,212,0.2)' : 'rgba(249,115,22,0.2)', color: s === 'sa' ? '#C4B5FD' : s === 'ii' ? '#67E8F9' : '#FDBA74', border: `1.5px solid ${s === 'sa' ? 'rgba(139,92,246,0.45)' : s === 'ii' ? 'rgba(6,182,212,0.45)' : 'rgba(249,115,22,0.45)'}`, whiteSpace: 'nowrap' }}>
+                                      {s === 'sa' ? 'Silent Auth' : s === 'ii' ? 'Identity Insights' : 'Branded Calling'}
                                     </span>
                                   ))}
                                   {(!c.solutions || c.solutions.length === 0) && <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: '13px' }}>—</span>}
@@ -589,7 +563,7 @@ export default function AdminPage() {
                           );
                         })}
                         {contacts.length === 0 && (
-                          <tr><td colSpan={9} style={{ padding: '40px', textAlign: 'center', color: 'rgba(255,255,255,0.55)' }}>No registrations yet.</td></tr>
+                          <tr><td colSpan={8} style={{ padding: '40px', textAlign: 'center', color: 'rgba(255,255,255,0.55)' }}>No registrations yet.</td></tr>
                         )}
                       </tbody>
                     </table>
