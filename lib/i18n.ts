@@ -6,8 +6,8 @@ export const translations = {
     eventName: 'Australian Financial Crime Summit 2026',
     eventDate: 'Sydney · 1–2 September 2026 · Intercontinental Double Bay',
 
-    welcomeTitle: 'Welcome to the Vonage Experience',
-    welcomeSubtitle: 'Discover how Vonage Mobile Identity & Fraud Protection solutions help safeguard financial services.',
+    welcomeTitle: 'Welcome to the Vonage Booth',
+    welcomeSubtitle: 'Register below to explore our solutions and access exclusive resources.',
     stepContact: 'Your Details',
     stepInterest: 'Your Interests',
     next: 'Next',
