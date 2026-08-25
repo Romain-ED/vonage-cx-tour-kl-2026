@@ -94,27 +94,27 @@ export default function WelcomePage() {
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-center px-8 py-[18px] bg-[rgba(8,6,20,0.8)] border-b border-white/[0.08] backdrop-blur-xl">
-        <img src="/vonage-logo.png" alt="Vonage" className="h-5 w-auto invert" />
+      <header className="flex items-center justify-center px-8 py-5 bg-[rgba(8,6,20,0.8)] border-b border-white/[0.08] backdrop-blur-xl">
+        <img src="/vonage-logo.png" alt="Vonage" className="h-6 w-auto invert" />
       </header>
 
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         {/* Event banner */}
-        <div className="animate-fade-up mb-7 w-full max-w-[460px]">
+        <div className="animate-fade-up mb-10 w-full max-w-[460px]">
           <CxTourBanner />
         </div>
 
-        <div className="animate-fade-up [animation-delay:60ms] text-center mb-2">
+        <div className="animate-fade-up [animation-delay:60ms] text-center mb-3">
           <h1 className="gradient-text text-[clamp(26px,5vw,46px)] font-bold leading-[1.1] tracking-tight">
             {t(lang, 'welcomeTitle')}
           </h1>
         </div>
-        <div className="animate-fade-up [animation-delay:100ms] text-center max-w-[460px] mb-9">
+        <div className="animate-fade-up [animation-delay:100ms] text-center max-w-[460px] mb-10">
           <p className="text-white/60 text-[15px] leading-[1.7]">{t(lang, 'welcomeSubtitle')}</p>
         </div>
 
         {/* Step progress */}
-        <div className="animate-fade-up [animation-delay:130ms] flex items-center gap-2 mb-7">
+        <div className="animate-fade-up [animation-delay:130ms] flex items-center gap-2 mb-8">
           {([1, 2] as const).map((s, i) => (
             <div key={s} className="flex items-center gap-2">
               <div
@@ -130,35 +130,35 @@ export default function WelcomePage() {
         </div>
 
         {/* Form card */}
-        <div className="glass-card animate-fade-up [animation-delay:160ms] w-full max-w-[460px] p-8">
+        <div className="glass-card animate-fade-up [animation-delay:160ms] w-full max-w-[460px] p-9">
 
           {/* Step 1: Contact details */}
           {step === 1 && (
-            <div className="flex flex-col gap-5">
-              <div>
+            <div className="flex flex-col gap-6">
+              <div className="mb-1">
                 <div className="text-xs font-bold text-white/40 uppercase tracking-wider mb-1">{t(lang, 'stepContact')}</div>
                 <h2 className="text-lg font-bold text-white">{t(lang, 'stepContact')}</h2>
               </div>
-              <div className="flex gap-2.5">
+              <div className="flex gap-3">
                 <div className="flex-1">
-                  <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'firstNameLabel')}</label>
+                  <label className="block text-xs font-semibold text-white/60 mb-2">{t(lang, 'firstNameLabel')}</label>
                   <input className="input-field" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder={t(lang, 'firstNamePlaceholder')} />
                 </div>
                 <div className="flex-1">
-                  <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'lastNameLabel')}</label>
+                  <label className="block text-xs font-semibold text-white/60 mb-2">{t(lang, 'lastNameLabel')}</label>
                   <input className="input-field" value={lastName} onChange={e => setLastName(e.target.value)} placeholder={t(lang, 'lastNamePlaceholder')} />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'emailLabel')}</label>
+                <label className="block text-xs font-semibold text-white/60 mb-2">{t(lang, 'emailLabel')}</label>
                 <input className="input-field" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t(lang, 'emailPlaceholder')} />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'phoneLabel')}</label>
+                <label className="block text-xs font-semibold text-white/60 mb-2">{t(lang, 'phoneLabel')}</label>
                 <input className="input-field" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder={t(lang, 'phonePlaceholder')} />
               </div>
               {step1Error && <p className="text-[13px] text-red-300">{step1Error}</p>}
-              <button className="btn-primary w-full" onClick={handleStep1Next} disabled={!canProceedStep1}>
+              <button className="btn-primary w-full mt-2" onClick={handleStep1Next} disabled={!canProceedStep1}>
                 {t(lang, 'next')} →
               </button>
             </div>
@@ -166,11 +166,11 @@ export default function WelcomePage() {
 
           {/* Step 2: Solution interest */}
           {step === 2 && (
-            <div className="flex flex-col gap-5">
-              <div>
+            <div className="flex flex-col gap-6">
+              <div className="mb-1">
                 <div className="text-xs font-bold text-white/40 uppercase tracking-wider mb-1">{t(lang, 'stepInterest')}</div>
                 <h2 className="text-lg font-bold text-white">{t(lang, 'solutionTitle')}</h2>
-                <p className="text-sm text-white/55 mt-1">{t(lang, 'solutionSubtitle')}</p>
+                <p className="text-sm text-white/55 mt-2">{t(lang, 'solutionSubtitle')}</p>
               </div>
               <div className="flex flex-col gap-3">
                 {([
