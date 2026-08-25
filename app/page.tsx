@@ -214,6 +214,8 @@ export default function WelcomePage() {
         <p className="mt-6 text-[11px] text-white/35 max-w-[460px] text-center leading-relaxed">
           {t(lang, 'privacyNote')}
         </p>
+
+        <p className="mt-4 text-[10px] text-white/15 font-mono">v2.0.0</p>
       </div>
     </main>
   );
