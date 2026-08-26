@@ -6,7 +6,7 @@ import { Language, t } from '@/lib/i18n';
 import { track } from '@/lib/analytics';
 import { CxTourBanner } from '@/components/CxTourBanner';
 
-type Solution = 'sa' | 'ii' | 'bc';
+type Solution = 'sa' | 'ii' | 'bc' | 'na';
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -173,6 +173,7 @@ export default function WelcomePage() {
                   { id: 'sa' as Solution, icon: '🔐', color: '#8B5CF6', nameKey: 'solutionSa' as const, descKey: 'solutionSaDesc' as const },
                   { id: 'ii' as Solution, icon: '🛡️', color: '#06B6D4', nameKey: 'solutionIi' as const, descKey: 'solutionIiDesc' as const },
                   { id: 'bc' as Solution, icon: '📞', color: '#F97316', nameKey: 'solutionBc' as const, descKey: 'solutionBcDesc' as const },
+                  { id: 'na' as Solution, icon: '📡', color: '#10B981', nameKey: 'solutionNa' as const, descKey: 'solutionNaDesc' as const },
                 ]).map(s => {
                   const selected = solutions.includes(s.id);
                   return (
@@ -217,7 +218,7 @@ export default function WelcomePage() {
           {t(lang, 'privacyNote')}
         </p>
 
-        <p style={{ marginTop: '16px' }} className="text-[10px] text-white/15 font-mono">v2.6.0</p>
+        <p style={{ marginTop: '16px' }} className="text-[10px] text-white/15 font-mono">v2.7.0</p>
       </div>
     </main>
   );

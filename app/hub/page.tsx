@@ -6,7 +6,7 @@ import { Language, t } from '@/lib/i18n';
 import { track } from '@/lib/analytics';
 import { ChatPanel } from '@/components/ChatPanel';
 
-type Tab = 'sa' | 'ii' | 'bc';
+type Tab = 'sa' | 'ii' | 'bc' | 'na';
 
 export default function HubPage() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function HubPage() {
 
   useEffect(() => {
     if (!hydrated) return;
-    const productMap: Record<Tab, string> = { sa: 'silent_authentication', ii: 'identity_insights', bc: 'branded_calling' };
+    const productMap: Record<Tab, string> = { sa: 'silent_authentication', ii: 'identity_insights', bc: 'branded_calling', na: 'network_apis' };
     track('product_view', { product: productMap[activeTab] });
   }, [activeTab, hydrated]);
 
@@ -37,6 +37,7 @@ export default function HubPage() {
     sa: { color: '#8B5CF6', icon: '🔐', titleKey: 'saTitle' as const, taglineKey: 'saTagline' as const, descKey: 'saDesc' as const, benefits: ['saBenefit1', 'saBenefit2', 'saBenefit3', 'saBenefit4'] as const },
     ii: { color: '#06B6D4', icon: '🛡️', titleKey: 'iiTitle' as const, taglineKey: 'iiTagline' as const, descKey: 'iiDesc' as const, benefits: ['iiBenefit1', 'iiBenefit2', 'iiBenefit3', 'iiBenefit4'] as const },
     bc: { color: '#F97316', icon: '📞', titleKey: 'bcTitle' as const, taglineKey: 'bcTagline' as const, descKey: 'bcDesc' as const, benefits: ['bcBenefit1', 'bcBenefit2', 'bcBenefit3', 'bcBenefit4'] as const },
+    na: { color: '#10B981', icon: '📡', titleKey: 'naTitle' as const, taglineKey: 'naTagline' as const, descKey: 'naDesc' as const, benefits: ['naBenefit1', 'naBenefit2', 'naBenefit3', 'naBenefit4'] as const },
   };
 
   const current = tabConfig[activeTab];
@@ -56,6 +57,10 @@ export default function HubPage() {
       { key: 'datasheet', icon: '📄', label: 'Own Your Brand Datasheet', href: '/datasheets/Own Your Brand (OYB) Datasheet.pdf' },
       { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/vonage-branded-calling/overview' },
     ],
+    na: [
+      { key: 'video', icon: '🎬', label: 'SIM Swap & Silent Auth Demo', href: 'https://bibvlkhadswraxdqnamg.supabase.co/storage/v1/object/public/resources/Vonage%20SIM%20SWAP%20and%20Silent%20Authentication.mp4' },
+      { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/network-apis/overview' },
+    ],
   };
 
   const resources = RESOURCES[activeTab];
@@ -74,7 +79,7 @@ export default function HubPage() {
 
         {/* Tab navigation */}
         <div className="animate-fade-up [animation-delay:60ms]" style={{ display: 'flex', gap: '6px', marginBottom: '28px', background: 'rgba(255,255,255,0.04)', borderRadius: '14px', padding: '5px' }}>
-          {(['sa', 'ii', 'bc'] as Tab[]).map(tab => {
+          {(['sa', 'ii', 'bc', 'na'] as Tab[]).map(tab => {
             const cfg = tabConfig[tab];
             const isActive = activeTab === tab;
             return (
@@ -100,8 +105,8 @@ export default function HubPage() {
                 }}
               >
                 <span>{cfg.icon}</span>
-                <span className="hidden sm:inline">{t(lang, tab === 'sa' ? 'tabSa' : tab === 'ii' ? 'tabIi' : 'tabBc')}</span>
-                <span className="sm:hidden">{tab === 'sa' ? 'Verify' : tab === 'ii' ? 'Identity' : 'Branded'}</span>
+                <span className="hidden sm:inline">{t(lang, tab === 'sa' ? 'tabSa' : tab === 'ii' ? 'tabIi' : tab === 'bc' ? 'tabBc' : 'tabNa')}</span>
+                <span className="sm:hidden">{tab === 'sa' ? 'Verify' : tab === 'ii' ? 'Identity' : tab === 'bc' ? 'Branded' : 'Network'}</span>
                 {isActive && <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: cfg.color, boxShadow: `0 0 8px ${cfg.color}` }} />}
               </button>
             );
@@ -150,7 +155,7 @@ export default function HubPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {
-                    const productMap: Record<Tab, string> = { sa: 'silent_authentication', ii: 'identity_insights', bc: 'branded_calling' };
+                    const productMap: Record<Tab, string> = { sa: 'silent_authentication', ii: 'identity_insights', bc: 'branded_calling', na: 'network_apis' };
                     track('resource_click', { product: productMap[activeTab], resource: r.key });
                   }}
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 14px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.85)', textDecoration: 'none', transition: 'all 0.2s', background: `${current.color}14`, border: `1.5px solid ${current.color}35` }}
