@@ -15,7 +15,7 @@ export default function ThankYouPage() {
   }, []);
 
   return (
-    <main className="mesh-bg min-h-screen flex flex-col">
+    <main className="mesh-bg min-h-screen flex flex-col animate-page-enter">
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 24px 48px', textAlign: 'center' }}>
         {/* Animated check */}
         <div className="animate-fade-up" style={{ marginBottom: '32px' }}>

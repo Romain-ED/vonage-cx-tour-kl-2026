@@ -62,7 +62,7 @@ export default function HubPage() {
   const resources = RESOURCES[activeTab];
 
   return (
-    <main className="mesh-bg min-h-screen flex flex-col">
+    <main className="mesh-bg min-h-screen flex flex-col animate-page-enter">
       {/* Header removed */}
 
       <div style={{ maxWidth: '720px', margin: '0 auto', width: '100%', padding: '40px 24px 80px' }}>
@@ -110,7 +110,7 @@ export default function HubPage() {
         </div>
 
         {/* Product content */}
-        <div className="glass-card animate-fade-up [animation-delay:100ms]" style={{ padding: '32px', marginBottom: '24px' }}>
+        <div key={activeTab} className="glass-card animate-scale-in" style={{ padding: '32px', marginBottom: '24px' }}>
           {/* Product header */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
             <div

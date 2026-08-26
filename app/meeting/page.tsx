@@ -45,7 +45,7 @@ export default function MeetingPage() {
   }
 
   return (
-    <main className="mesh-bg min-h-screen flex flex-col">
+    <main className="mesh-bg min-h-screen flex flex-col animate-page-enter">
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 24px 48px' }}>
         <div className="animate-fade-up" style={{ textAlign: 'center', marginBottom: '12px' }}>
           <div style={{ fontSize: '40px', marginBottom: '16px' }}>🤝</div>

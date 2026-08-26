@@ -92,7 +92,7 @@ export default function WelcomePage() {
   const canProceedStep1 = firstName.trim() && lastName.trim() && emailValid;
 
   return (
-    <main className="mesh-bg min-h-screen flex flex-col">
+    <main className="mesh-bg min-h-screen flex flex-col animate-page-enter">
       {/* Header removed */}
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 24px 48px' }}>
@@ -131,7 +131,7 @@ export default function WelcomePage() {
 
           {/* Step 1: Contact details */}
           {step === 1 && (
-            <div className="flex flex-col" style={{ gap: '18px' }}>
+            <div className="flex flex-col animate-scale-in" style={{ gap: '18px' }}>
               <div>
                 <h2 className="text-lg font-bold text-white">{t(lang, 'stepContact')}</h2>
               </div>
@@ -162,7 +162,7 @@ export default function WelcomePage() {
 
           {/* Step 2: Solution interest */}
           {step === 2 && (
-            <div className="flex flex-col" style={{ gap: '18px' }}>
+            <div className="flex flex-col animate-scale-in" style={{ gap: '18px' }}>
               <div>
                 <div className="text-xs font-bold text-white/40 uppercase tracking-wider" style={{ marginBottom: '6px' }}>{t(lang, 'stepInterest')}</div>
                 <h2 className="text-lg font-bold text-white">{t(lang, 'solutionTitle')}</h2>
@@ -179,16 +179,19 @@ export default function WelcomePage() {
                     <button
                       key={s.id}
                       onClick={() => toggleSolution(s.id)}
+                      className={selected ? 'animate-pop' : ''}
                       style={{
                         width: '100%',
                         padding: '14px 18px',
                         borderRadius: '14px',
                         textAlign: 'left' as const,
-                        transition: 'all 0.2s',
+                        transition: 'all 0.2s ease',
                         cursor: 'pointer',
                         fontFamily: 'inherit',
                         background: selected ? `${s.color}18` : 'rgba(255,255,255,0.05)',
                         border: `2px solid ${selected ? s.color + '70' : 'rgba(255,255,255,0.2)'}`,
+                        boxShadow: selected ? `0 0 20px ${s.color}25` : 'none',
+                        transform: selected ? 'scale(1)' : 'scale(1)',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
@@ -217,7 +220,7 @@ export default function WelcomePage() {
           {t(lang, 'privacyNote')}
         </p>
 
-        <p style={{ marginTop: '16px' }} className="text-[10px] text-white/15 font-mono">v2.8.0</p>
+        <p style={{ marginTop: '16px' }} className="text-[10px] text-white/15 font-mono">v2.9.0</p>
       </div>
     </main>
   );
