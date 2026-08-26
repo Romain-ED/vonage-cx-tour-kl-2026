@@ -95,7 +95,7 @@ export default function WelcomePage() {
     <main className="mesh-bg min-h-screen flex flex-col">
       {/* Header removed */}
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 24px 48px' }}>
         {/* Event banner */}
         <div className="animate-fade-up" style={{ marginBottom: '40px', width: '100%', maxWidth: '460px' }}>
           <CxTourBanner />
@@ -127,7 +127,7 @@ export default function WelcomePage() {
         </div>
 
         {/* Form card */}
-        <div className="glass-card animate-fade-up [animation-delay:160ms] w-full max-w-[460px]" style={{ padding: '36px' }}>
+        <div className="glass-card animate-fade-up [animation-delay:160ms] w-full" style={{ padding: '28px', maxWidth: '540px', border: '2px solid rgba(255,255,255,0.22)' }}>
 
           {/* Step 1: Contact details */}
           {step === 1 && (
