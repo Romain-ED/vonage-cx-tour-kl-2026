@@ -45,6 +45,7 @@ export default function HubPage() {
   const RESOURCES: Record<Tab, { key: string; icon: string; label: string; href: string }[]> = {
     sa: [
       { key: 'case-study', icon: '📄', label: 'Case Study', href: '/datasheets/Fintech Case Study - Silent Authentication.pdf' },
+      { key: 'verify-datasheet', icon: '📄', label: 'Verify Datasheet', href: '/datasheets/Verify Data Sheet.pdf' },
       { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/verify/verify-v2/guides/silent-auth' },
     ],
     ii: [

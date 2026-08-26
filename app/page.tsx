@@ -220,7 +220,7 @@ export default function WelcomePage() {
           {t(lang, 'privacyNote')}
         </p>
 
-        <p style={{ marginTop: '16px' }} className="text-[10px] text-white/15 font-mono">v2.3.0</p>
+        <p style={{ marginTop: '16px' }} className="text-[10px] text-white/15 font-mono">v2.4.0</p>
       </div>
     </main>
   );
