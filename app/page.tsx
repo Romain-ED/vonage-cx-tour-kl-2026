@@ -93,10 +93,7 @@ export default function WelcomePage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      {/* Header */}
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 32px', background: 'rgba(8,6,20,0.8)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
-        <img src="/vonage-logo.png" alt="Vonage" style={{ height: '22px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
-      </header>
+      {/* Header removed */}
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
         {/* Event banner */}
@@ -220,7 +217,7 @@ export default function WelcomePage() {
           {t(lang, 'privacyNote')}
         </p>
 
-        <p style={{ marginTop: '16px' }} className="text-[10px] text-white/15 font-mono">v2.4.0</p>
+        <p style={{ marginTop: '16px' }} className="text-[10px] text-white/15 font-mono">v2.5.0</p>
       </div>
     </main>
   );

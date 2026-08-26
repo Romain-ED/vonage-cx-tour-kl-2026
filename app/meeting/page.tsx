@@ -46,16 +46,6 @@ export default function MeetingPage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 40 }}>
-        <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
-        <button
-          onClick={() => router.back()}
-          style={{ background: 'rgba(255,255,255,0.07)', border: '1.5px solid rgba(255,255,255,0.12)', borderRadius: '10px', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '13px', fontWeight: 500, padding: '8px 16px', fontFamily: 'inherit', transition: 'all 0.2s' }}
-        >
-          ← {t(lang, 'back')}
-        </button>
-      </header>
-
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
         <div className="animate-fade-up" style={{ textAlign: 'center', marginBottom: '12px' }}>
           <div style={{ fontSize: '40px', marginBottom: '16px' }}>🤝</div>

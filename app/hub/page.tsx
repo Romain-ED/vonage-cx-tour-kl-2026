@@ -62,11 +62,7 @@ export default function HubPage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      {/* Header */}
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 40 }}>
-        <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
-        <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>AFC Sydney 2026</span>
-      </header>
+      {/* Header removed */}
 
       <div style={{ maxWidth: '720px', margin: '0 auto', width: '100%', padding: '40px 24px 80px' }}>
         {/* Page title */}

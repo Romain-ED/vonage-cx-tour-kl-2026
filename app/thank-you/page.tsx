@@ -16,10 +16,6 @@ export default function ThankYouPage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 32px', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
-        <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
-      </header>
-
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px', textAlign: 'center' }}>
         {/* Animated check */}
         <div className="animate-fade-up" style={{ marginBottom: '32px' }}>
