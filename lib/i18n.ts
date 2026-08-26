@@ -32,7 +32,7 @@ export const translations = {
     submitting: 'Just a moment...',
     privacyNote: 'By providing your details, you acknowledge and agree that your information may be used by Vonage and its authorised partners for event-related communications, including post-event follow-up, and relevant marketing communications.',
 
-    tabSa: 'Silent Authentication',
+    tabSa: 'Verify & Silent Auth',
     tabIi: 'Identity Insights',
     tabBc: 'Branded Calling',
     hubTitle: 'Explore Our Solutions',

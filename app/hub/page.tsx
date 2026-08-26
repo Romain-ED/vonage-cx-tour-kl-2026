@@ -44,7 +44,7 @@ export default function HubPage() {
   // Placeholder resources — update with real URLs when available
   const RESOURCES: Record<Tab, { key: string; icon: string; label: string; href: string }[]> = {
     sa: [
-      { key: 'case-study', icon: '📄', label: 'Case Study', href: '/datasheets/Fintech Case Study - Silent Authentication.pdf' },
+      { key: 'case-study', icon: '📄', label: 'Silent Auth Case Study', href: '/datasheets/Fintech Case Study - Silent Authentication.pdf' },
       { key: 'verify-datasheet', icon: '📄', label: 'Verify Datasheet', href: '/datasheets/Verify Data Sheet.pdf' },
       { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/verify/verify-v2/guides/silent-auth' },
     ],
@@ -101,7 +101,7 @@ export default function HubPage() {
               >
                 <span>{cfg.icon}</span>
                 <span className="hidden sm:inline">{t(lang, tab === 'sa' ? 'tabSa' : tab === 'ii' ? 'tabIi' : 'tabBc')}</span>
-                <span className="sm:hidden">{tab === 'sa' ? 'Silent' : tab === 'ii' ? 'Identity' : 'Branded'}</span>
+                <span className="sm:hidden">{tab === 'sa' ? 'Verify' : tab === 'ii' ? 'Identity' : 'Branded'}</span>
                 {isActive && <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: cfg.color, boxShadow: `0 0 8px ${cfg.color}` }} />}
               </button>
             );
