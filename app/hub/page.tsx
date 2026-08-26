@@ -44,15 +44,15 @@ export default function HubPage() {
   // Placeholder resources — update with real URLs when available
   const RESOURCES: Record<Tab, { key: string; icon: string; label: string; href: string }[]> = {
     sa: [
-      { key: 'datasheet', icon: '📄', label: 'Silent Auth Datasheet', href: '#' },
+      { key: 'case-study', icon: '📄', label: 'Case Study', href: '/datasheets/Fintech Case Study - Silent Authentication.pdf' },
       { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/verify/verify-v2/guides/silent-auth' },
     ],
     ii: [
-      { key: 'datasheet', icon: '📄', label: 'Identity Insights Datasheet', href: '#' },
+      { key: 'datasheet', icon: '📄', label: 'Identity Insights Datasheet', href: '/datasheets/Identity Insights Data Sheet.pdf' },
       { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/number-insight/ni-advanced/overview' },
     ],
     bc: [
-      { key: 'datasheet', icon: '📄', label: 'Branded Calling Datasheet', href: '#' },
+      { key: 'datasheet', icon: '📄', label: 'Own Your Brand Datasheet', href: '/datasheets/Own Your Brand (OYB) Datasheet.pdf' },
       { key: 'developer-docs', icon: '🔗', label: 'Developer Docs', href: 'https://developer.vonage.com/en/vonage-branded-calling/overview' },
     ],
   };

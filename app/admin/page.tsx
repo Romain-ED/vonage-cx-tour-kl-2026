@@ -29,7 +29,7 @@ const LLM_MAX_TOKENS = 300;
 const LLM_SYSTEM_PROMPT = `Tightly scoped to: Vonage Silent Authentication, Identity Insights, and Branded Calling for financial crime prevention. Out-of-scope questions redirect to the Vonage team. Rules: ≤4 sentences, no speculation, no invented details, no competitors.`;
 
 const SA_RESOURCES = [
-  { key: 'datasheet',      icon: '📄', label: 'Datasheet' },
+  { key: 'case-study',    icon: '📄', label: 'Case Study' },
   { key: 'developer-docs', icon: '🔗', label: 'Dev Docs' },
 ] as const;
 
