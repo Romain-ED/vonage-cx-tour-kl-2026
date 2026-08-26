@@ -171,7 +171,7 @@ export default function WelcomePage() {
                 <h2 className="text-lg font-bold text-white">{t(lang, 'solutionTitle')}</h2>
                 <p className="text-sm text-white/55" style={{ marginTop: '8px' }}>{t(lang, 'solutionSubtitle')}</p>
               </div>
-              <div className="flex flex-col gap-3">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 {([
                   { id: 'sa' as Solution, icon: '🔐', color: '#8B5CF6', nameKey: 'solutionSa' as const, descKey: 'solutionSaDesc' as const },
                   { id: 'ii' as Solution, icon: '🛡️', color: '#06B6D4', nameKey: 'solutionIi' as const, descKey: 'solutionIiDesc' as const },
@@ -182,18 +182,24 @@ export default function WelcomePage() {
                     <button
                       key={s.id}
                       onClick={() => toggleSolution(s.id)}
-                      className="w-full p-5 rounded-xl text-left transition-all cursor-pointer"
                       style={{
+                        width: '100%',
+                        padding: '20px 24px',
+                        borderRadius: '16px',
+                        textAlign: 'left' as const,
+                        transition: 'all 0.2s',
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
                         background: selected ? `${s.color}18` : 'rgba(255,255,255,0.05)',
                         border: `1.5px solid ${selected ? s.color + '55' : 'rgba(255,255,255,0.12)'}`,
                       }}
                     >
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-xl">{s.icon}</span>
-                        <span className="font-bold text-white text-[15px]">{t(lang, s.nameKey)}</span>
-                        {selected && <span className="ml-auto text-sm" style={{ color: s.color }}>✓</span>}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px' }}>
+                        <span style={{ fontSize: '22px' }}>{s.icon}</span>
+                        <span style={{ fontWeight: 700, color: '#FFFFFF', fontSize: '15px' }}>{t(lang, s.nameKey)}</span>
+                        {selected && <span style={{ marginLeft: 'auto', fontSize: '14px', color: s.color }}>✓</span>}
                       </div>
-                      <p className="text-[13px] text-white/60 leading-relaxed pl-9">{t(lang, s.descKey)}</p>
+                      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, paddingLeft: '36px', margin: 0 }}>{t(lang, s.descKey)}</p>
                     </button>
                   );
                 })}
