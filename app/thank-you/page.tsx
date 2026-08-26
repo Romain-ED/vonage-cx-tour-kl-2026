@@ -16,7 +16,7 @@ export default function ThankYouPage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px', textAlign: 'center' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 24px 48px', textAlign: 'center' }}>
         {/* Animated check */}
         <div className="animate-fade-up" style={{ marginBottom: '32px' }}>
           <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(139,92,246,0.3), rgba(249,115,22,0.3))', border: '2px solid rgba(139,92,246,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '38px', margin: '0 auto', boxShadow: '0 0 40px rgba(139,92,246,0.3)' }}>
