@@ -22,7 +22,7 @@ export const translations = {
     phonePlaceholder: '+61 4XX XXX XXX (optional)',
     solutionTitle: 'What are you interested in?',
     solutionSubtitle: "Select one or more — we'll personalise your hub.",
-    solutionSa: 'Silent Authentication',
+    solutionSa: 'Verify & Silent Auth',
     solutionSaDesc: 'Verify users seamlessly via mobile network authentication — no passcodes, no friction.',
     solutionIi: 'Identity Insights',
     solutionIiDesc: 'SIM swap detection, number verification, and fraud risk signals to strengthen identity confidence.',
