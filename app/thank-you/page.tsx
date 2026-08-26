@@ -16,49 +16,49 @@ export default function ThankYouPage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      <header className="flex items-center justify-center px-8 py-4 bg-[rgba(8,6,20,0.85)] border-b border-white/[0.08] backdrop-blur-xl">
-        <img src="/vonage-logo.png" alt="Vonage" className="h-[18px] w-auto invert" />
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 32px', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
+        <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
       </header>
 
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 text-center">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px', textAlign: 'center' }}>
         {/* Animated check */}
-        <div className="animate-fade-up mb-7">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[rgba(139,92,246,0.3)] to-[rgba(249,115,22,0.3)] border-2 border-[rgba(139,92,246,0.5)] flex items-center justify-center text-[38px] mx-auto shadow-[0_0_40px_rgba(139,92,246,0.3)]">
+        <div className="animate-fade-up" style={{ marginBottom: '32px' }}>
+          <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(139,92,246,0.3), rgba(249,115,22,0.3))', border: '2px solid rgba(139,92,246,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '38px', margin: '0 auto', boxShadow: '0 0 40px rgba(139,92,246,0.3)' }}>
             🎉
           </div>
         </div>
 
-        <div className="animate-fade-up [animation-delay:80ms] mb-3">
-          <h1 className="gradient-text text-[clamp(28px,5vw,44px)] font-bold leading-[1.1] tracking-tight">
+        <div className="animate-fade-up [animation-delay:80ms]" style={{ marginBottom: '16px' }}>
+          <h1 className="gradient-text" style={{ fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }}>
             {name ? `${name}, ${t(lang, 'thankyouTitle')}` : t(lang, 'thankyouTitle')}
           </h1>
         </div>
 
-        <div className="animate-fade-up [animation-delay:130ms] max-w-[460px] mb-10">
-          <p className="text-white/70 text-[17px] font-medium mb-3">
+        <div className="animate-fade-up [animation-delay:130ms]" style={{ maxWidth: '460px', marginBottom: '40px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '17px', fontWeight: 500, marginBottom: '12px' }}>
             {t(lang, 'thankyouSubtitle')}
           </p>
-          <p className="text-white/50 text-[15px] leading-[1.7]">
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '15px', lineHeight: 1.7 }}>
             {t(lang, 'thankyouDetail')}
           </p>
         </div>
 
         {/* Event banner */}
-        <div className="animate-fade-up [animation-delay:180ms] max-w-[460px] w-full mb-8">
+        <div className="animate-fade-up [animation-delay:180ms]" style={{ maxWidth: '460px', width: '100%', marginBottom: '36px' }}>
           <CxTourBanner />
         </div>
 
         <div className="animate-fade-up [animation-delay:220ms]">
-          <button className="btn-outline text-sm" onClick={() => router.push('/hub')}>
+          <button className="btn-outline" style={{ fontSize: '14px' }} onClick={() => router.push('/hub')}>
             ← {t(lang, 'backToHub')}
           </button>
         </div>
 
-        <p className="mt-8 text-[11px] text-white/40 max-w-[460px] text-center leading-relaxed">
+        <p style={{ marginTop: '32px', fontSize: '11px', color: 'rgba(255,255,255,0.4)', maxWidth: '460px', textAlign: 'center', lineHeight: 1.7 }}>
           {t(lang, 'privacyNote')}
         </p>
 
-        <p className="mt-4 text-xs text-white/20">
+        <p style={{ marginTop: '16px', fontSize: '12px', color: 'rgba(255,255,255,0.2)' }}>
           Vonage — A part of Ericsson
         </p>
       </div>

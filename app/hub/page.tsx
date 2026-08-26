@@ -62,21 +62,21 @@ export default function HubPage() {
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-3.5 bg-[rgba(8,6,20,0.85)] border-b border-white/[0.08] backdrop-blur-xl">
-        <img src="/vonage-logo.png" alt="Vonage" className="h-[18px] w-auto invert" />
-        <span className="text-[11px] text-white/50 font-medium">AFC Sydney 2026</span>
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 40 }}>
+        <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
+        <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>AFC Sydney 2026</span>
       </header>
 
-      <div className="max-w-[720px] mx-auto w-full px-5 pt-8 pb-20">
+      <div style={{ maxWidth: '720px', margin: '0 auto', width: '100%', padding: '40px 24px 80px' }}>
         {/* Page title */}
-        <div className="animate-fade-up mb-7">
-          <p className="text-[11px] uppercase tracking-[0.12em] text-[rgba(139,92,246,0.9)] mb-2.5 font-bold">{t(lang, 'eventName')}</p>
-          <h1 className="text-[clamp(22px,4vw,34px)] font-bold text-white tracking-tight mb-2">{t(lang, 'hubTitle')}</h1>
-          <p className="text-white/75 text-[15px] leading-[1.65]">{t(lang, 'hubSubtitle')}</p>
+        <div className="animate-fade-up" style={{ marginBottom: '32px' }}>
+          <p style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(139,92,246,0.9)', marginBottom: '12px', fontWeight: 700 }}>{t(lang, 'eventName')}</p>
+          <h1 style={{ fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: '10px' }}>{t(lang, 'hubTitle')}</h1>
+          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '15px', lineHeight: 1.65 }}>{t(lang, 'hubSubtitle')}</p>
         </div>
 
         {/* Tab navigation */}
-        <div className="animate-fade-up [animation-delay:60ms] flex gap-1.5 mb-6 bg-white/[0.04] rounded-[14px] p-[5px]">
+        <div className="animate-fade-up [animation-delay:60ms]" style={{ display: 'flex', gap: '6px', marginBottom: '28px', background: 'rgba(255,255,255,0.04)', borderRadius: '14px', padding: '5px' }}>
           {(['sa', 'ii', 'bc'] as Tab[]).map(tab => {
             const cfg = tabConfig[tab];
             const isActive = activeTab === tab;
@@ -84,59 +84,68 @@ export default function HubPage() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className="flex-1 py-3 px-3 rounded-[10px] cursor-pointer text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5"
                 style={{
+                  flex: 1,
+                  padding: '12px 12px',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
                   border: `1.5px solid ${isActive ? cfg.color + '60' : 'transparent'}`,
                   background: isActive ? `${cfg.color}18` : 'transparent',
                   color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.7)',
+                  fontFamily: 'inherit',
                 }}
               >
                 <span>{cfg.icon}</span>
                 <span className="hidden sm:inline">{t(lang, tab === 'sa' ? 'tabSa' : tab === 'ii' ? 'tabIi' : 'tabBc')}</span>
                 <span className="sm:hidden">{tab === 'sa' ? 'Silent' : tab === 'ii' ? 'Identity' : 'Branded'}</span>
-                {isActive && <div className="w-1.5 h-1.5 rounded-full" style={{ background: cfg.color, boxShadow: `0 0 8px ${cfg.color}` }} />}
+                {isActive && <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: cfg.color, boxShadow: `0 0 8px ${cfg.color}` }} />}
               </button>
             );
           })}
         </div>
 
         {/* Product content */}
-        <div className="glass-card animate-fade-up [animation-delay:100ms] p-7 mb-5">
+        <div className="glass-card animate-fade-up [animation-delay:100ms]" style={{ padding: '32px', marginBottom: '24px' }}>
           {/* Product header */}
-          <div className="flex items-center gap-3.5 mb-5">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
             <div
-              className="w-[50px] h-[50px] rounded-[14px] flex items-center justify-center text-2xl shrink-0"
-              style={{ background: `${current.color}1A`, border: `1.5px solid ${current.color}40`, boxShadow: `0 0 24px ${current.color}20` }}
+              style={{ width: '50px', height: '50px', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0, background: `${current.color}1A`, border: `1.5px solid ${current.color}40`, boxShadow: `0 0 24px ${current.color}20` }}
             >
               {current.icon}
             </div>
             <div>
-              <div className="font-bold text-lg text-white leading-tight">{t(lang, current.titleKey)}</div>
-              <div className="text-[13px] font-semibold mt-1" style={{ color: current.color }}>{t(lang, current.taglineKey)}</div>
+              <div style={{ fontWeight: 700, fontSize: '18px', color: '#FFFFFF', lineHeight: 1.2 }}>{t(lang, current.titleKey)}</div>
+              <div style={{ fontSize: '13px', fontWeight: 600, marginTop: '4px', color: current.color }}>{t(lang, current.taglineKey)}</div>
             </div>
           </div>
 
-          <p className="text-sm text-white/85 leading-[1.7] mb-5">{t(lang, current.descKey)}</p>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.7, marginBottom: '24px' }}>{t(lang, current.descKey)}</p>
 
           {/* Benefits */}
-          <div className="flex flex-col gap-2.5 mb-6">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
             {current.benefits.map(b => (
-              <div key={b} className="flex items-start gap-3">
+              <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                 <div
-                  className="w-[18px] h-[18px] rounded-full flex items-center justify-center shrink-0 mt-0.5"
-                  style={{ background: `${current.color}18`, border: `1.5px solid ${current.color}45` }}
+                  style={{ width: '18px', height: '18px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px', background: `${current.color}18`, border: `1.5px solid ${current.color}45` }}
                 >
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: current.color }} />
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: current.color }} />
                 </div>
-                <span className="text-sm text-white/[0.92] leading-relaxed">{t(lang, b)}</span>
+                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.92)', lineHeight: 1.6 }}>{t(lang, b)}</span>
               </div>
             ))}
           </div>
 
           {/* Resources */}
-          <div className="border-t border-white/[0.08] pt-5">
-            <div className="text-[11px] uppercase tracking-[0.1em] text-white/60 mb-3 font-bold">{t(lang, 'resources')}</div>
-            <div className="flex flex-wrap gap-2">
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px' }}>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', marginBottom: '14px', fontWeight: 700 }}>{t(lang, 'resources')}</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
               {resources.map((r, i) => (
                 <a
                   key={i}
@@ -147,8 +156,7 @@ export default function HubPage() {
                     const productMap: Record<Tab, string> = { sa: 'silent_authentication', ii: 'identity_insights', bc: 'branded_calling' };
                     track('resource_click', { product: productMap[activeTab], resource: r.key });
                   }}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[13px] font-medium text-white/85 no-underline transition-all hover:text-white"
-                  style={{ background: `${current.color}14`, border: `1.5px solid ${current.color}35` }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 14px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.85)', textDecoration: 'none', transition: 'all 0.2s', background: `${current.color}14`, border: `1.5px solid ${current.color}35` }}
                   onMouseEnter={e => { const el = e.currentTarget; el.style.background = `${current.color}28`; el.style.borderColor = `${current.color}60`; }}
                   onMouseLeave={e => { const el = e.currentTarget; el.style.background = `${current.color}14`; el.style.borderColor = `${current.color}35`; }}
                 >
@@ -160,16 +168,16 @@ export default function HubPage() {
         </div>
 
         {/* Meeting CTA */}
-        <div className="glass-card animate-fade-up [animation-delay:140ms] p-7 flex flex-col items-center text-center gap-3.5">
-          <div className="text-4xl">💼</div>
-          <h3 className="text-lg font-bold text-white">{t(lang, 'meetingTitle')}</h3>
-          <p className="text-white/[0.58] text-sm max-w-[360px] leading-[1.65]">{t(lang, 'meetingSubtitle')}</p>
+        <div className="glass-card animate-fade-up [animation-delay:140ms]" style={{ padding: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '16px' }}>
+          <div style={{ fontSize: '36px' }}>💼</div>
+          <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#FFFFFF' }}>{t(lang, 'meetingTitle')}</h3>
+          <p style={{ color: 'rgba(255,255,255,0.58)', fontSize: '14px', maxWidth: '360px', lineHeight: 1.65 }}>{t(lang, 'meetingSubtitle')}</p>
           <button className="btn-orange" onClick={() => router.push('/meeting')}>{t(lang, 'meetingCta')}</button>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-center gap-3 opacity-35 mt-7">
-          <span className="text-[11px] text-white/60">AFC Sydney 2026 · 1–2 September · Intercontinental Double Bay</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', opacity: 0.35, marginTop: '32px' }}>
+          <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>AFC Sydney 2026 · 1–2 September · Intercontinental Double Bay</span>
         </div>
       </div>
 

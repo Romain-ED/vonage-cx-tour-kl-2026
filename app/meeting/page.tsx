@@ -46,57 +46,58 @@ export default function MeetingPage() {
 
   return (
     <main className="mesh-bg min-h-screen flex flex-col">
-      <header className="flex items-center justify-between px-6 py-4 bg-[rgba(8,6,20,0.85)] border-b border-white/[0.08] backdrop-blur-xl sticky top-0 z-40">
-        <img src="/vonage-logo.png" alt="Vonage" className="h-[18px] w-auto invert" />
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px', background: 'rgba(8,6,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 40 }}>
+        <img src="/vonage-logo.png" alt="Vonage" style={{ height: '18px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
         <button
           onClick={() => router.back()}
-          className="bg-white/[0.07] border border-white/[0.12] rounded-lg text-white/60 cursor-pointer text-[13px] font-medium px-3.5 py-[7px] hover:text-white/80 hover:border-white/20 transition-colors"
+          style={{ background: 'rgba(255,255,255,0.07)', border: '1.5px solid rgba(255,255,255,0.12)', borderRadius: '10px', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '13px', fontWeight: 500, padding: '8px 16px', fontFamily: 'inherit', transition: 'all 0.2s' }}
         >
           ← {t(lang, 'back')}
         </button>
       </header>
 
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10">
-        <div className="animate-fade-up text-center mb-2">
-          <div className="text-[40px] mb-4">🤝</div>
-          <h1 className="text-[clamp(22px,4vw,32px)] font-bold text-white tracking-tight mb-2.5">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px' }}>
+        <div className="animate-fade-up" style={{ textAlign: 'center', marginBottom: '12px' }}>
+          <div style={{ fontSize: '40px', marginBottom: '16px' }}>🤝</div>
+          <h1 style={{ fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: '12px' }}>
             {t(lang, 'meetingPageTitle')}
           </h1>
-          <p className="text-white/55 text-[15px] max-w-[420px] leading-[1.65] mx-auto mb-9">
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '15px', maxWidth: '420px', lineHeight: 1.65, margin: '0 auto 40px' }}>
             {t(lang, 'meetingPageSubtitle')}
           </p>
         </div>
 
-        <div className="glass-card animate-fade-up [animation-delay:80ms] w-full max-w-[460px] p-8">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-[18px]">
-            <div className="pb-[18px] border-b border-white/[0.08]">
-              <div className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3.5">
+        <div className="glass-card animate-fade-up [animation-delay:80ms]" style={{ width: '100%', maxWidth: '460px', padding: '36px' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ paddingBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '16px' }}>
                 {t(lang, 'meetingContactDetails')}
               </div>
-              <div className="flex gap-2.5 mb-3">
-                <div className="flex-1">
-                  <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'firstNameLabel')}</label>
+              <div style={{ display: 'flex', gap: '14px', marginBottom: '14px' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>{t(lang, 'firstNameLabel')}</label>
                   <input className="input-field" type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder={t(lang, 'firstNamePlaceholder')} />
                 </div>
-                <div className="flex-1">
-                  <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'lastNameLabel')}</label>
+                <div style={{ flex: 1 }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>{t(lang, 'lastNameLabel')}</label>
                   <input className="input-field" type="text" value={lastName} onChange={e => setLastName(e.target.value)} placeholder={t(lang, 'lastNamePlaceholder')} />
                 </div>
               </div>
-              <div className="mb-3">
-                <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'meetingEmailConfirm')} *</label>
+              <div style={{ marginBottom: '14px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>{t(lang, 'meetingEmailConfirm')} *</label>
                 <input className="input-field" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={t(lang, 'emailPlaceholder')} />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'meetingPhoneConfirm')}</label>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>{t(lang, 'meetingPhoneConfirm')}</label>
                 <input className="input-field" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder={t(lang, 'phonePlaceholder')} />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-white/60 mb-1.5">{t(lang, 'meetingNoteLabel')}</label>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>{t(lang, 'meetingNoteLabel')}</label>
               <textarea
-                className="input-field resize-y min-h-[100px]"
+                className="input-field"
+                style={{ resize: 'vertical', minHeight: '100px' }}
                 rows={4}
                 placeholder={t(lang, 'meetingNotePlaceholder')}
                 value={note}
@@ -104,9 +105,9 @@ export default function MeetingPage() {
               />
             </div>
 
-            {error && <p className="text-[13px] text-red-300 text-center">{error}</p>}
+            {error && <p style={{ fontSize: '13px', color: '#FCA5A5', textAlign: 'center' }}>{error}</p>}
 
-            <button type="submit" className="btn-orange w-full mt-1" disabled={loading || !email.trim()}>
+            <button type="submit" className="btn-orange" style={{ width: '100%', marginTop: '4px' }} disabled={loading || !email.trim()}>
               {loading ? t(lang, 'meetingSubmitting') : t(lang, 'meetingSubmit')}
             </button>
           </form>
